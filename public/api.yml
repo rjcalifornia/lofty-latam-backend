@@ -21,3 +21,93 @@ paths:
                 type: array
                 items: 
                   type: string
+
+  /v1/security/authenticate:
+    post:
+      summary: "Log in a user and generate a token"
+      tags:
+        - "Auth"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                username:
+                  type: "string"
+                password:
+                  type: "string"
+            example:
+              username: "johndoe@example.com"
+              password: "password123"
+      responses:
+        "200":
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  access_token:
+                    type: "string"
+              example:
+                access_token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+
+  /v1/security/registration:
+    post:
+      summary: "Create a new user"
+      tags:
+        - "Users"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                name:
+                  type: "string"
+                lastname:
+                  type: "string"
+                username:
+                  type: "string"
+                phone:
+                  type: "string"
+                dui:
+                  type: "string"
+                email:
+                  type: "string"
+                password:
+                  type: "string"
+                password_confirmation:
+                  type: "string"
+                id_rol:
+                  type: "integer"
+                is_admin:
+                  type: "boolean"
+                active:
+                  type: "integer"
+            example:
+              name: "John"
+              lastname: "Doe"
+              username: "johndoe"
+              phone: "123-456-7890"
+              dui: "01234567-8"
+              email: "johndoe@example.com"
+              password: "password123"
+              password_confirmation: "password123"
+              id_rol: 1
+              is_admin: false
+              active: 1
+      responses:
+        "201":
+          description: "User created"
+        "400":
+          description: "Bad request"
+        "401":
+          description: "Unauthorized"
+        "422":
+          description: "Unprocessable entity"
+        "500":
+          description: "Internal server error"
