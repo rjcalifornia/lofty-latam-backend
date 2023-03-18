@@ -5,22 +5,30 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Tenants extends Model
+class Payments extends Model
 {
     use HasFactory;
-    
-    protected $table = 'tenants';
+
+    protected $table = 'payments';
 
     protected $fillable = [
-        'name',
-        'lastname',
-        'username',
-        'phone',
-        'email',
-        'active',
+        'lease_id',
+        'payment_type_id',
+        'payment_date',
+        'payment',
         'user_creates',
         'user_modifies',
     ];
+
+    public function leaseId()
+    {
+        return $this->belongsTo(LeaseAgreements::class, 'lease_id');
+    }
+
+    public function paymentTypeId()
+    {
+        return $this->belongsTo(PaymentTypeCatalog::class, 'payment_type_id');
+    }
 
     public function userCreates()
     {
