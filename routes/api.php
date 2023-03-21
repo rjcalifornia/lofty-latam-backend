@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\CatalogsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,3 +31,11 @@ Route::prefix('v1/dashboard/properties')->group(function (){
     Route::post('/add-new', [PropertyController::class, 'store'])->middleware('auth:sanctum');
     Route::get('/list', [PropertyController::class, 'listProperties'])->middleware('auth:sanctum');
 });
+
+
+Route::prefix('v1/catalogs')->group(function (){
+    Route::get('/rent-type/list', [CatalogsController::class, 'getRentTypeCatalog']);
+    Route::get('/payment-type/list', [CatalogsController::class, 'getPaymentTypeCatalog']);
+    Route::get('/document-type/list', [CatalogsController::class, 'getDocumentTypeCatalog']);
+});
+
