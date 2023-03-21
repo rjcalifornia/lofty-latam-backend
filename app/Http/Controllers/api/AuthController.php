@@ -7,15 +7,22 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use App\Services\UserService;
 use Illuminate\Support\Facades\Validator;
 
 use App\Models\User;
 
 
-class AuthController extends Controller
-{
-    public function login(Request $request)
+class AuthController extends Controller{
+
+    protected $userService;
+
+    public function __construct(UserService $userService)
     {
+        $this->userService = $userService;
+    }
+
+    public function login(Request $request){
         $validator = Validator::make($request->all(),[
             'username' => 'required|string',
             'password' => 'required|string',
@@ -40,37 +47,20 @@ class AuthController extends Controller
         return response()->json(['access_token' => $token]);
     }
 
-    public function register(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
-            'lastname' => 'required|string',
-            'username' => 'required|string|unique:users',
-            'password' => 'required|string|confirmed', 
-            'phone' => 'required|string',
-            'dui' => 'required|string|unique:users',
-            'email' => 'required|string|unique:users',
-        ]);
-        
+    public function register(Request $request){
+        $validationErrors = $this->userService->validateFields($request);
 
-        if($validator->fails()){
-            return response()->json([$validator->messages()], 422);
+        if ($validationErrors) {
+            return response()->json([$validationErrors], 422);
         }
 
         // Create the new user
-        $user = new User;
-        $user->name = $request->name;
-        $user->lastname = $request->lastname;
-        $user->username = $request->username;
-        $user->phone = $request->phone;
-        $user->dui = $request->dui;
-        $user->email = $request->email;
-        $user->password = bcrypt($request->password);
-        $user->id_rol = 3;
-        $user->is_admin = false;
-        $user->active = true;
-        $user->save();
-
+        try {
+            $user = $this->userService->createUser($request);
+        } catch (\Throwable $th) {
+            return response()->json([$th], 422);
+        }      
+        
         // Generate a token using Sanctum
         $token = $user->createToken('auth_token', ['server:landlord'])->plainTextToken;
 

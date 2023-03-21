@@ -111,3 +111,77 @@ paths:
           description: "Unprocessable entity"
         "500":
           description: "Internal server error"
+  /v1/dashboard/properties/add-new:
+    post:
+      summary: Create a new property
+      tags:
+        - Properties
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                address:
+                  type: string
+                bedrooms:
+                  type: integer
+                beds:
+                  type: integer
+                bathrooms:
+                  type: integer
+                has_ac:
+                  type: boolean
+                has_kitchen:
+                  type: boolean
+                has_dinning_room:
+                  type: boolean
+                has_sink:
+                  type: boolean
+                has_fridge:
+                  type: boolean
+                has_tv:
+                  type: boolean
+                has_furniture:
+                  type: boolean
+                has_garage:
+                  type: boolean
+                active:
+                  type: boolean
+      security:
+        - bearerAuth: []
+      responses:
+        '201':
+          description: Successfully created a new property
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          description: Bad Request - Invalid input
+        '401':
+          description: Unauthorized - Missing or invalid API token
+  /v1/dashboard/properties/list:
+    get:
+      summary: Get properties belonging to logged-in user
+      tags:
+        - Properties
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+        '400':
+          description: Bad Request - Invalid input
+        '401':
+          description: Unauthorized - Missing or invalid API token

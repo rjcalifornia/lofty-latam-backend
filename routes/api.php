@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\AuthController;
+use App\Http\Controllers\PropertyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,4 +26,7 @@ Route::prefix('/v1/security')->group(function () {
     Route::post('/registration', [AuthController::class, 'register']);
 });
 
-
+Route::prefix('v1/dashboard/properties')->group(function (){
+    Route::post('/add-new', [PropertyController::class, 'store'])->middleware('auth:sanctum');
+    Route::get('/list', [PropertyController::class, 'listProperties'])->middleware('auth:sanctum');
+});

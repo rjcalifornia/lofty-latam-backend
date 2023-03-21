@@ -12,6 +12,7 @@ class RentTypeCatalog extends Model
 
     protected $fillable = [
         'name',
+        'value',
         'active',
     ];
 }

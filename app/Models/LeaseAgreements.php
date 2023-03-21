@@ -19,7 +19,6 @@ class LeaseAgreements extends Model
         'expiration_date',
         'price',
         'deposit',
-        'duration',
         'user_creates',
         'user_modifies'
     ];

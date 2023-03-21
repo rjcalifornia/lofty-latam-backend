@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('rent_type_catalog', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->integer('value');
             $table->unsignedInteger('active');
             $table->timestamps();
         });

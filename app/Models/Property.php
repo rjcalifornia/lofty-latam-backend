@@ -26,7 +26,7 @@ class Property extends Model
         'has_furniture',
         'has_garage',
         'landlord_id',
-        'activo',
+        'active',
         'user_creates',
         'user_modifies',
     ];
