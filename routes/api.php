@@ -3,8 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\AuthController;
-use App\Http\Controllers\PropertyController;
-use App\Http\Controllers\CatalogsController;
+use App\Http\Controllers\api\PropertyController;
+use App\Http\Controllers\api\CatalogsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,8 +34,8 @@ Route::prefix('v1/dashboard/properties')->group(function (){
 
 
 Route::prefix('v1/catalogs')->group(function (){
-    Route::get('/rent-type/list', [CatalogsController::class, 'getRentTypeCatalog']);
-    Route::get('/payment-type/list', [CatalogsController::class, 'getPaymentTypeCatalog']);
-    Route::get('/document-type/list', [CatalogsController::class, 'getDocumentTypeCatalog']);
+    Route::get('/rent-type/list', [CatalogsController::class, 'getRentTypeCatalog'])->middleware('auth:sanctum');
+    Route::get('/payment-type/list', [CatalogsController::class, 'getPaymentTypeCatalog'])->middleware('auth:sanctum');
+    Route::get('/document-type/list', [CatalogsController::class, 'getDocumentTypeCatalog'])->middleware('auth:sanctum');
 });
 

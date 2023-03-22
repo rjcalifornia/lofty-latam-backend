@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Models\LeaseAgreements;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -42,7 +43,7 @@ class PropertyController extends Controller{
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['mensaje' => 'No se puede procesar la solicitud. Faltan campos'], 422);
+            return response()->json(['message' => 'No se puede procesar la solicitud. Faltan campos'], 422);
         }
         
         $property = $this->propertyService->save($request);
@@ -79,7 +80,7 @@ class PropertyController extends Controller{
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['mensaje' => 'No se puede procesar la solicitud. Faltan campos'], 422);
+            return response()->json(['message' => 'No se puede procesar la solicitud. Faltan campos'], 422);
         }
 
         $user = Auth::user();
@@ -87,7 +88,7 @@ class PropertyController extends Controller{
         $property = Property::where('landlord_id', $user->id)->where('id', $request->get('property_id'))->first();
 
         if(!$property){
-            return response()->json(['mensaje' => 'No se encontró propiedad. Revise los datos ingresados e intente nuevamente']);
+            return response()->json(['message' => 'No se encontró propiedad. Revise los datos ingresados e intente nuevamente']);
         }
 
         $tenant = new Tenants;
@@ -98,8 +99,35 @@ class PropertyController extends Controller{
         $tenant->email = $request->get('email');
         $tenant->active = $request->get('active');
         $tenant->user_creates = $user->id;
-        $tenant->save();
 
-       // return response()->json($tenant, 201);
+        try {
+            $tenant->save();
+        } catch (\Throwable $th) {
+            return response()->json(['message' => $th], 422);
+        }
+
+        
+        $lease = new LeaseAgreements;
+
+        //$lease->scanned_contract
+        $lease->tenant_id = $tenant->id;
+        $lease->property_id = $request->get('property_id');
+        $lease->rent_type_id = $request->get('rent_type_id');
+        $lease->payment_date = $request->get('payment_date');
+        $lease->expiration_date = $request->get('expiration_date');
+        $lease->price = $request->get('price');
+        $lease->deposit = $request->get('deposit');
+        $lease->user_creates = $user->id;
+        
+        try {
+            $lease->save();
+        } catch (\Throwable $th) {
+            return response()->json(['message' => $th], 422);
+        }
+
+
+
+
+       return response()->json(['lease' => $lease, 'tenant' => $tenant], 201);
     }
 }

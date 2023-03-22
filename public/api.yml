@@ -185,3 +185,35 @@ paths:
           description: Bad Request - Invalid input
         '401':
           description: Unauthorized - Missing or invalid API token
+
+  /v1/catalogs/rent-type/list:
+    get:
+      summary: "Get Rent Type Catalog"
+      tags:
+        - "Catalogs"
+      responses:
+        200:
+          description: "Successful operation"
+  /v1/catalogs/payment-type/list:
+    get:
+      summary: "Get Payment Type Catalog"
+      tags:
+        - "Catalogs"
+      responses:
+        200:
+          description: "Successful operation"
+  /v1/catalogs/document-type/list:
+    get:
+      summary: "Get Document Type Catalog"
+      tags:
+        - "Catalogs"
+      responses:
+        200:
+          description: "Successful operation"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
