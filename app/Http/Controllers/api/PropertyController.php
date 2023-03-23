@@ -103,7 +103,7 @@ class PropertyController extends Controller{
         try {
             $tenant->save();
         } catch (\Throwable $th) {
-            return response()->json(['message' => $th], 422);
+            return response()->json(['message' => $th], 503);
         }
 
         
@@ -122,11 +122,8 @@ class PropertyController extends Controller{
         try {
             $lease->save();
         } catch (\Throwable $th) {
-            return response()->json(['message' => $th], 422);
+            return response()->json(['message' => $th], 503);
         }
-
-
-
 
        return response()->json(['lease' => $lease, 'tenant' => $tenant], 201);
     }
