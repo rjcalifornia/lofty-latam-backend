@@ -8,7 +8,6 @@ use Illuminate\Database\Seeder;
 use App\Models\PaymentType;
 use DB;
 
-
 class PaymentTypeSeeder extends Seeder
 {
     /**
@@ -21,16 +20,18 @@ class PaymentTypeSeeder extends Seeder
         [
             [
                 'name' => "Depósito",
-                'activo' => true,
+                'active' => true,
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
             [
                 'name' => "Pago Alquiler",
-                'activo' => true,
+                'active' => true,
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
         ];
+
+        PaymentType::insert($paymentType);
     }
 }
