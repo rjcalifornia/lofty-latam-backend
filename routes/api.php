@@ -29,6 +29,7 @@ Route::prefix('/v1/security')->group(function () {
 
 Route::prefix('v1/dashboard/properties')->group(function (){
     Route::post('/add-new', [PropertyController::class, 'store'])->middleware('auth:sanctum');
+    Route::post('/create-new-lease', [PropertyController::class, 'createLease'])->middleware('auth:sanctum');
     Route::get('/list', [PropertyController::class, 'listProperties'])->middleware('auth:sanctum');
 });
 

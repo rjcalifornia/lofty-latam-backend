@@ -186,11 +186,95 @@ paths:
         '401':
           description: Unauthorized - Missing or invalid API token
 
+  /v1/dashboard/properties/create-new-lease:
+    post:
+      summary: Create a new lease agreement
+      tags:
+        - Properties
+      security:
+        - bearerAuth: []
+      description: Creates a new lease agreement and a corresponding tenant record
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                property_id:
+                  type: integer
+                  description: ID of the property being leased
+                  example: 123
+                rent_type_id:
+                  type: integer
+                  description: ID of the rent type
+                  example: 1
+                payment_date:
+                  type: string
+                  description: Date of monthly payment
+                  example: "2023-04-01"
+                expiration_date:
+                  type: string
+                  description: Date of lease expiration
+                  example: "2024-03-31"
+                price:
+                  type: integer
+                  description: Monthly rent price
+                  example: 1000
+                deposit:
+                  type: integer
+                  description: Security deposit amount
+                  example: 2000
+                tenant_name:
+                  type: string
+                  description: First name of the tenant
+                  example: John
+                tenant_lastname:
+                  type: string
+                  description: Last name of the tenant
+                  example: Doe
+                tenant_username:
+                  type: string
+                  description: Username of the tenant
+                  example: johndoe
+                tenant_phone:
+                  type: string
+                  description: Phone number of the tenant
+                  example: "+1 (555) 123-4567"
+                tenant_email:
+                  type: string
+                  description: Email address of the tenant
+                  example: john.doe@example.com
+      responses:
+        '201':
+          description: Lease agreement and tenant record created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  lease:
+                    type: object
+                    description: The newly created lease agreement
+                  tenant:
+                    type: object
+                    description: The newly created tenant
+        '400':
+          description: Bad Request - Invalid input
+        '401':
+          description: Unauthorized - Missing or invalid API token
+        '422':
+          description: "Unprocessable entity"
+        "500":
+          description: "Internal server error"
+
   /v1/catalogs/rent-type/list:
     get:
       summary: "Get Rent Type Catalog"
       tags:
         - "Catalogs"
+      security:
+        - bearerAuth: []
       responses:
         200:
           description: "Successful operation"
@@ -199,6 +283,8 @@ paths:
       summary: "Get Payment Type Catalog"
       tags:
         - "Catalogs"
+      security:
+        - bearerAuth: []
       responses:
         200:
           description: "Successful operation"
@@ -207,6 +293,8 @@ paths:
       summary: "Get Document Type Catalog"
       tags:
         - "Catalogs"
+      security:
+        - bearerAuth: []
       responses:
         200:
           description: "Successful operation"

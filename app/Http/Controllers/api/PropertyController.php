@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Services\PropertyService;
 
 use App\Models\Property;
+use App\Models\RentTypeCatalog;
 use App\Models\Tenants;
 
 
@@ -38,8 +39,7 @@ class PropertyController extends Controller{
             'has_tv' => 'boolean',
             'has_furniture' => 'boolean',
             'has_garage' => 'boolean',
-            'landlord_id' => 'required|integer',
-            'activo' => 'boolean',
+            'active' => 'boolean',
         ]);
 
         if ($validator->fails()) {
@@ -76,7 +76,7 @@ class PropertyController extends Controller{
             'tenant_lastname' => 'required|string',
             'tenant_username' => 'required|string',
             'tenant_phone' => 'required|string',
-            'tenant_email' => 'required|string|unique:users',
+            'tenant_email' => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -92,12 +92,12 @@ class PropertyController extends Controller{
         }
 
         $tenant = new Tenants;
-        $tenant->name = $request->get('name');
-        $tenant->lastname = $request->get('lastname');
-        $tenant->username = $request->get('username');
-        $tenant->phone = $request->get('phone');
-        $tenant->email = $request->get('email');
-        $tenant->active = $request->get('active');
+        $tenant->name = $request->get('tenant_name');
+        $tenant->lastname = $request->get('tenant_lastname');
+        $tenant->username = $request->get('tenant_username');
+        $tenant->phone = $request->get('tenant_phone');
+        $tenant->email = $request->get('tenant_email');
+        $tenant->active = true;
         $tenant->user_creates = $user->id;
 
         try {
@@ -106,17 +106,19 @@ class PropertyController extends Controller{
             return response()->json(['message' => $th], 503);
         }
 
+        $rentType = RentTypeCatalog::where('id', $request->get('rent_type_id'))->first();
         
         $lease = new LeaseAgreements;
 
         //$lease->scanned_contract
         $lease->tenant_id = $tenant->id;
         $lease->property_id = $request->get('property_id');
-        $lease->rent_type_id = $request->get('rent_type_id');
+        $lease->rent_type_id = $rentType->id;
         $lease->payment_date = $request->get('payment_date');
         $lease->expiration_date = $request->get('expiration_date');
         $lease->price = $request->get('price');
         $lease->deposit = $request->get('deposit');
+        $lease->duration = $rentType->value;
         $lease->user_creates = $user->id;
         
         try {

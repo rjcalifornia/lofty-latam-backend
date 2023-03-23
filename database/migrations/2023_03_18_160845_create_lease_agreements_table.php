@@ -28,6 +28,7 @@ return new class extends Migration
             $table->foreign('user_modifies')->references('id')->on('users');
             $table->foreign('tenant_id')->references('id')->on('tenants');
             $table->foreign('property_id')->references('id')->on('property');
+            $table->timestamps();
         });
     }
 

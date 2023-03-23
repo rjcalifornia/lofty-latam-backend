@@ -27,7 +27,7 @@ return new class extends Migration
             $table->boolean('has_furniture')->nullable();
             $table->boolean('has_garage')->nullable();
             $table->unsignedBigInteger('landlord_id');
-            $table->unsignedInteger('activo');
+            $table->unsignedInteger('active');
             $table->unsignedBigInteger('user_creates');
             $table->unsignedBigInteger('user_modifies')->nullable();
             $table->foreign('landlord_id')->references('id')->on('users');
