@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\PropertyController;
 use App\Http\Controllers\api\CatalogsController;
+use App\Http\Controllers\api\PaymentsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,13 @@ Route::prefix('v1/dashboard/properties')->group(function (){
 
 Route::prefix('v1/property')->group(function (){
     Route::get('/{id}/view', [PropertyController::class, 'viewPropertyDetails'])->middleware('auth:sanctum');
+    Route::get('/lease/{id}/details', [PropertyController::class, 'viewLeaseDetails'])->middleware('auth:sanctum');
+});
+
+
+Route::prefix('v1/payments')->group(function (){
+    Route::post('/store-rent-payment', [PaymentsController::class, 'storePayment'])->middleware('auth:sanctum');
+    Route::get('/{id}/history',[PaymentsController::class, 'paymentsHistory'])->middleware('auth:sanctum');
 });
 
 

@@ -8,7 +8,7 @@ use App\Models\PaymentType;
 use App\Models\Payments;
 
 use Carbon\Carbon;
-
+use Faker\Provider\ar_EG\Payment;
 
 class PaymentService{
 
@@ -34,6 +34,11 @@ class PaymentService{
         }
         
         return $payment;
+    }
+
+    public function history($lease){
+        $payments = Payments::with(['paymentTypeId', 'leaseId.tenantId'])->where('lease_id', $lease->id)->get();
+        return $payments;
     }
 
 }

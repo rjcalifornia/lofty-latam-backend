@@ -141,4 +141,8 @@ class PropertyController extends Controller{
 
        return response()->json(['lease' => $lease, 'tenant' => $tenant], 201);
     }
+
+    public function viewLease(){
+        
+    }
 }

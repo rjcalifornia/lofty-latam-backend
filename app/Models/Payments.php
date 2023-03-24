@@ -27,7 +27,7 @@ class Payments extends Model
 
     public function paymentTypeId()
     {
-        return $this->belongsTo(PaymentTypeCatalog::class, 'payment_type_id');
+        return $this->belongsTo(PaymentType::class, 'payment_type_id');
     }
 
     public function userCreates()

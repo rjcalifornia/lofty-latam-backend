@@ -301,6 +301,64 @@ paths:
         "500":
           description: "Internal server error"
 
+  /v1/payments/store-rent-payment:
+    post:
+      summary: Create a new payment
+      tags:
+        - Payments
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                lease_id:
+                  type: integer
+                payment_type_id:
+                  type: integer
+                payment:
+                  type: number
+              required:
+                - lease_id
+                - payment_type_id
+                - payment
+      responses:
+        '201':
+          description: Successfully created a new payment
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  lease_id:
+                    type: integer
+                  payment_type_id:
+                    type: integer
+                  payment:
+                    type: number
+                example:
+                  id: 1
+                  lease_id: 123
+                  payment_type_id: 456
+                  payment: 100.00
+        '422':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: No se puede procesar la solicitud. Faltan campos
+
+
   /v1/catalogs/rent-type/list:
     get:
       summary: "Get Rent Type Catalog"
