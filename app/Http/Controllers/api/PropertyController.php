@@ -3,15 +3,16 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Models\LeaseAgreements;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Services\PropertyService;
 
 use App\Models\Property;
 use App\Models\RentTypeCatalog;
+use App\Models\LeaseAgreements;
 use App\Models\Tenants;
 
 
@@ -64,10 +65,16 @@ class PropertyController extends Controller{
         return response()->json($properties, 200);
     }
 
+    public function viewPropertyDetails(Request $request, $id){
+        $property = Property::with(['landlordId', 'leases'])->where('id', $id)->where('active', true)->first();
+        return response()->json($property, 200);
+    }
+
     public function createLease(Request $request){
         $validator = Validator::make($request->all(),[
             'property_id' => 'required',
             'rent_type_id' => 'required',
+            'contract_date' => 'required',
             'payment_date' => 'required',
             'expiration_date' => 'required',
             'price' => 'required',
@@ -110,16 +117,21 @@ class PropertyController extends Controller{
         
         $lease = new LeaseAgreements;
 
+        $payment_date =  Carbon::parse($request->get('payment_date'));
+        $expiration_date =  Carbon::parse($request->get('expiration_date'));
+        $contract_date =  Carbon::parse($request->get('contract_date'));
         //$lease->scanned_contract
         $lease->tenant_id = $tenant->id;
         $lease->property_id = $request->get('property_id');
         $lease->rent_type_id = $rentType->id;
-        $lease->payment_date = $request->get('payment_date');
-        $lease->expiration_date = $request->get('expiration_date');
+        $lease->contract_date = $contract_date->format('Y-m-d');
+        $lease->payment_date = $payment_date->format('Y-m-d');
+        $lease->expiration_date = $expiration_date->format('Y-m-d');
         $lease->price = $request->get('price');
         $lease->deposit = $request->get('deposit');
         $lease->duration = $rentType->value;
         $lease->user_creates = $user->id;
+        $lease->active = true;
         
         try {
             $lease->save();

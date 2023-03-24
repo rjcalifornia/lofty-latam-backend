@@ -33,6 +33,10 @@ Route::prefix('v1/dashboard/properties')->group(function (){
     Route::get('/list', [PropertyController::class, 'listProperties'])->middleware('auth:sanctum');
 });
 
+Route::prefix('v1/property')->group(function (){
+    Route::get('/{id}/view', [PropertyController::class, 'viewPropertyDetails'])->middleware('auth:sanctum');
+});
+
 
 Route::prefix('v1/catalogs')->group(function (){
     Route::get('/rent-type/list', [CatalogsController::class, 'getRentTypeCatalog'])->middleware('auth:sanctum');

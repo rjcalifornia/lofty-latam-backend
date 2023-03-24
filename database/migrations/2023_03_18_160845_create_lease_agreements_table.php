@@ -17,11 +17,13 @@ return new class extends Migration
             $table->unsignedInteger('tenant_id');
             $table->unsignedInteger('property_id');
             $table->unsignedInteger('rent_type_id');
+            $table->date('contract_date');
             $table->date('payment_date');
             $table->date('expiration_date');
             $table->decimal('price', 9, 4);
             $table->decimal('deposit', 9, 4);
             $table->integer('duration');
+            $table->unsignedInteger('active');
             $table->unsignedBigInteger('user_creates');
             $table->unsignedBigInteger('user_modifies')->nullable();
             $table->foreign('user_creates')->references('id')->on('users');

@@ -45,4 +45,9 @@ class Property extends Model
     {
         return $this->belongsTo(User::class, 'user_modifies');
     }
+
+    public function leases(){
+        return $this->hasMany(LeaseAgreements::class, 'property_id')->where('active','=', true);
+    }
+
 }

@@ -111,6 +111,39 @@ paths:
           description: "Unprocessable entity"
         "500":
           description: "Internal server error"
+
+  /v1/property/{id}/view:
+    get:
+      summary: View property details
+      description: Returns the details of a specific property
+      content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+      tags:
+        - Properties
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: ID of the property to view
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+        "401":
+          description: "Unauthorized"
+
   /v1/dashboard/properties/add-new:
     post:
       summary: Create a new property
