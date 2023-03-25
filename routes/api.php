@@ -43,6 +43,7 @@ Route::prefix('v1/property')->group(function (){
 Route::prefix('v1/payments')->group(function (){
     Route::post('/store-rent-payment', [PaymentsController::class, 'storePayment'])->middleware('auth:sanctum');
     Route::get('/{id}/history',[PaymentsController::class, 'paymentsHistory'])->middleware('auth:sanctum');
+    Route::post('/print-receipt', [PaymentsController::class, 'printPaymentReceipt'])->middleware('auth:sanctum');
 });
 
 

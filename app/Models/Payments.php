@@ -15,6 +15,7 @@ class Payments extends Model
         'lease_id',
         'payment_type_id',
         'payment_date',
+        'month_cancelled',
         'payment',
         'user_creates',
         'user_modifies',

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedInteger('lease_id');
             $table->unsignedInteger('payment_type_id');
             $table->date('payment_date');
+            $table->date('month_cancelled');
             $table->decimal('payment', 9, 4);
             $table->unsignedBigInteger('user_creates');
             $table->unsignedBigInteger('user_modifies')->nullable();

@@ -25,6 +25,7 @@ class PaymentsController extends Controller{
             'lease_id' => 'required|integer',
             'payment_type_id' => 'required|integer',
             'payment' => 'required|numeric',
+            'month_cancelled' => 'required|numeric',
         ]);
         if ($validator->fails()) {
             return response()->json(['message' => 'No se puede procesar la solicitud. Faltan campos'], 422);
@@ -33,6 +34,20 @@ class PaymentsController extends Controller{
         $payment = $this->paymentService->save($request);
 
         return response()->json($payment, 201);
+    }
+
+    public function printPaymentReceipt(Request $request){
+        $validator = Validator::make($request->all(),[
+            'payment_id' => 'required|integer'
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['message' => 'No se puede procesar la solicitud. Faltan campos'], 422);
+        }
+
+        return $this->paymentService->generatePDF($request->get('payment_id'));
+
+       
+        
     }
 
     public function paymentsHistory(Request $request, $id){
