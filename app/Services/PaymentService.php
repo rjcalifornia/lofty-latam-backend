@@ -10,8 +10,8 @@ use App\Models\Payments;
 use Carbon\Carbon;
 use Elibyy\TCPDF\Facades\TCPDF;
 use Illuminate\Support\Facades\View;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Illuminate\Support\Str;
+
 
 class PaymentService{
 
@@ -20,12 +20,12 @@ class PaymentService{
         $paymentType = PaymentType::where('id', $request->get('payment_type_id'))->first();
 
         $payment_date =  Carbon::now();
-        $month_cancelled =  Carbon::parse($request->get('month_cancelled'));
+        
         $payment = new Payments([
             'lease_id' => $lease->id,
             'payment_type_id' => $paymentType->id,
             'payment_date' => $payment_date->format('Y-m-d'),
-            'month_cancelled' => $month_cancelled->format('Y-m-d'),
+            'month_cancelled' => $request->get('month_cancelled'),
             'payment' => $lease->price,
             'user_creates' => auth()->user()->id,
            
@@ -47,19 +47,21 @@ class PaymentService{
 
     public function generatePDF($paymentId){
         $payment = Payments::with(['leaseId.tenantId', 'leaseId.propertyId.landlordId','paymentTypeId'])->where('id', $paymentId)->first();
-
+        $logo_path = storage_path('img/header_logo_master.png');
+        
         $html = View::make('pdf.payment', compact('payment'))->render();
         
-        TCPDF::setMargins(14, 16, 14, true);
+        TCPDF::setMargins(14, 36, 14, true);
         TCPDF::AddPage();
         TCPDF::setImageScale(1);
         TCPDF::SetAutoPageBreak(false, 0);
+        TCPDF::Image($logo_path, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
+        TCPDF::writeHTML($html, true, false, true, false, '');
 
-       TCPDF::writeHTML($html, true, false, true, false, '');
+        $uuid = Str::uuid(4)->toString();
 
-       
 
-        return TCPDF::Output("test.pdf", 'I');
+        return TCPDF::Output($uuid . ".pdf", 'I');
     }
 
 }

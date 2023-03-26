@@ -13,6 +13,7 @@ class Payments extends Model
 
     protected $fillable = [
         'lease_id',
+        'receipt_number',
         'payment_type_id',
         'payment_date',
         'month_cancelled',

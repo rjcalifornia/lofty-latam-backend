@@ -46,11 +46,11 @@
             </tr>
             <tr>
                 <th style="color: #384251;">Monto recibido</th>
-                <td style="color: #374151; font-weight:bold">${{ $payment->payment }}</td>
+                <td style="color: #374151; font-weight:bold">${{ number_format($payment->payment, 2) }}</td>
             </tr>
             <tr>
                 <th style="color: #384251;">Correspondiente al mes de</th>
-                <td style="color: #374151; font-weight:bold">${{ $payment->payment }}</td>
+                <td style="color: #374151; font-weight:bold; ">{{ ucfirst(Carbon\Carbon::createFromFormat('m', $payment->month_cancelled)->translatedFormat('F')) }} {{ \Carbon\Carbon::parse($payment->payment_date)->translatedFormat('Y')}}</td>
             </tr>
          
             
