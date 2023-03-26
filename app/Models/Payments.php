@@ -41,4 +41,18 @@ class Payments extends Model
     {
         return $this->belongsTo(User::class, 'user_modifies');
     }
+
+    protected static function booted()
+    {
+        static::saving(function ($payment) {
+            if (!$payment->receipt_number) {
+                $lastReceiptNumber = static::where('lease_id', $payment->lease_id)
+                    ->orderBy('receipt_number', 'desc')
+                    ->value('receipt_number');
+
+                $counter = $lastReceiptNumber ? $lastReceiptNumber + 1 : 1;
+                $payment->receipt_number = $counter;
+            }
+        });
+    }
 }
