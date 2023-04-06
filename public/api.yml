@@ -51,8 +51,11 @@ paths:
                 properties:
                   access_token:
                     type: "string"
+                  user:
+                    type: "string"
               example:
                 access_token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+                user: "user:{id:1,...}"
 
   /v1/security/registration:
     post:

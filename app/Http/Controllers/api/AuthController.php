@@ -44,7 +44,7 @@ class AuthController extends Controller{
         $token = $user->createToken('auth_token', ['server:landlord'])->plainTextToken;
 
         // Return the token as a response
-        return response()->json(['access_token' => $token]);
+        return response()->json(['access_token' => $token,  'user' => $user], 200);
     }
 
     public function register(Request $request){
