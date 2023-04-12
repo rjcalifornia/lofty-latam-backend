@@ -26,6 +26,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('/v1/security')->group(function () {
     Route::post('/authenticate', [AuthController::class, 'login']);
     Route::post('/registration', [AuthController::class, 'register']);
+    Route::post('/logout',[AuthController::class, 'logout'])->middleware('auth:sanctum');
 });
 
 Route::prefix('v1/dashboard/properties')->group(function (){
