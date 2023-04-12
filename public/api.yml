@@ -117,6 +117,18 @@ paths:
         "500":
           description: "Internal server error"
 
+  /v1/security/logout:
+    post:
+      summary: Logs out the currently authenticated user.
+      operationId: logout
+      tags:
+        - Auth
+      security:
+        - bearerAuth: []
+      responses:
+        '204':
+          description: No content.
+
   /v1/property/{id}/view:
     get:
       summary: View property details

@@ -38,4 +38,8 @@ class LeaseAgreements extends Model
     {
         return $this->belongsTo(RentTypeCatalog::class, 'rent_type_id');
     }
+
+    public function payments(){
+        return $this->hasMany(Payments::class, 'lease_id');
+    }
 }
