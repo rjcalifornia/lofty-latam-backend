@@ -31,6 +31,18 @@ class Property extends Model
         'user_modifies',
     ];
 
+    protected $casts = [
+        'has_ac' => 'boolean',
+        'has_kitchen' => 'boolean',
+        'has_dinning_room' => 'boolean',
+        'has_sink' => 'boolean',
+        'has_fridge' => 'boolean',
+        'has_tv' => 'boolean',
+        'has_furniture' => 'boolean',
+        'has_garage' => 'boolean',
+        'active' => 'boolean',
+    ];
+
     public function landlordId()
     {
         return $this->belongsTo(User::class, 'landlord_id');

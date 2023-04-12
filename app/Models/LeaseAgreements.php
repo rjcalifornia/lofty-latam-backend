@@ -24,6 +24,10 @@ class LeaseAgreements extends Model
         'user_modifies'
     ];
 
+    protected $casts = [
+        'active' => 'boolean',
+    ];
+
     public function tenantId()
     {
         return $this->belongsTo(Tenants::class, 'tenant_id');

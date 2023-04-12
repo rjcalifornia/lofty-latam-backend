@@ -66,7 +66,7 @@ class PropertyController extends Controller{
     }
 
     public function viewPropertyDetails(Request $request, $id){
-        $property = Property::with(['landlordId', 'leases'])->where('id', $id)->where('active', true)->first();
+        $property = Property::with(['landlordId', 'leases.tenantId', ])->where('id', $id)->where('active', true)->first();
         return response()->json($property, 200);
     }
 
@@ -142,8 +142,16 @@ class PropertyController extends Controller{
        return response()->json(['lease' => $lease, 'tenant' => $tenant], 201);
     }
 
-    public function listLeases(Request $request){
-        $leaseAgreements = LeaseAgreements::with(['tenantId', 'propertyId', 'rentType'])
+    public function listLeases(Request $request, $id){
+        $user = Auth::user();
+        $property = Property::where('id', $id)->where('active', true)->where('landlord_id', $user->id)->first();
+
+        if(!$property){
+            return response()->json(['message' => 'No se ha encontrado la propiedad solicitada. Verifique la información ingresada e intente nuevamente']);
+        }
+
+        $user = Auth::user();
+        $leaseAgreements = LeaseAgreements::with(['tenantId', 'propertyId', 'rentType'])->where('property_id', $property->id)
         ->get();
 
     return response()->json($leaseAgreements, 200);
