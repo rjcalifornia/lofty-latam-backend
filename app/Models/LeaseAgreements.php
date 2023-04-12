@@ -40,6 +40,12 @@ class LeaseAgreements extends Model
     }
 
     public function payments(){
-        return $this->hasMany(Payments::class, 'lease_id');
+        return $this->hasMany(Payments::class, 'lease_id')->with(['paymentTypeId'])
+        ->withCasts([
+            'payment_date' => 'datetime:d/m/Y',
+            'created_at' => 'datetime:d/m/Y H:i:s',
+            'updated_at' => 'datetime:d/m/Y H:i:s',
+            'month_cancelled_name' => 'string',
+        ]);
     }
 }

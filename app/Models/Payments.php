@@ -22,6 +22,8 @@ class Payments extends Model
         'user_modifies',
     ];
 
+    protected $appends = ['month_cancelled_name'];
+
     public function leaseId()
     {
         return $this->belongsTo(LeaseAgreements::class, 'lease_id');
@@ -54,5 +56,29 @@ class Payments extends Model
                 $payment->receipt_number = $counter;
             }
         });
+    }
+
+     /**
+     * Get the name of the month based on the month_cancelled value
+     *
+     * @return string|null
+     */
+    public function getMonthCancelledNameAttribute()
+    {
+        $months = [
+            1 => 'Enero',
+            2 => 'Febrero',
+            3 => 'Marzo',
+            4 => 'Abril',
+            5 => 'Mayo',
+            6 => 'Junio',
+            7 => 'Julio',
+            8 => 'Agosto',
+            9 => 'Septiembre',
+            10 => 'Octubre',
+            11 => 'Noviembre',
+            12 => 'Diciembre',
+        ];
+        return ucfirst($months[$this->attributes['month_cancelled']]);
     }
 }
