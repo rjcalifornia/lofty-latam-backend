@@ -11,6 +11,8 @@ servers:
 paths:
   /user:
     get:
+      tags:
+        - Administration
       summary: Returns a list of users.
       responses:
         '200': 
@@ -303,6 +305,53 @@ paths:
           description: "Unprocessable entity"
         "500":
           description: "Internal server error"
+
+  /v1/property/leases:
+    get:
+      summary: List LeaseAgreements
+      operationId: listLeases
+      security:
+        - bearerAuth: []
+      tags:
+        - Properties
+      responses:
+        '200':
+          description: A list of LeaseAgreements models and their related models.
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /v1/property/lease/{id}/details:
+    get:
+      summary: Retrieve lease details by ID
+      tags:
+        - Properties
+      parameters:
+        - name: id
+          in: path
+          description: ID of the lease to retrieve
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+      security:
+        - bearerAuth: []
 
   /v1/payments/store-rent-payment:
     post:
