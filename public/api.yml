@@ -166,6 +166,8 @@ paths:
       summary: Add a picture to a property
       security:
         - bearerAuth: []
+      tags:
+        - Properties
       requestBody:
         required: true
         content:
@@ -194,6 +196,39 @@ paths:
           description: Successfully added the picture to the property
         '422':
           description: Invalid request - missing required fields
+
+  /v1/property/pictures/{id}/view:
+    get:
+      summary: View a property picture
+      description: Retrieve and download a property picture by ID
+      tags:
+        - Properties
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the property picture to retrieve
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Property picture not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+      security:
+        - bearerAuth: []
 
   /v1/dashboard/properties/add-new:
     post:
@@ -251,6 +286,7 @@ paths:
           description: Bad Request - Invalid input
         '401':
           description: Unauthorized - Missing or invalid API token
+
   /v1/dashboard/properties/list:
     get:
       summary: Get properties belonging to logged-in user
@@ -517,6 +553,7 @@ paths:
       responses:
         200:
           description: "Successful operation"
+
   /v1/catalogs/payment-type/list:
     get:
       summary: "Get Payment Type Catalog"
@@ -527,6 +564,7 @@ paths:
       responses:
         200:
           description: "Successful operation"
+
   /v1/catalogs/document-type/list:
     get:
       summary: "Get Document Type Catalog"
