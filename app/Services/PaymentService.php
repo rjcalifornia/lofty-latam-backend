@@ -60,7 +60,6 @@ class PaymentService{
 
         $uuid = Str::uuid(4)->toString();
 
-
         return TCPDF::Output($uuid . ".pdf", 'I');
     }
 

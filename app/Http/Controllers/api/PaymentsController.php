@@ -45,9 +45,6 @@ class PaymentsController extends Controller{
         }
 
         return $this->paymentService->generatePDF($request->get('payment_id'));
-
-       
-        
     }
 
     public function paymentsHistory(Request $request, $id){

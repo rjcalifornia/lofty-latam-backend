@@ -184,7 +184,7 @@ class PropertyController extends Controller{
         $leaseAgreements = LeaseAgreements::with(['tenantId', 'propertyId', 'rentType'])->where('property_id', $property->id)
         ->get();
 
-    return response()->json($leaseAgreements, 200);
+        return response()->json($leaseAgreements, 200);
     }
 
     public function viewLeaseDetails(Request $request, $id){
