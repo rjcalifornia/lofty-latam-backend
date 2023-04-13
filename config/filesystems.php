@@ -56,6 +56,12 @@ return [
             'throw' => false,
         ],
 
+        'property_images' => [
+            'driver' => 'local',
+            'root'   => storage_path('property_images_storage'),
+        ],
+
+
     ],
 
     /*

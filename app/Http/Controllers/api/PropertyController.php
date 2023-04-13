@@ -14,6 +14,7 @@ use App\Models\Property;
 use App\Models\RentTypeCatalog;
 use App\Models\LeaseAgreements;
 use App\Models\Tenants;
+use App\Models\PropertyPhoto;
 
 
 class PropertyController extends Controller{
@@ -53,13 +54,42 @@ class PropertyController extends Controller{
 
         
     }
+
+    public function addPropertyPicture(Request $request){
+        $validator = Validator::make($request->all(), [
+            'property_id'=> 'required|integer',
+        ]);
+
+        if($validator->fails()){
+            return response()->json(['message' => 'No se puede procesar la solicitud. Faltan campos'], 422);
+        }
+
+        if ($request->filled('property_picture')) {
+            $image = base64_decode($request->input('property_picture'));
+            $extension = $request->extension;
+            $imageName = $this->propertyService->storeImage($image, $extension, 'property_images');
+
+            $propertyPhoto = new PropertyPhoto;
+            $propertyPhoto->property_id = $request->property_id;
+            $propertyPhoto->image_name = $imageName;
+            $propertyPhoto->active = true;
+            $propertyPhoto->user_creates =  auth()->user()->id;
+            $propertyPhoto->save();
+            
+        }else{
+            return response()->json(['message' => 'No se puede procesar la solicitud. Faltan campos'], 422);
+        }
+
+        return response()->json(['property_photo' => $propertyPhoto], 201);
+
+    }
     
     public function listProperties(Request $request){
         // Get the logged-in user
         $user = Auth::user();
 
         // Retrieve the properties belonging to the logged-in user
-        $properties = Property::where('landlord_id', $user->id)->get();
+        $properties = Property::with(['propertyPictures'])->where('landlord_id', $user->id)->get();
 
         // Return the properties as a JSON response
         return response()->json($properties, 200);
@@ -72,8 +102,8 @@ class PropertyController extends Controller{
 
     public function createLease(Request $request){
         $validator = Validator::make($request->all(),[
-            'property_id' => 'required',
-            'rent_type_id' => 'required',
+            'property_id' => 'required|integer',
+            'rent_type_id' => 'required|integer',
             'contract_date' => 'required',
             'payment_date' => 'required',
             'expiration_date' => 'required',
@@ -163,5 +193,16 @@ class PropertyController extends Controller{
             return response()->json(['message' => 'No se encontró contrato de alquiler. Revise los datos ingresados e intente nuevamente']);
         }
         return response()->json($lease, 200);
+    }
+
+    public function viewPropertyPicture(Request $request, $id){
+        $propertyPicture = PropertyPhoto::where('id', $id)->where('active', true)->first();
+        
+        if(!$propertyPicture){
+            return response()->json(['message'=> 'No se encontró foto, intente nuevamente más tarde.'], 404);
+        }
+
+        return response()->download(storage_path('/property_images_storage/'. $propertyPicture->image_name));
+
     }
 }

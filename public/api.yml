@@ -161,6 +161,40 @@ paths:
         "401":
           description: "Unauthorized"
 
+  /v1/property/pictures/store:
+    post:
+      summary: Add a picture to a property
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                property_id:
+                  type: integer
+                  description: The ID of the property to add the picture to
+                  example: 123
+                extension:
+                  type: string
+                  description: The extension of the picture
+                  example: "jpg"
+                property_picture:
+                  type: string
+                  description: The base64-encoded image file to upload (must be a valid image file)
+                  example: "iVBORw0KGg...."
+              required:
+                - property_id
+                - property_picture
+                - extension
+      responses:
+        '200':
+          description: Successfully added the picture to the property
+        '422':
+          description: Invalid request - missing required fields
+
   /v1/dashboard/properties/add-new:
     post:
       summary: Create a new property

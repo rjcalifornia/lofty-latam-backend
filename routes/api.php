@@ -39,6 +39,8 @@ Route::prefix('v1/property')->group(function (){
     Route::get('/{id}/view', [PropertyController::class, 'viewPropertyDetails'])->middleware('auth:sanctum');
     Route::get('/{id}/leases', [PropertyController::class, 'listLeases'])->middleware('auth:sanctum');
     Route::get('/lease/{id}/details', [PropertyController::class, 'viewLeaseDetails'])->middleware('auth:sanctum');
+    Route::post('/pictures/store', [PropertyController::class, 'addPropertyPicture'])->middleware('auth:sanctum');
+    Route::get('/pictures/{id}/view', [PropertyController::class, 'viewPropertyPicture'])->middleware('auth:sanctum');
 });
 
 

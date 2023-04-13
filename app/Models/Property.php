@@ -43,23 +43,27 @@ class Property extends Model
         'active' => 'boolean',
     ];
 
-    public function landlordId()
-    {
+    public function landlordId(){
         return $this->belongsTo(User::class, 'landlord_id');
     }
 
-    public function userCreates()
-    {
+    public function userCreates(){
         return $this->belongsTo(User::class, 'user_creates');
     }
 
-    public function userModifies()
-    {
+    public function userModifies(){
         return $this->belongsTo(User::class, 'user_modifies');
     }
 
     public function leases(){
         return $this->hasMany(LeaseAgreements::class, 'property_id')->where('active','=', true);
     }
+
+    public function propertyPictures()
+    {
+        return $this->belongsTo(PropertyPhoto::class, 'id', 'property_id');
+
+    }
+
 
 }

@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Services;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 use App\Models\Property;
 
@@ -29,4 +31,17 @@ class PropertyService
 
         return $property;
     }
+
+    public function storeImage($image, $extension,  $disk){
+        $imageName = Str::uuid()->toString() . '.' . $extension;
+
+        try {
+            Storage::disk($disk)->put($imageName, $image);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+        
+        return $imageName;
+    }
+
 }

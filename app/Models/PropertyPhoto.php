@@ -13,12 +13,15 @@ class PropertyPhoto extends Model
 
     protected $fillable = [
         'property_id',
-        'image',
+        'image_name',
         'active',
         'order',
         'user_creates',
         'user_modifies',
     ];
+
+    protected $appends = ['image_link_name'];
+
 
     public function userCreates()
     {
@@ -33,6 +36,21 @@ class PropertyPhoto extends Model
     public function propertyId()
     {
         return $this->belongsTo(Property::class, 'property_id');
+    }
+
+     /**
+     * Get the property picture URL
+     *
+     * @return string|null
+     */
+    public function getImageLinkNameAttribute(){
+
+        if($this->attributes['image_name']){
+            $id = $this->id;
+            return url('/api/v1/property/pictures/' . $id . '/view');
+        }
+        
+        return null;
     }
 
 }

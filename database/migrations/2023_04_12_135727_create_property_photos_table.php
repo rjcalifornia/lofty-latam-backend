@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('property_photos', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('property_id');
-            $table->string('image')->nullable();
+            $table->string('image_name')->nullable();
             $table->unsignedInteger('active');
             $table->unsignedInteger('order')->nullable();
             $table->unsignedBigInteger('user_creates');
