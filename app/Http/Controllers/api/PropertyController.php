@@ -96,7 +96,7 @@ class PropertyController extends Controller{
     }
 
     public function viewPropertyDetails(Request $request, $id){
-        $property = Property::with(['landlordId', 'leases.tenantId', ])->where('id', $id)->where('active', true)->first();
+        $property = Property::with(['landlordId', 'leases.tenantId', 'propertyPictures'])->where('id', $id)->where('active', true)->first();
         return response()->json($property, 200);
     }
 
