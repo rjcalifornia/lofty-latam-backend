@@ -68,6 +68,13 @@ class AuthController extends Controller{
         return response()->json(['access_token' => $token], 201);
     }
 
+    public function getUserDetails(Request $request){
+        $user = Auth::user();
+
+        $userDetails = User::where('id', $user->id)->first();
+        return response()->json($userDetails, 200);
+    }
+
     public function logout(){
         $user = Auth::user();
         $user->currentAccessToken()->delete();
