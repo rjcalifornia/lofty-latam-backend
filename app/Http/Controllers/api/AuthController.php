@@ -33,7 +33,7 @@ class AuthController extends Controller{
         }
 
         // Retrieve the user from the database based on the username
-        $user = User::where('username', $request->username)->first();
+        $user = User::with(['rol'])->where('username', $request->username)->first();
 
         // If the user is not found or the password is incorrect, return an error
         if (! $user || ! password_verify($request->password, $user->password)) {
