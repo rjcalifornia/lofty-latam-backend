@@ -71,7 +71,7 @@ class AuthController extends Controller{
     public function getUserDetails(Request $request){
         $user = Auth::user();
 
-        $userDetails = User::where('id', $user->id)->first();
+        $userDetails = User::with(['rol'])->where('id', $user->id)->first();
         return response()->json($userDetails, 200);
     }
 
