@@ -22,6 +22,7 @@ return new class extends Migration
             $table->boolean('has_kitchen')->nullable();
             $table->boolean('has_dinning_room')->nullable();
             $table->boolean('has_sink')->nullable();
+            $table->boolean('has_wifi')->nullable();
             $table->boolean('has_fridge')->nullable();
             $table->boolean('has_tv')->nullable();
             $table->boolean('has_furniture')->nullable();

@@ -21,6 +21,7 @@ class Property extends Model
         'has_kitchen',
         'has_dinning_room',
         'has_sink',
+        'has_wifi',
         'has_fridge',
         'has_tv',
         'has_furniture',
