@@ -38,6 +38,7 @@ class Property extends Model
         'has_dinning_room' => 'boolean',
         'has_sink' => 'boolean',
         'has_fridge' => 'boolean',
+        'has_wifi' => 'boolean',
         'has_tv' => 'boolean',
         'has_furniture' => 'boolean',
         'has_garage' => 'boolean',
