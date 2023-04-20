@@ -81,4 +81,9 @@ class Payments extends Model
         ];
         return ucfirst($months[$this->attributes['month_cancelled']]);
     }
+
+    public function getPaymentAttribute($value)
+    {
+        return number_format($value, 2);
+    }
 }
