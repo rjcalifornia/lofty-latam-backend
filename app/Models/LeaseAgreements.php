@@ -52,4 +52,14 @@ class LeaseAgreements extends Model
             'month_cancelled_name' => 'string',
         ]);
     }
+
+    public function setPriceAttribute($value)
+    {
+        $this->attributes['price'] = number_format($value, 2);
+    }
+
+    public function setDepositAttribute($value)
+    {
+        $this->attributes['deposit'] = number_format($value, 2);
+    }
 }
