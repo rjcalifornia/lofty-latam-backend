@@ -53,13 +53,13 @@ class LeaseAgreements extends Model
         ]);
     }
 
-    public function setPriceAttribute($value)
+    public function getPriceAttribute($value)
     {
-        $this->attributes['price'] = number_format($value, 2);
+        return number_format($value, 2);
     }
 
-    public function setDepositAttribute($value)
+    public function getDepositAttribute($value)
     {
-        $this->attributes['deposit'] = number_format($value, 2);
+        return number_format($value, 2);
     }
 }
