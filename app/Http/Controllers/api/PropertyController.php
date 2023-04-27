@@ -181,7 +181,7 @@ class PropertyController extends Controller{
         }
 
         $user = Auth::user();
-        $leaseAgreements = LeaseAgreements::with(['tenantId', 'propertyId', 'rentType'])->where('property_id', $property->id)
+        $leaseAgreements = LeaseAgreements::with(['tenantId', 'propertyId.landlordId', 'rentType'])->where('property_id', $property->id)
         ->get();
 
         return response()->json($leaseAgreements, 200);
