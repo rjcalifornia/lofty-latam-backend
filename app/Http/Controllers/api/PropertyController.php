@@ -89,7 +89,7 @@ class PropertyController extends Controller{
         $user = Auth::user();
 
         // Retrieve the properties belonging to the logged-in user
-        $properties = Property::with(['propertyPictures'])->where('landlord_id', $user->id)->get();
+        $properties = Property::with(['propertyPictures', 'landlordId'])->where('landlord_id', $user->id)->get();
 
         // Return the properties as a JSON response
         return response()->json($properties, 200);
