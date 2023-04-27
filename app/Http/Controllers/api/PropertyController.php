@@ -188,7 +188,7 @@ class PropertyController extends Controller{
     }
 
     public function viewLeaseDetails(Request $request, $id){
-        $lease = LeaseAgreements::with(['tenantId', 'propertyId', 'rentType', 'payments', 'payments.leaseId'])->find($id);
+        $lease = LeaseAgreements::with(['tenantId', 'propertyId', 'rentType', 'payments', 'payments.leaseId.tenantId'])->find($id);
         if (!$lease) {
             return response()->json(['message' => 'No se encontró contrato de alquiler. Revise los datos ingresados e intente nuevamente']);
         }
