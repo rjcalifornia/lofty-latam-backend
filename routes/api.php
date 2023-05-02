@@ -22,6 +22,10 @@ use App\Http\Controllers\api\PaymentsController;
 
 Route::get('/user', [AuthController::class, 'getUserDetails'])->middleware('auth:sanctum');
 
+Route::prefix('/v1/administration')->group(function () {
+    Route::get('/user/profile', [UsersController::class, 'userProfile'])->middleware('auth:sanctum');
+});
+
 Route::prefix('/v1/security')->group(function () {
     Route::post('/authenticate', [AuthController::class, 'login']);
     Route::post('/registration', [AuthController::class, 'register']);
