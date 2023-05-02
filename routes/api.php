@@ -6,6 +6,7 @@ use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\PropertyController;
 use App\Http\Controllers\api\CatalogsController;
 use App\Http\Controllers\api\PaymentsController;
+use App\Http\Controllers\api\UsersController;
 
 /*
 |--------------------------------------------------------------------------
