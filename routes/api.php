@@ -7,6 +7,7 @@ use App\Http\Controllers\api\PropertyController;
 use App\Http\Controllers\api\CatalogsController;
 use App\Http\Controllers\api\PaymentsController;
 use App\Http\Controllers\api\UsersController;
+use App\Http\Controllers\api\NotificationsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +55,9 @@ Route::prefix('v1/payments')->group(function (){
     Route::post('/print-receipt', [PaymentsController::class, 'printPaymentReceipt'])->middleware('auth:sanctum');
 });
 
+Route::prefix('v1/notifications')->group(function (){
+    Route::get('/payments/status',[NotificationsController::class, 'paymentStatus'])->middleware('auth:sanctum');
+});
 
 Route::prefix('v1/catalogs')->group(function (){
     Route::get('/rent-type/list', [CatalogsController::class, 'getRentTypeCatalog'])->middleware('auth:sanctum');
