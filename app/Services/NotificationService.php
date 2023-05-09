@@ -36,9 +36,15 @@ class NotificationService{
 
     private function filterNotification($leaseId, $propertyName, $days){
        
-        $payment = Payments::where('lease_id', $leaseId)->first();
+        $currentMonth = Carbon::now()->month;
+        $currentYear = Carbon::now()->year;
 
-        if ($days >= 0) {
+        $payment = Payments::where('lease_id', $leaseId)
+                        ->whereMonth('payment_date', $currentMonth)
+                        ->whereYear('payment_date', $currentYear)
+                        ->first();
+
+        if ($days >= 0 && !$payment) {
             $status = ($days == 0) ? 'Hoy es la fecha de cobro de ' . $propertyName : (($days <= 2) ? 'Fecha de cobro de '. $propertyName . ' se va acercando' : 'Cobro de alquiler de ' . $propertyName .  ' es en '. $days . ' días');
             return $status;
         }
