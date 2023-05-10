@@ -55,6 +55,10 @@ Route::prefix('v1/payments')->group(function (){
     Route::post('/print-receipt', [PaymentsController::class, 'printPaymentReceipt'])->middleware('auth:sanctum');
 });
 
+Route::prefix('v1/receipt')->group(function (){
+    Route::get('/{uuid}/view',[PaymentsController::class, 'viewReceiptPublic']);
+});
+
 Route::prefix('v1/notifications')->group(function (){
     Route::get('/payments/status',[NotificationsController::class, 'paymentStatus'])->middleware('auth:sanctum');
 });

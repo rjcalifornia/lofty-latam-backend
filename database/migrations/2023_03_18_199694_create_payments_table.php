@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('payment_date');
             $table->integer('month_cancelled');
             $table->decimal('payment', 9, 4);
+            $table->string('uuid')->nullable();
             $table->unsignedBigInteger('user_creates');
             $table->unsignedBigInteger('user_modifies')->nullable();
             $table->foreign('user_creates')->references('id')->on('users');

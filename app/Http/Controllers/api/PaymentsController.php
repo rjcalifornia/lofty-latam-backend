@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Models\LeaseAgreements;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+
+use App\Models\LeaseAgreements;
+use App\Models\Payments;
 
 use App\Services\PaymentService;
 
@@ -58,5 +60,10 @@ class PaymentsController extends Controller{
 
         return response()->json($payments, 200);
 
+    }
+
+    public function viewReceiptPublic(Request $request, $uuid){
+        $receipt = Payments::where('uuid', $uuid)->first();
+        return response()->json($receipt, 200);
     }
 }
