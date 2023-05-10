@@ -20,6 +20,8 @@ class PaymentService{
         $paymentType = PaymentType::where('id', $request->get('payment_type_id'))->first();
 
         $payment_date =  Carbon::now();
+        $uuid = Str::uuid(4)->toString();
+        $shortUuid = substr(str_replace('-', '_', $uuid), 0, 12);
         
         $payment = new Payments([
             'lease_id' => $lease->id,
@@ -28,6 +30,7 @@ class PaymentService{
             'month_cancelled' => $request->get('month_cancelled'),
             'payment' => $lease->price,
             'user_creates' => auth()->user()->id,
+            'uuid'=> $shortUuid,
            
         ]);
 

@@ -17,6 +17,7 @@ class Payments extends Model
         'payment_type_id',
         'payment_date',
         'month_cancelled',
+        'uuid',
         'payment',
         'user_creates',
         'user_modifies',
