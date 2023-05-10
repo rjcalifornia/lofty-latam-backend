@@ -34,6 +34,32 @@ class NotificationService{
         return $status;
     }
 
+    public function alerts($userId){
+        $alerts = [];
+        $leases = Property::with(['leases.propertyId'])->where('landlord_id', $userId)->get()->pluck('leases')->toArray();
+
+        foreach (array_column($leases, 0) as $lease) {
+          
+            $propertyName = $lease['property_id']['name'];
+            $leaseId = $lease['id'];
+
+            $previousMonth = Carbon::now()->subMonth()->month;
+            $currentYear = Carbon::now()->year;
+
+            $payment = Payments::where('lease_id', $leaseId)
+                ->where('month_cancelled', $previousMonth)
+                ->whereYear('payment_date', $currentYear)
+                ->first();
+
+            if(!$payment){
+            $alerts[] = 'La propiedad ' . $propertyName . ' tiene un cobro pendiente del mes pasado.';
+            }
+          
+        }
+
+        return $alerts;
+    }
+
     private function filterNotification($leaseId, $propertyName, $days){
        
         $currentMonth = Carbon::now()->month;

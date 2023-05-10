@@ -21,9 +21,11 @@ class NotificationsController extends Controller{
         $user = Auth::user();
         
         $status = $this->notificationService->findNotifications($user->id);
+        $alerts = $this->notificationService->alerts($user->id);
 
-        
-        
-        return response()->json(['payment_notifications' =>$status], 200);
+        return response()->json([
+            'payment_notifications' =>$status,
+            'alerts' => $alerts,
+        ], 200);
     }
 }
