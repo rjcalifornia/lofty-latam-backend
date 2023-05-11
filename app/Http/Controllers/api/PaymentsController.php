@@ -63,7 +63,7 @@ class PaymentsController extends Controller{
     }
 
     public function viewReceiptPublic(Request $request, $uuid){
-        $receipt = Payments::where('uuid', $uuid)->first();
+        $receipt = Payments::with(['paymentTypeId', 'leaseId.propertyId'])->where('uuid', $uuid)->first();
         return response()->json($receipt, 200);
     }
 }
