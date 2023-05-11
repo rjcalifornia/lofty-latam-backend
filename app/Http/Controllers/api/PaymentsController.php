@@ -62,8 +62,16 @@ class PaymentsController extends Controller{
 
     }
 
-    public function viewReceiptPublic(Request $request, $uuid){
+    public function viewReceiptAttestationPublic(Request $request, $uuid){
         $receipt = Payments::with(['paymentTypeId', 'leaseId.propertyId'])->where('uuid', $uuid)->first();
         return response()->json($receipt, 200);
+    }
+
+    public function printReceiptAttestationPublic(Request $request, $uuid){
+        $payment = Payments::where('uuid', $uuid)->first();
+        if (!$payment) {
+            return response()->json(['message' => 'No se puede procesar la solicitud. Verifique los datos e intente nuevamente'], 404);
+        }
+        return $this->paymentService->generatePDF($payment->id);
     }
 }

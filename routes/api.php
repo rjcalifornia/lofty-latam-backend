@@ -56,7 +56,8 @@ Route::prefix('v1/payments')->group(function (){
 });
 
 Route::prefix('v1/receipt')->group(function (){
-    Route::get('/{uuid}/view',[PaymentsController::class, 'viewReceiptPublic']);
+    Route::get('/{uuid}/view',[PaymentsController::class, 'viewReceiptAttestationPublic']);
+    Route::get('/{uuid}/print',[PaymentsController::class, 'printReceiptAttestationPublic']);
 });
 
 Route::prefix('v1/notifications')->group(function (){
