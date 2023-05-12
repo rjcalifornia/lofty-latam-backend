@@ -16,5 +16,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PaymentTypeSeeder::class);
         $this->call(DocumentTypeCatalogSeeder::class);
         $this->call(RentTypeCatalogSeeder::class);
+        $this->call(PropertyTypeSeeder::class);
     }
 }

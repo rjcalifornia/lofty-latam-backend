@@ -28,10 +28,12 @@ return new class extends Migration
             $table->boolean('has_furniture')->nullable();
             $table->boolean('has_garage')->nullable();
             $table->unsignedBigInteger('landlord_id');
+            $table->unsignedInteger('property_type_id');
             $table->unsignedInteger('active');
             $table->unsignedBigInteger('user_creates');
             $table->unsignedBigInteger('user_modifies')->nullable();
             $table->foreign('landlord_id')->references('id')->on('users');
+            $table->foreign('property_type_id')->references('id')->on('property_type_catalog');
             $table->foreign('user_creates')->references('id')->on('users');
             $table->foreign('user_modifies')->references('id')->on('users');
             $table->timestamps();
