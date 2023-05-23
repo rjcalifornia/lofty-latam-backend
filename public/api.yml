@@ -634,7 +634,18 @@ paths:
         200:
           description: "Successful operation"
 
-components:
+  /v1/catalogs/property-type/list:
+    get:
+      summary: "Get the property rental type (house, rooms, etc)"
+      tags:
+        - "Catalogs"
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: "Successful operation"
+
+components: 
   securitySchemes:
     bearerAuth:
       type: http
