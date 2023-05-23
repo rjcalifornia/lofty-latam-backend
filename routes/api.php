@@ -68,5 +68,6 @@ Route::prefix('v1/catalogs')->group(function (){
     Route::get('/rent-type/list', [CatalogsController::class, 'getRentTypeCatalog'])->middleware('auth:sanctum');
     Route::get('/payment-type/list', [CatalogsController::class, 'getPaymentTypeCatalog'])->middleware('auth:sanctum');
     Route::get('/document-type/list', [CatalogsController::class, 'getDocumentTypeCatalog'])->middleware('auth:sanctum');
+    Route::get('/property-type/list', [CatalogsController::class, 'getPropertyTypeCatalog'])->middleware('auth:sanctum');
 });
 

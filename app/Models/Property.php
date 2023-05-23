@@ -28,6 +28,7 @@ class Property extends Model
         'has_garage',
         'landlord_id',
         'active',
+        'property_type_id',
         'user_creates',
         'user_modifies',
     ];
@@ -47,6 +48,10 @@ class Property extends Model
 
     public function landlordId(){
         return $this->belongsTo(User::class, 'landlord_id');
+    }
+    
+    public function propertyTypeId(){
+        return $this->belongsTo(User::class, 'property_type_id');
     }
 
     public function userCreates(){
