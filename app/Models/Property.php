@@ -68,7 +68,19 @@ class Property extends Model
 
     public function propertyPictures()
     {
-        return $this->belongsTo(PropertyPhoto::class, 'id', 'property_id')->withDefault(['image_name'=> null]);
+        return $this->belongsTo(PropertyPhoto::class, 'id', 'property_id')
+        ->withDefault(
+            [   'id' => null,
+                'image_name'=> null,
+                'property_id' =>$this->attributes['id'],
+                'active' => true,
+                'order' => null,
+                'user_creates' => $this->attributes['user_creates'],
+                'user_modifies' => $this->attributes['user_modifies'],
+                'created_at' => $this->attributes['created_at'],
+                'updated_at' => $this->attributes['updated_at'],
+
+            ]);
 
     }
 
