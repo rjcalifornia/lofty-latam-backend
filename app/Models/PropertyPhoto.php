@@ -45,12 +45,15 @@ class PropertyPhoto extends Model
      */
     public function getImageLinkNameAttribute(){
 
+        if($this->attributes['image_name'] == 'placeholder'){
+            return url('/api/v1/property/pictures/placeholder');
+        }
+        
         if($this->attributes['image_name']){
             $id = $this->id;
             return url('/api/v1/property/pictures/' . $id . '/view');
-        }else{
-            return url('/api/v1/property/pictures/placeholder');
         }
+        
         
         return null;
     }
