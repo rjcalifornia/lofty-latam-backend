@@ -26,7 +26,8 @@ class PropertyService
         $property->has_garage = $request->get('has_garage');
         $property->landlord_id = auth()->user()->id; // Set the landlord_id to the ID of the authenticated user
         $property->user_creates = auth()->user()->id; // Set the user_creates to the ID of the authenticated user
-        $property->active = true; // Set the activ
+        $property->active = true; // Set the active
+        $property->property_type_id = $request->get('property_type_id');
         $property->save();
 
         return $property;
