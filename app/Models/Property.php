@@ -68,7 +68,7 @@ class Property extends Model
 
     public function propertyPictures()
     {
-        return $this->belongsTo(PropertyPhoto::class, 'id', 'property_id');
+        return $this->belongsTo(PropertyPhoto::class, 'id', 'property_id')->withDefault(['image_link_name' =>  url('/api/v1/property/pictures/placeholder')]);
 
     }
 
