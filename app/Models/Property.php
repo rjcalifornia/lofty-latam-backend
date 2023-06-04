@@ -75,7 +75,7 @@ class Property extends Model
             [   'id' => 1,
                 'image_name'=> '',
                 'property_id' =>1,
-                'active' => true,
+                'active' => 1,
                 'order' => null,
                 'user_creates' => 1,
                 'user_modifies' => $this->user_modifies,
