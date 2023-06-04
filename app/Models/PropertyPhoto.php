@@ -48,6 +48,8 @@ class PropertyPhoto extends Model
         if($this->attributes['image_name']){
             $id = $this->id;
             return url('/api/v1/property/pictures/' . $id . '/view');
+        }else{
+            return url('/api/v1/property/pictures/placeholder');
         }
         
         return null;

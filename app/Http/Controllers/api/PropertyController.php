@@ -205,4 +205,12 @@ class PropertyController extends Controller{
         return response()->download(storage_path('/property_images_storage/'. $propertyPicture->image_name));
 
     }
+
+    public function placeholderPicture(Request $request){
+        
+       
+
+        return response()->download(storage_path('/img/placeholder.png'));
+
+    }
 }
