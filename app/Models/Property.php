@@ -70,12 +70,12 @@ class Property extends Model
     {
         return $this->belongsTo(PropertyPhoto::class, 'id', 'property_id')
         ->withDefault(
-            [   'id' => null,
+            [   'id' => 1,
                 'image_name'=> null,
-                'property_id' =>$this->id,
+                'property_id' =>1,
                 'active' => true,
                 'order' => null,
-                'user_creates' => $this->user_creates,
+                'user_creates' => 1,
                 'user_modifies' => $this->user_modifies,
                 'created_at' => $this->created_at,
                 'updated_at' => $this->updated_at,
