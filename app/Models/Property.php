@@ -72,13 +72,13 @@ class Property extends Model
         ->withDefault(
             [   'id' => null,
                 'image_name'=> null,
-                'property_id' =>$this->attributes['id'],
+                'property_id' =>$this->id,
                 'active' => true,
                 'order' => null,
-                'user_creates' => $this->attributes['user_creates'],
-                'user_modifies' => $this->attributes['user_modifies'],
-                'created_at' => $this->attributes['created_at'],
-                'updated_at' => $this->attributes['updated_at'],
+                'user_creates' => $this->user_creates,
+                'user_modifies' => $this->user_modifies,
+                'created_at' => $this->created_at,
+                'updated_at' => $this->updated_at,
 
             ]);
 
