@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
+
 
 class Property extends Model
 {
@@ -71,14 +73,14 @@ class Property extends Model
         return $this->belongsTo(PropertyPhoto::class, 'id', 'property_id')
         ->withDefault(
             [   'id' => 1,
-                'image_name'=> null,
+                'image_name'=> '',
                 'property_id' =>1,
                 'active' => true,
                 'order' => null,
                 'user_creates' => 1,
                 'user_modifies' => $this->user_modifies,
-                'created_at' => $this->created_at,
-                'updated_at' => $this->updated_at,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
 
             ]);
 
