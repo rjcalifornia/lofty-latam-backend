@@ -73,7 +73,7 @@ class Property extends Model
         return $this->belongsTo(PropertyPhoto::class, 'id', 'property_id')
         ->withDefault(
             [   'id' => 1,
-                'image_name'=> 'placeholder',
+                'image_name'=> "placeholder",
                 'property_id' =>1,
                 'active' => 1,
                 'order' => null,
