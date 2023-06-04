@@ -45,7 +45,8 @@ class PropertyController extends Controller{
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['message' => 'No se puede procesar la solicitud. Faltan campos'], 422);
+          //  return response()->json(['message' => 'No se puede procesar la solicitud. Faltan campos'], 422);
+          return  $error = $validator->errors()->all();
         }
         
         $property = $this->propertyService->save($request);
