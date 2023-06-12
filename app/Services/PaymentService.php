@@ -44,7 +44,7 @@ class PaymentService{
     }
 
     public function history($lease){
-        $payments = Payments::with(['paymentTypeId', 'leaseId.tenantId'])->where('lease_id', $lease->id)->orderBy('payment_date', 'ASC')->get();
+        $payments = Payments::with(['paymentTypeId', 'leaseId.tenantId'])->where('lease_id', $lease->id)->orderBy('payment_date', 'DESC')->get();
         return $payments;
     }
 
