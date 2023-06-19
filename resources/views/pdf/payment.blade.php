@@ -60,12 +60,20 @@
     <br>
     <div style="text-align: center;">
         <p>
-        _____________________________________
-        <br>
+            <br>
+        </p>
+        <p>
+            <br>
+        </p>
+        <p>
+            <br>
+        </p>
+        
+        
         {{ $payment->leaseId->propertyId->landlordId->name}} {{ $payment->leaseId->propertyId->landlordId->lastname}}
         <br>
         Responsable
     </div>
-        </p>
+        
 </body>
 </html>
