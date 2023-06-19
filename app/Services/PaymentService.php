@@ -53,8 +53,12 @@ class PaymentService{
         $logo_path = storage_path('img/header_logo_master.png');
         $qr_url= 'https://lofty-public.vercel.app/constancia-de-pago/' . $payment->uuid . '/detalles';
         $qr_raw = QrCode::size(640)->format('png')->generate($qr_url);
-
-        $html = View::make('pdf.payment', compact('payment'))->render();
+        $img = base64_encode($qr_raw);
+        $html = View::make('pdf.payment', [
+            'payment'=> $payment,
+            'image' => $img
+        ])->render();
+        
         
         TCPDF::setMargins(14, 36, 14, true);
         TCPDF::AddPage();

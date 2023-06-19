@@ -59,20 +59,19 @@
     </div>
     <br>
     <div style="text-align: center;">
+        <br>
+        
         <p>
-            <br>
-        </p>
-        <p>
-            <br>
-        </p>
-        <p>
-            <br>
-        </p>
+            <img src="data:image/{{$image}};" alt="scan-me" >
         
         
-        {{ $payment->leaseId->propertyId->landlordId->name}} {{ $payment->leaseId->propertyId->landlordId->lastname}}
+       
+        
+            <br>
+        <b>{{ $payment->leaseId->propertyId->landlordId->name}} {{ $payment->leaseId->propertyId->landlordId->lastname}}</b>
         <br>
         Responsable
+    </p>
     </div>
         
 </body>
