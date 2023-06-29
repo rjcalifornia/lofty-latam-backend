@@ -29,6 +29,7 @@ class LeaseAgreements extends Model
         'property_type_id' => 'integer', 
         'rent_type_id' => 'integer', 
         'user_creates' => 'integer', 
+        'duration' => 'integer', 
     ];
 
     public function tenantId()
