@@ -15,4 +15,9 @@ class RentTypeCatalog extends Model
         'value',
         'active',
     ];
+
+    protected $casts = [
+        'active' => 'integer',
+        'value' => 'integer',
+    ];
 }

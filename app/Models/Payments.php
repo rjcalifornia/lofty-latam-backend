@@ -25,6 +25,12 @@ class Payments extends Model
 
     protected $appends = ['month_cancelled_name'];
 
+    protected $casts = [
+        'receipt_number' => 'integer',
+        'month_cancelled' => 'integer',
+        'user_creates' => 'integer',
+    ];
+
     public function leaseId()
     {
         return $this->belongsTo(LeaseAgreements::class, 'lease_id');
