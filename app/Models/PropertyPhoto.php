@@ -26,6 +26,7 @@ class PropertyPhoto extends Model
         'active' => 'integer',
         'property_id' => 'integer', 
         'user_creates' => 'integer', 
+        'order' => 'integer', 
     ];
 
     public function userCreates()
