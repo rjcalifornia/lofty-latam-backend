@@ -22,7 +22,7 @@ class Tenants extends Model
         'user_modifies',
     ];
     protected $casts = [
-        'active' => 'boolean',
+        'active' => 'integer',
         'user_creates' => 'integer', 
     ];
 
