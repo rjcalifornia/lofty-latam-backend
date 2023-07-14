@@ -31,6 +31,7 @@ class PaymentService{
             'payment' => $lease->price,
             'user_creates' => auth()->user()->id,
             'uuid'=> $shortUuid,
+            'nota_adicional' => $request->get('nota_adicional')->first(),
            
         ]);
 
