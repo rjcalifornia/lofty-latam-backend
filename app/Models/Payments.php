@@ -18,6 +18,7 @@ class Payments extends Model
         'payment_date',
         'month_cancelled',
         'uuid',
+        'nota',
         'payment',
         'user_creates',
         'user_modifies',

@@ -31,7 +31,7 @@ class PaymentService{
             'payment' => $lease->price,
             'user_creates' => auth()->user()->id,
             'uuid'=> $shortUuid,
-            'nota_adicional' => $request->get('nota_adicional')->first(),
+            'nota' => $request->get('nota_adicional'),
            
         ]);
 
@@ -66,7 +66,7 @@ class PaymentService{
         TCPDF::setImageScale(1);
         TCPDF::SetAutoPageBreak(false, 0);
         TCPDF::Image($logo_path, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
-        TCPDF::Image("@$qr_raw", 80, 170, 0, 50, '', '', '', false, 400, '', false, false, 0);
+        TCPDF::Image("@$qr_raw", 80, 210, 0, 50, '', '', '', false, 400, '', false, false, 0);
         TCPDF::writeHTML($html, true, false, true, false, '');
 
         $uuid = Str::uuid(4)->toString();

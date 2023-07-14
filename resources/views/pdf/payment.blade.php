@@ -52,7 +52,13 @@
                 <th style="color: #384251;">Correspondiente al mes de</th>
                 <td style="color: #374151; font-weight:bold; ">{{ ucfirst(Carbon\Carbon::createFromFormat('m', $payment->month_cancelled)->translatedFormat('F')) }} {{ \Carbon\Carbon::parse($payment->payment_date)->translatedFormat('Y')}}</td>
             </tr>
-         
+
+            @if($payment->nota != null)
+            <tr>
+                <th style="color: #384251;">Nota adicional:</th>
+                <td style="color: #374151; font-weight:bold; ">{{$payment->nota}}</td>
+            </tr>
+            @endif
             
             
         </table>
@@ -60,6 +66,13 @@
     <br>
     <div style="text-align: center;">
         <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        
         
         <p>
             <img src="data:image/{{$image}};" alt="scan-me" >

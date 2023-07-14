@@ -66,7 +66,7 @@ class NotificationService{
         $currentYear = Carbon::now()->year;
 
         $payment = Payments::where('lease_id', $leaseId)
-                        ->whereMonth('payment_date', $currentMonth)
+                        ->whereMonth('month_cancelled', $currentMonth)
                         ->whereYear('payment_date', $currentYear)
                         ->first();
 
