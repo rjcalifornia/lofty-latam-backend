@@ -53,10 +53,10 @@
                 <td style="color: #374151; font-weight:bold; ">{{ ucfirst(Carbon\Carbon::createFromFormat('m', $payment->month_cancelled)->translatedFormat('F')) }} {{ \Carbon\Carbon::parse($payment->payment_date)->translatedFormat('Y')}}</td>
             </tr>
 
-            @if($payment->nota != null)
+            @if($payment->additional_note != null)
             <tr>
                 <th style="color: #384251;">Nota adicional:</th>
-                <td style="color: #374151; font-weight:bold; ">{{$payment->nota}}</td>
+                <td style="color: #374151; font-weight:bold; ">{{$payment->additional_note}}</td>
             </tr>
             @endif
             
