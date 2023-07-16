@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('month_cancelled');
             $table->decimal('payment', 9, 4);
             $table->string('uuid')->nullable();
-            $table->text('nota')->nullable();
+            $table->text('additional_note')->nullable();
             $table->unsignedBigInteger('user_creates');
             $table->unsignedBigInteger('user_modifies')->nullable();
             $table->foreign('user_creates')->references('id')->on('users');
