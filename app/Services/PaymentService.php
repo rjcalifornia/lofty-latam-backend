@@ -22,13 +22,14 @@ class PaymentService{
         $payment_date =  Carbon::now();
         $uuid = Str::uuid(4)->toString();
         $shortUuid = substr(str_replace('-', '_', $uuid), 0, 12);
+        $payment = number_format((float)$request->get('payment'), 2, '.', '');
         
         $payment = new Payments([
             'lease_id' => $lease->id,
             'payment_type_id' => $paymentType->id,
             'payment_date' => $payment_date->format('Y-m-d'),
             'month_cancelled' => $request->get('month_cancelled'),
-            'payment' => $lease->price,
+            'payment' => $payment,
             'user_creates' => auth()->user()->id,
             'uuid'=> $shortUuid,
             'additional_note' => $request->get('additional_note'),
