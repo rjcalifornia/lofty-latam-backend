@@ -18,13 +18,11 @@ class NotificationService{
         foreach ($leases as $lease) {
            $paymentDate = $lease->payment_date;
            $propertyName = $lease['propertyId']->name;
-        //   $lease = $lease;
            $parsedPaymentDate = Carbon::parse($paymentDate);
            $paymentDueDate = Carbon::now()->setDay($parsedPaymentDate->day)->startOfDay();
           
           $now = Carbon::now();
           $days = $now->diffInDays($paymentDueDate, false);
-            $status[]= $lease['id'];
            $notification = $this->filterNotification($lease, $propertyName, $days);
            if($notification){
             $status[$i] = $notification;
