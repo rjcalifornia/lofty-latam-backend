@@ -14,6 +14,7 @@ class NotificationService{
         $status = [];
         $leases = Property::with(['leases.propertyId', 'leases.tenantId'])->where('landlord_id', $userId)->get()->pluck('leases')->flatten();
        // collect($leases);
+       $i = 0;
         foreach ($leases as $lease) {
            $paymentDate = $lease->payment_date;
            $propertyName = $lease['propertyId']->name;
@@ -26,7 +27,8 @@ class NotificationService{
             $status[]= $lease['id'];
            $notification = $this->filterNotification($lease, $propertyName, $days);
            if($notification){
-            $status[] = $notification;
+            $status[$i] = $notification;
+            $i++;
            }
           
         }
