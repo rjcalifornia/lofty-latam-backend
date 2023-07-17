@@ -21,6 +21,10 @@ class Tenants extends Model
         'user_creates',
         'user_modifies',
     ];
+    protected $casts = [
+        'active' => 'integer',
+        'user_creates' => 'integer', 
+    ];
 
     public function userCreates()
     {
@@ -30,5 +34,14 @@ class Tenants extends Model
     public function userModifies()
     {
         return $this->belongsTo(User::class, 'user_modifies');
+    }
+
+    /**
+     * Get the property picture URL
+     *
+     * @return string|null
+     */
+    public function getTenantFullNameAttribute(){
+
     }
 }

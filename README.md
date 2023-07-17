@@ -18,7 +18,7 @@
 5. Generar la llave de la app: ``` php artisan key:generate ```
 6. Ejecutar ``` php artisan migrate ``` para generar las tablas
     * Nota: Si desea limpiar la base de datos ejecute el comando: ```php artisan migrate:refresh ```
-7. Ejecutar  ``` php artisan db:seed ```  para llenar los catalagos del sistema
+7. Ejecutar  ``` php artisan db:seed ```  y ``` php artisan db:seed --class=RolesSeeder ``` para llenar los catalagos del sistema
 
 #### Finalizar instalación
 8. Asegurarse que el servidor tenga habilitado el módulo CORS, de lo contrario la app no podrá consumir los endpoints.

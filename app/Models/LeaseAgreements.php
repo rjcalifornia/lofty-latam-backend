@@ -26,6 +26,10 @@ class LeaseAgreements extends Model
 
     protected $casts = [
         'active' => 'boolean',
+        'property_id' => 'integer', 
+        'rent_type_id' => 'integer', 
+        'user_creates' => 'integer', 
+        'duration' => 'integer', 
     ];
 
     public function tenantId()

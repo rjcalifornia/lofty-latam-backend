@@ -113,7 +113,7 @@ class PropertyController extends Controller{
             'tenant_lastname' => 'required|string',
             'tenant_username' => 'required|string',
             'tenant_phone' => 'required|string',
-            'tenant_email' => 'required|string',
+           // 'tenant_email' => 'required|string',
         ]);
 
         if ($validator->fails()) {
