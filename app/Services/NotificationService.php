@@ -38,12 +38,12 @@ class NotificationService{
 
     public function alerts($userId){
         $alerts = [];
-        $leases = Property::with(['leases.propertyId'])->where('landlord_id', $userId)->get()->pluck('leases')->toArray();
-
-        foreach (array_column($leases, 0) as $lease) {
+        $leases = Property::with(['leases.propertyId'])->where('landlord_id', $userId)->get()->pluck('leases')->flatten();
+        $i = 0;
+        foreach ($leases as $lease) {
           
-            $propertyName = $lease['property_id']['name'];
-            $leaseId = $lease['id'];
+            $propertyName = $lease['propertyId']->name;
+            $leaseId = $lease->id;
 
             $previousMonth = Carbon::now()->subMonth()->month;
             $currentYear = Carbon::now()->year;
@@ -54,7 +54,8 @@ class NotificationService{
                 ->first();
 
             if(!$payment){
-            $alerts[] = 'La propiedad ' . $propertyName . ' tiene un cobro pendiente del mes pasado.';
+            $alerts[$i] = 'La propiedad ' . $lease['tenantId']->tenant_full_name . ' tiene un cobro pendiente del mes pasado.';
+            $i++;
             }
           
         }
@@ -73,7 +74,7 @@ class NotificationService{
                         ->first();
 
         if ($days >= 0 && !$payment) {
-            $status = ($days == 0) ? 'Hoy es la fecha de cobro de ' . $propertyName : (($days <= 2) ? 'Fecha de cobro de '. $propertyName . ' se va acercando' : 'Cobro de alquiler de ' . $lease['tenantId']->tenant_full_name .  ' es en '. $days . ' días');
+            $status = ($days == 0) ? 'Hoy es la fecha de cobro de alquiler a ' . $lease['tenantId']->tenant_full_name : (($days <= 2) ? 'Fecha de cobro de '. $lease['tenantId']->tenant_full_name . ' se va acercando' : 'Cobro de alquiler de ' . $lease['tenantId']->tenant_full_name .  ' es en '. $days . ' días');
             return $status;
         }
 
