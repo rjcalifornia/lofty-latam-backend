@@ -35,4 +35,13 @@ class Tenants extends Model
     {
         return $this->belongsTo(User::class, 'user_modifies');
     }
+
+    /**
+     * Get the property picture URL
+     *
+     * @return string|null
+     */
+    public function getTenantFullNameAttribute(){
+
+    }
 }
