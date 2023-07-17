@@ -26,6 +26,9 @@ class Tenants extends Model
         'user_creates' => 'integer', 
     ];
 
+    protected $appends = ['tenant_full_name'];
+
+
     public function userCreates()
     {
         return $this->belongsTo(User::class, 'user_creates');
@@ -37,11 +40,12 @@ class Tenants extends Model
     }
 
     /**
-     * Get the property picture URL
+     * Get the tenant full name
      *
      * @return string|null
      */
     public function getTenantFullNameAttribute(){
-
+        $fullName = $this->name . ' ' . $this->lastname;
+        return $fullName;
     }
 }

@@ -12,18 +12,18 @@ class NotificationService{
 
     public function findNotifications($userId){
         $status = [];
-        $leases = Property::with(['leases.propertyId', 'leases.tenantId'])->where('landlord_id', $userId)->get()->pluck('leases')->toArray();
-
-        foreach (array_column($leases, 0) as $lease) {
-          $paymentDate = $lease['payment_date'];
-          $propertyName = $lease['property_id']['name'];
-          $lease = $lease;
-          $parsedPaymentDate = Carbon::parse($paymentDate);
-          $paymentDueDate = Carbon::now()->setDay($parsedPaymentDate->day)->startOfDay();
+        $leases = Property::with(['leases.propertyId', 'leases.tenantId'])->where('landlord_id', $userId)->get()->pluck('leases')->flatten();
+       // collect($leases);
+        foreach ($leases as $lease) {
+           $paymentDate = $lease->payment_date;
+           $propertyName = $lease['propertyId']->name;
+        //   $lease = $lease;
+           $parsedPaymentDate = Carbon::parse($paymentDate);
+           $paymentDueDate = Carbon::now()->setDay($parsedPaymentDate->day)->startOfDay();
           
           $now = Carbon::now();
           $days = $now->diffInDays($paymentDueDate, false);
-
+            $status[]= $lease['id'];
            $notification = $this->filterNotification($lease, $propertyName, $days);
            if($notification){
             $status[] = $notification;
@@ -65,13 +65,13 @@ class NotificationService{
         $currentMonth = Carbon::now()->month;
         $currentYear = Carbon::now()->year;
 
-        $payment = Payments::where('lease_id', $lease['id'])
+        $payment = Payments::where('lease_id', $lease->id)
                         ->where('month_cancelled', $currentMonth)
                         ->whereYear('payment_date', $currentYear)
                         ->first();
 
         if ($days >= 0 && !$payment) {
-            $status = ($days == 0) ? 'Hoy es la fecha de cobro de ' . $propertyName : (($days <= 2) ? 'Fecha de cobro de '. $propertyName . ' se va acercando' : 'Cobro de alquiler de ' . $lease['tenant_id']['name'] .  ' es en '. $days . ' días');
+            $status = ($days == 0) ? 'Hoy es la fecha de cobro de ' . $propertyName : (($days <= 2) ? 'Fecha de cobro de '. $propertyName . ' se va acercando' : 'Cobro de alquiler de ' . $lease['tenantId']->tenant_full_name .  ' es en '. $days . ' días');
             return $status;
         }
 
