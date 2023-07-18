@@ -16,6 +16,7 @@ class PropertyService
         $property->bedrooms = $request->get('bedrooms');
         $property->beds = $request->get('beds');
         $property->bathrooms = $request->get('bathrooms');
+        $property->has_wifi = $request->get('has_wifi');
         $property->has_ac = $request->get('has_ac');
         $property->has_kitchen = $request->get('has_kitchen');
         $property->has_dinning_room = $request->get('has_dinning_room');
