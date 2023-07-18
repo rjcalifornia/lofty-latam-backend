@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services;
+
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
@@ -8,7 +9,8 @@ use App\Models\Property;
 
 class PropertyService
 {
-    public function save($request){
+    public function save($request)
+    {
 
         $property = new Property;
         $property->name = $request->get('name');
@@ -33,8 +35,32 @@ class PropertyService
 
         return $property;
     }
+    
+    public function update($request, $property)
+    {
+        try {
+            $property->name = $request->get('name');
+            $property->address = $request->get('address');
+            $property->bedrooms = $request->get('bedrooms');
+            $property->beds = $request->get('beds');
+            $property->bathrooms = $request->get('bathrooms');
+            $property->has_wifi = $request->get('has_wifi');
+            $property->has_ac = $request->get('has_ac');
+            $property->has_kitchen = $request->get('has_kitchen');
+            $property->has_dinning_room = $request->get('has_dinning_room');
+            $property->has_sink = $request->get('has_sink');
+            $property->has_fridge = $request->get('has_fridge');
+            $property->has_tv = $request->get('has_tv');
+            $property->has_furniture = $request->get('has_furniture');
+            $property->has_garage = $request->get('has_garage');
+            $property->save();
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
 
-    public function storeImage($image, $extension,  $disk){
+    public function storeImage($image, $extension,  $disk)
+    {
         $imageName = Str::uuid()->toString() . '.' . $extension;
 
         try {
@@ -42,8 +68,7 @@ class PropertyService
         } catch (\Throwable $th) {
             throw $th;
         }
-        
+
         return $imageName;
     }
-
 }

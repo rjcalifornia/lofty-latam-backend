@@ -55,6 +55,35 @@ class PropertyController extends Controller{
         
     }
 
+    public function updatePropertyDetails(Request $request){
+        $validator = Validator::make($request->all(),[
+            'property_id' => 'required|integer',
+            'name' => 'required|max:255',
+            'address' => 'required|max:255',
+            'bedrooms' => 'required|integer',
+            'beds' => 'required|integer',
+            'bathrooms' => 'required|integer',
+            'has_ac' => 'boolean',
+            'has_kitchen' => 'boolean',
+            'has_dinning_room' => 'boolean',
+            'has_sink' => 'boolean',
+            'has_fridge' => 'boolean',
+            'has_tv' => 'boolean',
+            'has_furniture' => 'boolean',
+            'has_garage' => 'boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => 'No se puede procesar la solicitud. Faltan campos'], 422);
+        }
+
+        $property = Property::where('id', $request->get('property_id'))->first();
+        
+        $this->propertyService->update($request, $property);
+
+        return response()->json(204);
+    }
+
     public function addPropertyPicture(Request $request){
         $validator = Validator::make($request->all(), [
             'property_id'=> 'required|integer',
