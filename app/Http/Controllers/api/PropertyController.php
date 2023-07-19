@@ -55,9 +55,8 @@ class PropertyController extends Controller{
         
     }
 
-    public function updatePropertyDetails(Request $request){
+    public function updatePropertyDetails(Request $request, $id){
         $validator = Validator::make($request->all(),[
-            'property_id' => 'required|integer',
             'name' => 'required|max:255',
             'address' => 'required|max:255',
             'bedrooms' => 'required|integer',
@@ -77,7 +76,11 @@ class PropertyController extends Controller{
             return response()->json(['message' => 'No se puede procesar la solicitud. Faltan campos'], 422);
         }
 
-        $property = Property::where('id', $request->get('property_id'))->first();
+        $property = Property::where('id', $id)->first();
+
+        if(!$property){
+            return response()->json(['message' => 'No se puede procesar la solicitud debido a que la propiedad no ha sido encontrada'], 422);
+        }
         
         $this->propertyService->update($request, $property);
 
