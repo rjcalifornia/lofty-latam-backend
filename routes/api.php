@@ -27,8 +27,9 @@ Route::prefix('/v1/administration')->group(function () {
 });
 
 Route::prefix('/v1/user')->group(function () {
-    Route::get('/', [AuthController::class, 'getUserDetails'])->middleware('auth:sanctum');
+    Route::get('/', [UsersController::class, 'getUserDetails'])->middleware('auth:sanctum');
     Route::post('/update', [UsersController::class, 'updateUserDetails'])->middleware('auth:sanctum');
+    Route::post('/change-password', [UsersController::class, 'changePassword'])->middleware('auth:sanctum');
     Route::get('/profile', [UsersController::class, 'userProfile'])->middleware('auth:sanctum');
 });
 
