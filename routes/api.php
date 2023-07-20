@@ -20,9 +20,7 @@ use App\Http\Controllers\api\NotificationsController;
 |
 */
 
-
-
-
+Route::get('/user', [AuthController::class, 'getUserDetails'])->middleware('auth:sanctum');
 
 Route::prefix('/v1/administration')->group(function () {
     Route::get('/user/profile', [UsersController::class, 'userProfile'])->middleware('auth:sanctum');
@@ -30,9 +28,7 @@ Route::prefix('/v1/administration')->group(function () {
 
 Route::prefix('/v1/user')->group(function () {
     Route::get('/', [AuthController::class, 'getUserDetails'])->middleware('auth:sanctum');
-    Route::post('/update-fullname', [UsersController::class, 'updateFullName'])->middleware('auth:sanctum');
-    Route::post('/update-phone', [UsersController::class, 'updatePhoneNumber'])->middleware('auth:sanctum');
-    Route::post('/update-email', [UsersController::class, 'updateEmail'])->middleware('auth:sanctum');
+    Route::post('/update', [UsersController::class, 'updateUserDetails'])->middleware('auth:sanctum');
     Route::get('/profile', [UsersController::class, 'userProfile'])->middleware('auth:sanctum');
 });
 

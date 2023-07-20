@@ -42,4 +42,6 @@ class UsersController extends Controller{
 
     }
 
+    public function updateUserDetails(Request $request){}
+
 }
