@@ -41,6 +41,7 @@ class PropertyController extends Controller{
             'has_tv' => 'boolean',
             'has_furniture' => 'boolean',
             'has_garage' => 'boolean',
+            'has_wifi' => 'boolean',
             'active' => 'boolean',
         ]);
 
@@ -70,6 +71,7 @@ class PropertyController extends Controller{
             'has_tv' => 'boolean',
             'has_furniture' => 'boolean',
             'has_garage' => 'boolean',
+            'has_wifi' => 'boolean'
         ]);
 
         if ($validator->fails()) {
