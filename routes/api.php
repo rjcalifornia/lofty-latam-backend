@@ -20,12 +20,17 @@ use App\Http\Controllers\api\NotificationsController;
 |
 */
 
-
-
 Route::get('/user', [AuthController::class, 'getUserDetails'])->middleware('auth:sanctum');
 
 Route::prefix('/v1/administration')->group(function () {
     Route::get('/user/profile', [UsersController::class, 'userProfile'])->middleware('auth:sanctum');
+});
+
+Route::prefix('/v1/user')->group(function () {
+    Route::get('/', [UsersController::class, 'getUserDetails'])->middleware('auth:sanctum');
+    Route::patch('/update', [UsersController::class, 'updateUserDetails'])->middleware('auth:sanctum');
+    Route::post('/change-password', [UsersController::class, 'changePassword'])->middleware('auth:sanctum');
+    Route::get('/profile', [UsersController::class, 'userProfile'])->middleware('auth:sanctum');
 });
 
 Route::prefix('/v1/security')->group(function () {

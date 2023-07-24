@@ -42,4 +42,37 @@ class UsersController extends Controller{
 
     }
 
+    public function getUserDetails(Request $request){
+        $user = Auth::user();
+
+        $userDetails = User::with(['rol'])->where('id', $user->id)->first();
+        return response()->json($userDetails, 200);
+    }
+
+    public function updateUserDetails(Request $request){
+
+        $user = User::where('id', Auth::user()->id)->first();
+
+        if ($request->has('name') && $request->has('lastname')) {
+            $user->name = $request->get('name');
+            $user->lastname = $request->get('lastname');
+            $user->save();
+            return response()->json(204);
+        }
+
+        if ($request->has('phone')) {
+            $user->phone = $request->get('phone');
+            $user->save();
+            return response()->json(204);
+        }
+
+        if ($request->has('email')) {
+            $user->email = $request->get('email');
+            $user->save();
+            return response()->json(204);
+        }
+
+        return response()->json(['message' => 'No se puede procesar la solicitud debido a que no ha llenado los campos requeridos'], 422);
+    }
+
 }
