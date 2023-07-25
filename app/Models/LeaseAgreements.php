@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class LeaseAgreements extends Model
 {
@@ -32,6 +33,7 @@ class LeaseAgreements extends Model
         'duration' => 'integer', 
     ];
 
+    protected $appends = ['payment_day'];
     public function tenantId()
     {
         return $this->belongsTo(Tenants::class, 'tenant_id');
@@ -65,5 +67,17 @@ class LeaseAgreements extends Model
     public function getDepositAttribute($value)
     {
         return number_format($value, 2);
+    }
+
+    /**
+     * Get the payment day
+     *
+     * @return string|null
+     */
+    public function getPaymentDayAttribute(){
+        $parsePaymentDay = Carbon::parse($this->payment_date);
+        $paymentDay = $parsePaymentDay->day;
+
+        return $paymentDay;
     }
 }
