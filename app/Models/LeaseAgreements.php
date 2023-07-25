@@ -31,6 +31,7 @@ class LeaseAgreements extends Model
         'rent_type_id' => 'integer', 
         'user_creates' => 'integer', 
         'duration' => 'integer', 
+        'payment_day' => 'integer'
     ];
 
     protected $appends = ['payment_day'];
