@@ -16,6 +16,7 @@ class LeaseAgreements extends Model
         'tenant_id',
         'property_id',
         'rent_type_id',
+        'payment_class_id',
         'payment_date',
         'expiration_date',
         'price',
@@ -43,6 +44,10 @@ class LeaseAgreements extends Model
     public function propertyId()
     {
         return $this->belongsTo(Property::class, 'property_id');
+    }
+    public function paymentClassId()
+    {
+        return $this->belongsTo(PaymentClass::class, 'payment_class_id');
     }
 
     public function rentType()
