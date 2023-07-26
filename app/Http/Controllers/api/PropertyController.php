@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Services\PropertyService;
 
 use App\Models\Property;
+use App\Models\PaymentClass;
 use App\Models\RentTypeCatalog;
 use App\Models\LeaseAgreements;
 use App\Models\Tenants;
@@ -178,6 +179,7 @@ class PropertyController extends Controller{
         }
 
         $rentType = RentTypeCatalog::where('id', $request->get('rent_type_id'))->first();
+        $paymentClass = PaymentClass::where('id', $request->get('payment_class_id'))->first();
         
         $lease = new LeaseAgreements;
 
@@ -188,6 +190,7 @@ class PropertyController extends Controller{
         $lease->tenant_id = $tenant->id;
         $lease->property_id = $request->get('property_id');
         $lease->rent_type_id = $rentType->id;
+        $lease->payment_class_id = $paymentClass->id;
         $lease->contract_date = $contract_date->format('Y-m-d');
         $lease->payment_date = $payment_date->format('Y-m-d');
         $lease->expiration_date = $expiration_date->format('Y-m-d');
@@ -222,7 +225,7 @@ class PropertyController extends Controller{
     }
 
     public function viewLeaseDetails(Request $request, $id){
-        $lease = LeaseAgreements::with(['tenantId', 'propertyId.landlordId', 'rentType', 'payments', 'payments.leaseId.propertyId.landlordId', 'payments.leaseId.tenantId'])->find($id);
+        $lease = LeaseAgreements::with(['tenantId', 'propertyId.landlordId', 'rentType', 'payments', 'payments.leaseId.propertyId.landlordId', 'payments.leaseId.tenantId', 'paymentClassId'])->find($id);
         if (!$lease) {
             return response()->json(['message' => 'No se encontró contrato de alquiler. Revise los datos ingresados e intente nuevamente']);
         }
