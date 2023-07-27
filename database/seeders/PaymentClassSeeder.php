@@ -19,7 +19,7 @@ class PaymentClassSeeder extends Seeder
         $paymentClass =
         [
             [
-                'name' => "Mes a mes",
+                'name' => "Mes vencido",
                 'active' => true,
                 'created_at' => $now,
                 'updated_at' => $now,
