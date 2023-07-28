@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\DocumentTypeCatalog;
+use App\Models\PaymentClass;
 use App\Models\PropertyType;
 use App\Models\RentTypeCatalog;
 use App\Models\PaymentType;
@@ -27,5 +28,9 @@ class CatalogsController extends Controller{
     public function getPropertyTypeCatalog(Request $request){
         $propertyTypes = PropertyType::where('active', true)->get();
         return response()->json($propertyTypes, 200);
+    }
+    public function getPaymentClassCatalog(Request $request){
+        $paymentClass = PaymentClass::where('active', true)->get();
+        return response()->json($paymentClass, 200);
     }
 }

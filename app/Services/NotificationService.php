@@ -75,20 +75,26 @@ class NotificationService
         $currentMonth = Carbon::now()->month;
         $currentYear = Carbon::now()->year;
 
-        if ($lease->payment_class_id == PaymentClassEnum::ADELANTADO) {
-            $currentMonth = $currentMonth + 1;
-        }
-       
-            
-            $payment = Payments::where('lease_id', $lease->id)
-                ->where('month_cancelled', $currentMonth)
-                ->whereYear('payment_date', $currentYear)
-                ->first();
         
+        $today = Carbon::now()->subDays(30);
+        $contractDate = Carbon::parse($lease->contract_date);
 
-        if ($days >= 0 && !$payment) {
-            $status = ($days == 0) ? 'Hoy es la fecha de cobro de alquiler a ' . $lease['tenantId']->tenant_full_name : (($days <= 2) ? 'Fecha de cobro de ' . $lease['tenantId']->tenant_full_name . ' se va acercando' : 'Cobro de alquiler de ' . $lease['tenantId']->tenant_full_name .  ' es en ' . $days . ' días');
-            return $status;
+        if ($today->gt($contractDate)) {
+            if ($lease->payment_class_id == PaymentClassEnum::ADELANTADO) {
+                $currentMonth = $currentMonth + 1;
+            }
+        
+                
+                $payment = Payments::where('lease_id', $lease->id)
+                    ->where('month_cancelled', $currentMonth)
+                    ->whereYear('payment_date', $currentYear)
+                    ->first();
+            
+
+            if ($days >= 0 && !$payment) {
+                $status = ($days == 0) ? 'Hoy es la fecha de cobro de alquiler a ' . $lease['tenantId']->tenant_full_name : (($days <= 2) ? 'Fecha de cobro de ' . $lease['tenantId']->tenant_full_name . ' se va acercando' : 'Cobro de alquiler de ' . $lease['tenantId']->tenant_full_name .  ' es en ' . $days . ' días');
+                return $status;
+            }
         }
     }
 }
