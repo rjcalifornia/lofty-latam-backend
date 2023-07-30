@@ -210,6 +210,22 @@ class PropertyController extends Controller{
        return response()->json(['lease' => $lease, 'tenant' => $tenant], 201);
     }
 
+    public function updateLeaseDetails(Request $request, $id){
+        $validator = Validator::make($request->all(),[
+            'rent_type_id' => 'required|integer',
+            'payment_class_id' => 'required|integer',
+            'payment_date' => 'required',
+            'expiration_date' => 'required',
+            'price' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => 'No se puede procesar la solicitud. Faltan campos'], 422);
+        }
+
+        $lease = LeaseAgreements::where('id',$id)->first();
+    }
+
     public function listLeases(Request $request, $id){
         $user = Auth::user();
         $property = Property::where('id', $id)->where('active', true)->where('landlord_id', $user->id)->first();
