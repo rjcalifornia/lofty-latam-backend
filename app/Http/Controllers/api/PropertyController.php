@@ -224,6 +224,11 @@ class PropertyController extends Controller{
         }
 
         $lease = LeaseAgreements::where('id',$id)->first();
+
+        if(!$lease){
+             return response()->json(['message' => 'No se ha encontrado contrato. Revise los datos e intente nuevamente'], 422);
+        }
+        $this->propertyService->updateLease($request, $lease);
     }
 
     public function listLeases(Request $request, $id){

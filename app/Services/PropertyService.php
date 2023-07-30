@@ -76,4 +76,19 @@ class PropertyService
 
         return $imageName;
     }
+
+    public function updateLease($request, $lease){
+        try {
+            $lease->rent_type_id = $request->get('rent_type_id');
+            $lease->payment_class_id = $request->get('payment_class_id');
+            $lease->payment_date = $request->get('payment_date');
+            $lease->expiration_date = $request->get('expiration_date');
+            $lease->price = $request->get('price');
+            $lease->user_modifies = auth()->user()->id;
+            $lease->save();
+        } catch (\Throwable $th) {
+            return $th;
+        }
+
+    }
 }
