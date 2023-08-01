@@ -44,7 +44,7 @@ class LeaseController extends Controller
 
     public function listLeases(Request $request, $id){
         $user = Auth::user();
-        $property = Property::where('id', $id)->where('landlord_id', $user->id)->first();
+        $property = Property::where('id', $id)->where('active', true)->where('landlord_id', $user->id)->first();
 
         if(!$property){
             return response()->json(['message' => 'No se ha encontrado la propiedad solicitada. Verifique la información ingresada e intente nuevamente']);
