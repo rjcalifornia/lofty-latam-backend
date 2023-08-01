@@ -70,7 +70,7 @@ class Property extends Model
     }
 
     public function leases(){
-        return $this->hasMany(LeaseAgreements::class, 'property_id')->where('active','=', true);
+        return $this->hasMany(LeaseAgreements::class, 'property_id');
     }
 
     public function propertyPictures()
