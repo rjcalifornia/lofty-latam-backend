@@ -40,6 +40,7 @@ class LeaseController extends Controller
              return response()->json(['message' => 'No se ha encontrado contrato. Revise los datos e intente nuevamente'], 422);
         }
         $this->propertyService->updateLease($request, $lease);
+        return response()->json(204);
     }
 
     public function listLeases(Request $request, $id){
@@ -70,8 +71,9 @@ class LeaseController extends Controller
         if (!$lease) {
             return response()->json(['message' => 'No se encontró contrato de alquiler. Revise los datos ingresados e intente nuevamente']);
         }
-        $lease->active = false;
-        $lease->save();
+        
+        $this->propertyService->terminateLease($request, $lease);
+        
         return response()->json(204);
     }
 }

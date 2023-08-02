@@ -4,8 +4,10 @@ namespace App\Services;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 use App\Models\Property;
+use App\Models\ContractTermination;
 
 class PropertyService
 {
@@ -90,5 +92,25 @@ class PropertyService
             return $th;
         }
 
+    }
+
+    public function terminateLease($request, $lease){
+        $contractTermination = new ContractTermination;
+        $terminationDate =  Carbon::now();
+        try {
+            
+            $contractTermination->tenant_id = auth()->user()->id;
+            $contractTermination->lease_id = $lease->id;
+            $contractTermination->comments = $request->get('comments');
+            $contractTermination->termination_date = $terminationDate->format('Y-m-d');
+            $contractTermination->user_creates = auth()->user()->id;
+            $contractTermination->save();
+
+
+            $lease->active = false;
+            $lease->save();
+        } catch (\Throwable $th) {
+            return $th;
+        }
     }
 }
