@@ -69,7 +69,7 @@ class LeaseController extends Controller
     public function terminateLease(Request $request, $id){
         $lease = LeaseAgreements::find($id);
         if (!$lease) {
-            return response()->json(['message' => 'No se encontró contrato de alquiler. Revise los datos ingresados e intente nuevamente']);
+            return response()->json(['message' => 'No se encontró contrato. Revise los datos ingresados e intente nuevamente']);
         }
         
         $this->propertyService->terminateLease($request, $lease);
