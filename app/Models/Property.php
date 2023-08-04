@@ -70,7 +70,7 @@ class Property extends Model
     }
 
     public function leases(){
-        return $this->hasMany(LeaseAgreements::class, 'property_id');
+        return $this->hasMany(LeaseAgreements::class, 'property_id')->orderBy('active', 'DESC');
     }
 
     public function propertyPictures()
