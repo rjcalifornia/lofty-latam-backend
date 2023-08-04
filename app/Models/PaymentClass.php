@@ -5,19 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RentTypeCatalog extends Model
+class PaymentClass extends Model
 {
     use HasFactory;
-    protected $table = 'rent_type_catalog';
+    protected $table = 'payment_class';
 
     protected $fillable = [
         'name',
-        'value',
         'active',
     ];
 
     protected $casts = [
         'active' => 'integer',
-        'value' => 'integer',
     ];
 }

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedInteger('tenant_id');
             $table->unsignedInteger('property_id');
             $table->unsignedInteger('rent_type_id');
+            $table->unsignedInteger('payment_class_id');
             $table->date('contract_date');
             $table->date('payment_date');
             $table->date('expiration_date');
@@ -30,6 +31,7 @@ return new class extends Migration
             $table->foreign('user_modifies')->references('id')->on('users');
             $table->foreign('tenant_id')->references('id')->on('tenants');
             $table->foreign('property_id')->references('id')->on('property');
+            $table->foreign('payment_class_id')->references('id')->on('payment_class');
             $table->timestamps();
         });
     }

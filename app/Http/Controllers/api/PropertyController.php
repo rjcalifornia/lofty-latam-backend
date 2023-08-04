@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Services\PropertyService;
 
 use App\Models\Property;
+use App\Models\PaymentClass;
 use App\Models\RentTypeCatalog;
 use App\Models\LeaseAgreements;
 use App\Models\Tenants;
@@ -41,6 +42,7 @@ class PropertyController extends Controller{
             'has_tv' => 'boolean',
             'has_furniture' => 'boolean',
             'has_garage' => 'boolean',
+            'has_wifi' => 'boolean',
             'active' => 'boolean',
         ]);
 
@@ -53,6 +55,39 @@ class PropertyController extends Controller{
         return response()->json($property, 201);
 
         
+    }
+
+    public function updatePropertyDetails(Request $request, $id){
+        $validator = Validator::make($request->all(),[
+            'name' => 'required|max:255',
+            'address' => 'required|max:255',
+            'bedrooms' => 'required|integer',
+            'beds' => 'required|integer',
+            'bathrooms' => 'required|integer',
+            'has_ac' => 'boolean',
+            'has_kitchen' => 'boolean',
+            'has_dinning_room' => 'boolean',
+            'has_sink' => 'boolean',
+            'has_fridge' => 'boolean',
+            'has_tv' => 'boolean',
+            'has_furniture' => 'boolean',
+            'has_garage' => 'boolean',
+            'has_wifi' => 'boolean'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => 'No se puede procesar la solicitud. Faltan campos'], 422);
+        }
+
+        $property = Property::where('id', $id)->first();
+
+        if(!$property){
+            return response()->json(['message' => 'No se puede procesar la solicitud debido a que la propiedad no ha sido encontrada'], 422);
+        }
+        
+        $this->propertyService->update($request, $property);
+
+        return response()->json(204);
     }
 
     public function addPropertyPicture(Request $request){
@@ -104,6 +139,7 @@ class PropertyController extends Controller{
         $validator = Validator::make($request->all(),[
             'property_id' => 'required|integer',
             'rent_type_id' => 'required|integer',
+            'payment_class_id' => 'required|integer',
             'contract_date' => 'required',
             'payment_date' => 'required',
             'expiration_date' => 'required',
@@ -113,7 +149,7 @@ class PropertyController extends Controller{
             'tenant_lastname' => 'required|string',
             'tenant_username' => 'required|string',
             'tenant_phone' => 'required|string',
-            'tenant_email' => 'required|string',
+           // 'tenant_email' => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -144,6 +180,7 @@ class PropertyController extends Controller{
         }
 
         $rentType = RentTypeCatalog::where('id', $request->get('rent_type_id'))->first();
+        $paymentClass = PaymentClass::where('id', $request->get('payment_class_id'))->first();
         
         $lease = new LeaseAgreements;
 
@@ -154,6 +191,7 @@ class PropertyController extends Controller{
         $lease->tenant_id = $tenant->id;
         $lease->property_id = $request->get('property_id');
         $lease->rent_type_id = $rentType->id;
+        $lease->payment_class_id = $paymentClass->id;
         $lease->contract_date = $contract_date->format('Y-m-d');
         $lease->payment_date = $payment_date->format('Y-m-d');
         $lease->expiration_date = $expiration_date->format('Y-m-d');
@@ -188,7 +226,7 @@ class PropertyController extends Controller{
     }
 
     public function viewLeaseDetails(Request $request, $id){
-        $lease = LeaseAgreements::with(['tenantId', 'propertyId.landlordId', 'rentType', 'payments', 'payments.leaseId.propertyId.landlordId', 'payments.leaseId.tenantId'])->find($id);
+        $lease = LeaseAgreements::with(['tenantId', 'propertyId.landlordId', 'rentType', 'payments', 'payments.leaseId.propertyId.landlordId', 'payments.leaseId.tenantId', 'paymentClassId'])->find($id);
         if (!$lease) {
             return response()->json(['message' => 'No se encontró contrato de alquiler. Revise los datos ingresados e intente nuevamente']);
         }

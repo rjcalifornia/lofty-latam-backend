@@ -22,6 +22,12 @@ class PropertyPhoto extends Model
 
     protected $appends = ['image_link_name'];
 
+    protected $casts = [
+        'active' => 'integer',
+        'property_id' => 'integer', 
+        'user_creates' => 'integer', 
+        'order' => 'integer', 
+    ];
 
     public function userCreates()
     {

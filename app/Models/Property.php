@@ -46,6 +46,11 @@ class Property extends Model
         'has_furniture' => 'boolean',
         'has_garage' => 'boolean',
         'active' => 'boolean',
+        'bedrooms' => 'integer', 
+        'beds' => 'integer', 
+        'bathrooms' => 'integer', 
+        'property_type_id' => 'integer', 
+        'user_creates' => 'integer', 
     ];
 
     public function landlordId(){

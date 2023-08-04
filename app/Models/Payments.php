@@ -18,12 +18,19 @@ class Payments extends Model
         'payment_date',
         'month_cancelled',
         'uuid',
+        'additional_note',
         'payment',
         'user_creates',
         'user_modifies',
     ];
 
     protected $appends = ['month_cancelled_name'];
+
+    protected $casts = [
+        'receipt_number' => 'integer',
+        'month_cancelled' => 'integer',
+        'user_creates' => 'integer',
+    ];
 
     public function leaseId()
     {

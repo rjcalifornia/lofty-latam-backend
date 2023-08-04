@@ -52,20 +52,40 @@
                 <th style="color: #384251;">Correspondiente al mes de</th>
                 <td style="color: #374151; font-weight:bold; ">{{ ucfirst(Carbon\Carbon::createFromFormat('m', $payment->month_cancelled)->translatedFormat('F')) }} {{ \Carbon\Carbon::parse($payment->payment_date)->translatedFormat('Y')}}</td>
             </tr>
-         
+
+            @if($payment->additional_note != null)
+            <tr>
+                <th style="color: #384251;">Nota adicional:</th>
+                <td style="color: #374151; font-weight:bold; ">{{$payment->additional_note}}</td>
+            </tr>
+            @endif
             
             
         </table>
     </div>
     <br>
     <div style="text-align: center;">
-        <p>
-        _____________________________________
         <br>
-        {{ $payment->leaseId->propertyId->landlordId->name}} {{ $payment->leaseId->propertyId->landlordId->lastname}}
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        
+        
+        <p>
+            <img src="data:image/{{$image}};" alt="scan-me" >
+        
+        
+       
+        
+            <br>
+        <b>{{ $payment->leaseId->propertyId->landlordId->name}} {{ $payment->leaseId->propertyId->landlordId->lastname}}</b>
         <br>
         Responsable
+    </p>
     </div>
-        </p>
+        
 </body>
 </html>

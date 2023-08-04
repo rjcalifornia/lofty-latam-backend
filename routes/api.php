@@ -20,12 +20,17 @@ use App\Http\Controllers\api\NotificationsController;
 |
 */
 
-
-
 Route::get('/user', [AuthController::class, 'getUserDetails'])->middleware('auth:sanctum');
 
 Route::prefix('/v1/administration')->group(function () {
     Route::get('/user/profile', [UsersController::class, 'userProfile'])->middleware('auth:sanctum');
+});
+
+Route::prefix('/v1/user')->group(function () {
+    Route::get('/', [UsersController::class, 'getUserDetails'])->middleware('auth:sanctum');
+    Route::patch('/update', [UsersController::class, 'updateUserDetails'])->middleware('auth:sanctum');
+    Route::post('/change-password', [UsersController::class, 'changePassword'])->middleware('auth:sanctum');
+    Route::get('/profile', [UsersController::class, 'userProfile'])->middleware('auth:sanctum');
 });
 
 Route::prefix('/v1/security')->group(function () {
@@ -42,6 +47,7 @@ Route::prefix('v1/dashboard/properties')->group(function (){
 
 Route::prefix('v1/property')->group(function (){
     Route::get('/{id}/view', [PropertyController::class, 'viewPropertyDetails'])->middleware('auth:sanctum');
+    Route::patch('/{id}/update', [PropertyController::class, 'updatePropertyDetails'])->middleware('auth:sanctum');
     Route::get('/{id}/leases', [PropertyController::class, 'listLeases'])->middleware('auth:sanctum');
     Route::get('/lease/{id}/details', [PropertyController::class, 'viewLeaseDetails'])->middleware('auth:sanctum');
     Route::post('/pictures/store', [PropertyController::class, 'addPropertyPicture'])->middleware('auth:sanctum');
@@ -67,6 +73,7 @@ Route::prefix('v1/notifications')->group(function (){
 
 Route::prefix('v1/catalogs')->group(function (){
     Route::get('/rent-type/list', [CatalogsController::class, 'getRentTypeCatalog'])->middleware('auth:sanctum');
+    Route::get('/payment-class/list', [CatalogsController::class, 'getPaymentClassCatalog'])->middleware('auth:sanctum');
     Route::get('/payment-type/list', [CatalogsController::class, 'getPaymentTypeCatalog'])->middleware('auth:sanctum');
     Route::get('/document-type/list', [CatalogsController::class, 'getDocumentTypeCatalog'])->middleware('auth:sanctum');
     Route::get('/property-type/list', [CatalogsController::class, 'getPropertyTypeCatalog'])->middleware('auth:sanctum');
