@@ -50,7 +50,7 @@ class LeaseAgreements extends Model
             'created_at' => 'datetime:d/m/Y H:i:s',
             'updated_at' => 'datetime:d/m/Y H:i:s',
             'month_cancelled_name' => 'string',
-        ]);
+        ])->orderBy('created_at', 'DESC');
     }
 
     public function getPriceAttribute($value)
