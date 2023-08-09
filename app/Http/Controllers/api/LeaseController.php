@@ -25,6 +25,7 @@ class LeaseController extends Controller
         $validator = Validator::make($request->all(),[
             'rent_type_id' => 'required|integer',
             'payment_class_id' => 'required|integer',
+            'contract_date' => 'required',
             'payment_date' => 'required',
             'expiration_date' => 'required',
             'price' => 'required',

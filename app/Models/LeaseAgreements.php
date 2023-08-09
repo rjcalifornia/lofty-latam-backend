@@ -16,6 +16,7 @@ class LeaseAgreements extends Model
         'tenant_id',
         'property_id',
         'rent_type_id',
+        'contract_date',
         'payment_class_id',
         'payment_date',
         'expiration_date',
