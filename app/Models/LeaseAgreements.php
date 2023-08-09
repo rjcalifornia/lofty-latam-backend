@@ -36,7 +36,12 @@ class LeaseAgreements extends Model
         'payment_day' => 'integer'
     ];
 
-    protected $appends = ['payment_day'];
+    protected $appends = [
+        'payment_day', 
+        'human_readable_expiration_date',
+        'human_readable_contract_date'
+    ];
+
     public function tenantId()
     {
         return $this->belongsTo(Tenants::class, 'tenant_id');
@@ -86,5 +91,15 @@ class LeaseAgreements extends Model
         $paymentDay = $parsePaymentDay->day;
 
         return $paymentDay;
+    }
+
+    public function getHumanReadableExpirationDateAttribute(){
+        $parseDate = Carbon::parse($this->expiration_date)->translatedFormat('l j') . ' de ' . Carbon::parse($this->expiration_date)->translatedFormat('F') . ' de ' . Carbon::parse($this->expiration_date)->translatedFormat('Y');
+        return ucfirst($parseDate);
+    }
+    
+    public function getHumanReadableContractDateAttribute(){
+        $parseDate = Carbon::parse($this->contract_date)->translatedFormat('l j') . ' de ' . Carbon::parse($this->contract_date)->translatedFormat('F') . ' de ' . Carbon::parse($this->contract_date)->translatedFormat('Y');
+        return ucfirst($parseDate);
     }
 }
