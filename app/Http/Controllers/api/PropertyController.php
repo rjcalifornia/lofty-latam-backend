@@ -83,7 +83,7 @@ class PropertyController extends Controller{
             
 
         if(!$property){
-            return response()->json(['message' => 'No se puede procesar la solicitud debido a que la propiedad no ha sido encontrada'], 422);
+            return response()->json(['message' => 'No se puede procesar la solicitud debido a que la propiedad no ha sido encontrada'],404);
         }
         
         $this->propertyService->update($request, $property);
@@ -176,7 +176,7 @@ class PropertyController extends Controller{
        // $property = Property::where('landlord_id', $user->id)->where('id', $request->get('property_id'))->first();
         $property = $this->propertyService->verifyProperty($request->get('property_id'));
         if(!$property){
-            return response()->json(['message' => 'No se encontró propiedad. Revise los datos ingresados e intente nuevamente']);
+            return response()->json(['message' => 'No se encontró propiedad. Revise los datos ingresados e intente nuevamente'],404);
         }
 
         $tenant = new Tenants;
