@@ -48,6 +48,7 @@ Route::prefix('v1/dashboard/properties')->group(function (){
 
 Route::prefix('v1/property')->group(function (){
     Route::get('/{id}/view', [PropertyController::class, 'viewPropertyDetails'])->middleware('auth:sanctum');
+    Route::delete('/{id}/view', [PropertyController::class, 'removeProperty'])->middleware('auth:sanctum');
     Route::patch('/{id}/update', [PropertyController::class, 'updatePropertyDetails'])->middleware('auth:sanctum');
     Route::get('/{id}/leases', [LeaseController::class, 'listLeases'])->middleware('auth:sanctum');
     Route::get('/lease/{id}/details', [LeaseController::class, 'viewLeaseDetails'])->middleware('auth:sanctum');

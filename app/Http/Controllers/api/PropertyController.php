@@ -79,7 +79,8 @@ class PropertyController extends Controller{
             return response()->json(['message' => 'No se puede procesar la solicitud. Faltan campos'], 422);
         }
 
-        $property = Property::where('id', $id)->first();
+        $property = $this->propertyService->verifyProperty($id);
+            
 
         if(!$property){
             return response()->json(['message' => 'No se puede procesar la solicitud debido a que la propiedad no ha sido encontrada'], 422);
@@ -97,6 +98,10 @@ class PropertyController extends Controller{
 
         if($validator->fails()){
             return response()->json(['message' => 'No se puede procesar la solicitud. Faltan campos'], 422);
+        }
+
+        if(!$this->propertyService->verifyProperty($request->property_id)){
+            return response()->json(['message' => 'No se puede procesar la solicitud. Revise los datos enviados e intente nuevamente'], 404);
         }
 
         if ($request->filled('property_picture')) {
@@ -131,8 +136,18 @@ class PropertyController extends Controller{
     }
 
     public function viewPropertyDetails(Request $request, $id){
-        $property = Property::with(['landlordId', 'leases.tenantId', 'propertyPictures'])->where('id', $id)->where('active', true)->first();
+        $user = Auth::user();
+        $property = Property::with(['landlordId', 'leases.tenantId', 'propertyPictures'])->where('id', $id)->where('active', true)->where('landlord_id', $user->id)->first();
+        
+        if(!$property){
+            return response()->json(['message' => 'No se puede procesar la solicitud. Revise los datos enviados e intente nuevamente'], 404);
+        }
+        
         return response()->json($property, 200);
+    }
+
+    public function removeProperty(Request $request, $id){
+
     }
 
     public function createLease(Request $request){
@@ -158,8 +173,8 @@ class PropertyController extends Controller{
 
         $user = Auth::user();
 
-        $property = Property::where('landlord_id', $user->id)->where('id', $request->get('property_id'))->first();
-
+       // $property = Property::where('landlord_id', $user->id)->where('id', $request->get('property_id'))->first();
+        $property = $this->propertyService->verifyProperty($request->get('property_id'));
         if(!$property){
             return response()->json(['message' => 'No se encontró propiedad. Revise los datos ingresados e intente nuevamente']);
         }

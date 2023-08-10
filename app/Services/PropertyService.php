@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 use App\Models\Property;
@@ -113,5 +114,11 @@ class PropertyService
         } catch (\Throwable $th) {
             return $th;
         }
+    }
+
+    public function verifyProperty($propertyId){
+        $user = Auth::user();
+        $property = Property::where('id', $propertyId)->where('active', true)->where('landlord_id', $user->id)->first();
+        return $property;
     }
 }

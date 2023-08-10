@@ -40,6 +40,11 @@ class LeaseController extends Controller
         if(!$lease){
              return response()->json(['message' => 'No se ha encontrado contrato. Revise los datos e intente nuevamente'], 422);
         }
+                
+        if(!$this->propertyService->verifyProperty($lease->property_id)){
+            return response()->json(['message' => 'No se encontró propiedad. Revise los datos ingresados e intente nuevamente']);
+        }
+
         $this->propertyService->updateLease($request, $lease);
         return response()->json(204);
     }
