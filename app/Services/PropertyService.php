@@ -46,6 +46,7 @@ class PropertyService
 
     public function update($request, $property)
     {
+        $user = Auth::user();
         try {
             $property->name = $request->get('name');
             $property->address = $request->get('address');
@@ -61,6 +62,7 @@ class PropertyService
             $property->has_tv = $request->get('has_tv');
             $property->has_furniture = $request->get('has_furniture');
             $property->has_garage = $request->get('has_garage');
+            $property->user_modifies = $user->id;
             $property->save();
         } catch (\Throwable $th) {
             throw $th;
