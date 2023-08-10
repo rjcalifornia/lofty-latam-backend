@@ -129,7 +129,7 @@ class PropertyController extends Controller{
         $user = Auth::user();
 
         // Retrieve the properties belonging to the logged-in user
-        $properties = Property::with(['propertyPictures', 'landlordId'])->where('landlord_id', $user->id)->get();
+        $properties = Property::with(['propertyPictures', 'landlordId'])->where('landlord_id', $user->id)->where('active', true)->get();
 
         // Return the properties as a JSON response
         return response()->json($properties, 200);
@@ -147,7 +147,15 @@ class PropertyController extends Controller{
     }
 
     public function removeProperty(Request $request, $id){
+        $property = $this->propertyService->verifyProperty($id);
+        if(!$property){
+            return response()->json(['message' => 'No se encontró propiedad. Revise los datos ingresados e intente nuevamente'],404);
+        }
 
+        $this->propertyService->propertyStatus($property, false);
+        
+
+        return response()->json(204);
     }
 
     public function createLease(Request $request){

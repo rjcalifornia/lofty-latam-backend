@@ -121,4 +121,15 @@ class PropertyService
         $property = Property::where('id', $propertyId)->where('active', true)->where('landlord_id', $user->id)->first();
         return $property;
     }
+
+    public function propertyStatus($property, $status){
+        $user = Auth::user();
+        try {
+            $property->active = $status;
+            $property->user_modifies = $user->id;
+            $property->save();
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
 }
