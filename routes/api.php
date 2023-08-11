@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\PropertyController;
+use App\Http\Controllers\api\LeaseController;
 use App\Http\Controllers\api\CatalogsController;
 use App\Http\Controllers\api\PaymentsController;
 use App\Http\Controllers\api\UsersController;
@@ -47,9 +48,12 @@ Route::prefix('v1/dashboard/properties')->group(function (){
 
 Route::prefix('v1/property')->group(function (){
     Route::get('/{id}/view', [PropertyController::class, 'viewPropertyDetails'])->middleware('auth:sanctum');
+    Route::delete('/{id}/view', [PropertyController::class, 'removeProperty'])->middleware('auth:sanctum');
     Route::patch('/{id}/update', [PropertyController::class, 'updatePropertyDetails'])->middleware('auth:sanctum');
-    Route::get('/{id}/leases', [PropertyController::class, 'listLeases'])->middleware('auth:sanctum');
-    Route::get('/lease/{id}/details', [PropertyController::class, 'viewLeaseDetails'])->middleware('auth:sanctum');
+    Route::get('/{id}/leases', [LeaseController::class, 'listLeases'])->middleware('auth:sanctum');
+    Route::get('/lease/{id}/details', [LeaseController::class, 'viewLeaseDetails'])->middleware('auth:sanctum');
+    Route::patch('/lease/{id}/details', [LeaseController::class, 'updateLeaseDetails'])->middleware('auth:sanctum');
+    Route::delete('/lease/{id}/termination', [LeaseController::class, 'terminateLease'])->middleware('auth:sanctum');
     Route::post('/pictures/store', [PropertyController::class, 'addPropertyPicture'])->middleware('auth:sanctum');
     Route::get('/pictures/{id}/view', [PropertyController::class, 'viewPropertyPicture'])->middleware('auth:sanctum');
     Route::get('/pictures/placeholder', [PropertyController::class, 'placeholderPicture'])->middleware('auth:sanctum');

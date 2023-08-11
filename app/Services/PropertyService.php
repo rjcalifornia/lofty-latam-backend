@@ -4,8 +4,11 @@ namespace App\Services;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 use App\Models\Property;
+use App\Models\ContractTermination;
 
 class PropertyService
 {
@@ -43,6 +46,7 @@ class PropertyService
 
     public function update($request, $property)
     {
+        $user = Auth::user();
         try {
             $property->name = $request->get('name');
             $property->address = $request->get('address');
@@ -58,6 +62,7 @@ class PropertyService
             $property->has_tv = $request->get('has_tv');
             $property->has_furniture = $request->get('has_furniture');
             $property->has_garage = $request->get('has_garage');
+            $property->user_modifies = $user->id;
             $property->save();
         } catch (\Throwable $th) {
             throw $th;
@@ -75,5 +80,58 @@ class PropertyService
         }
 
         return $imageName;
+    }
+
+    public function updateLease($request, $lease){
+        try {
+            $lease->rent_type_id = $request->get('rent_type_id');
+            $lease->payment_class_id = $request->get('payment_class_id');
+            //$lease->contract_date = $request->get('contract_date');
+           // $lease->payment_date = $request->get('payment_date');
+            $lease->expiration_date = $request->get('expiration_date');
+           // $lease->price = $request->get('price');
+            $lease->user_modifies = auth()->user()->id;
+            $lease->save();
+        } catch (\Throwable $th) {
+            return $th;
+        }
+
+    }
+
+    public function terminateLease($request, $lease){
+        $contractTermination = new ContractTermination;
+        $terminationDate =  Carbon::now();
+        try {
+            
+            $contractTermination->tenant_id = auth()->user()->id;
+            $contractTermination->lease_id = $lease->id;
+            $contractTermination->comments = $request->get('comments');
+            $contractTermination->termination_date = $terminationDate->format('Y-m-d');
+            $contractTermination->user_creates = auth()->user()->id;
+            $contractTermination->save();
+
+
+            $lease->active = false;
+            $lease->save();
+        } catch (\Throwable $th) {
+            return $th;
+        }
+    }
+
+    public function verifyProperty($propertyId){
+        $user = Auth::user();
+        $property = Property::where('id', $propertyId)->where('active', true)->where('landlord_id', $user->id)->first();
+        return $property;
+    }
+
+    public function propertyStatus($property, $status){
+        $user = Auth::user();
+        try {
+            $property->active = $status;
+            $property->user_modifies = $user->id;
+            $property->save();
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }

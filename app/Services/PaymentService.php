@@ -15,8 +15,8 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class PaymentService{
 
-    public function save($request){
-        $lease = LeaseAgreements::where('id', $request->get('lease_id'))->first();
+    public function save($request, $lease){
+        
         $paymentType = PaymentType::where('id', $request->get('payment_type_id'))->first();
 
         $payment_date =  Carbon::now();
