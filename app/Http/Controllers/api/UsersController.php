@@ -6,12 +6,21 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-
 use Illuminate\Support\Facades\DB;
+use App\Services\UserService;
 
 use App\Models\User;
+use App\Models\Roles;
 
 class UsersController extends Controller{
+
+    protected $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     public function userProfile(Request $request){
         $user = Auth::user();
 
@@ -79,6 +88,26 @@ class UsersController extends Controller{
         }
 
         return response()->json(['message' => 'No se puede procesar la solicitud debido a que no ha llenado los campos requeridos'], 422);
+    }
+
+    public function userRegistration(Request $request){
+        $validator = Validator::make($request->all(),[
+            'name' => 'required|max:255',
+            'lastname' => 'required|max:255',
+            'username' => 'required|max:255',
+            'dui' => 'required|unique:users,dui|max:10',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'required|string',
+            'password' => 'required|string|same:repeat_password|min:6',
+            'repeat_password' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => 'No se puede procesar la solicitud. Faltan campos'], 422);
+        }  
+
+       $this->userService->createUser($request);
+        return response()->json(['message' => 'Cuenta creada exitosamente. Por favor, revise su correo electrónico para validar su cuenta'],200);
     }
 
 }

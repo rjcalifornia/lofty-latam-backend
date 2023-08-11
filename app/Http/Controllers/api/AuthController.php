@@ -47,26 +47,6 @@ class AuthController extends Controller{
         return response()->json(['access_token' => $token,  'user' => $user], 200);
     }
 
-    public function register(Request $request){
-        $validationErrors = $this->userService->validateFields($request);
-
-        if ($validationErrors) {
-            return response()->json([$validationErrors], 422);
-        }
-
-        // Create the new user
-        try {
-            $user = $this->userService->createUser($request);
-        } catch (\Throwable $th) {
-            return response()->json([$th], 422);
-        }      
-        
-        // Generate a token using Sanctum
-        $token = $user->createToken('auth_token', ['server:landlord'])->plainTextToken;
-
-        // Return the token as a response
-        return response()->json(['access_token' => $token], 201);
-    }
 
     public function getUserDetails(Request $request){
         $user = Auth::user();
