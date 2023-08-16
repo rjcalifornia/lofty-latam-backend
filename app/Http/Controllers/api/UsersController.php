@@ -98,16 +98,24 @@ class UsersController extends Controller{
             'dui' => 'required|unique:users,dui|max:10',
             'email' => 'required|email|unique:users,email',
             'phone' => 'required|string',
-            'password' => 'required|string|same:repeat_password|min:6',
-            'repeat_password' => 'required|string',
+            'password' => 'required|string|min:6',
+           
+        ],[
+            'required' => 'El campo :attribute es obligatorio.',
+            'unique' => 'El :attribute ya está registrado en el sistema. Por favor, intente nuevamente',
+            'string' => 'El campo :attribute debe ser una cadena de caracteres.',
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['message' => 'No se puede procesar la solicitud. Faltan campos'], 422);
+            $message = implode(". ",$validator->messages()->all());
+            return response()->json(['message'=> $message], 422);
         }  
 
        $this->userService->createUser($request);
-        return response()->json(['message' => 'Cuenta creada exitosamente. Por favor, revise su correo electrónico para validar su cuenta'],200);
+
+       $payload = $this->userService->jwtTokenRequest($request);
+       
+        return response()->json($payload,200);
     }
 
 }

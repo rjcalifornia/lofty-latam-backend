@@ -34,4 +34,18 @@ class UserService
             throw $th;
         }
     }
+
+    public function jwtTokenRequest($request){
+        $user = User::with(['rol'])->where('dui', $request->dui)->first();
+
+        $user->first_name = strtok($user->name, " ");
+        $user->first_lastname = strtok($user->lastname, " ");
+        $user->rol_name = $user->rol->name;
+        $token = $user->createToken('auth_token', ['server:landlord'])->plainTextToken;
+
+        $payload = ['user'=> $user, 'access_token'=> $token];
+
+        return $payload;
+
+    }
 }
