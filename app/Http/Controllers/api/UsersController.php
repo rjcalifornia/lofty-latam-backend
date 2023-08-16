@@ -96,7 +96,7 @@ class UsersController extends Controller{
             'lastname' => 'required|max:255',
             'username' => 'required||unique:users,username|max:255',
             'dui' => 'required|unique:users,dui|max:10',
-            'email' => 'nullable|email|unique:users,email',
+            'email' => 'sometimes|nullable|email|unique:users,email',
             'phone' => 'required|string',
             'password' => 'required|string|min:6',
            
