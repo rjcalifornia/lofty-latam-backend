@@ -82,6 +82,18 @@ class UsersController extends Controller{
         }
 
         if ($request->has('email')) {
+            $validator = Validator::make($request->all(),[
+                'email' => 'sometimes|nullable|email|unique:users,email',
+            ],[
+                'unique' => 'El :attribute ya está registrado en el sistema. Por favor, intente nuevamente',
+            ]);
+    
+            if ($validator->fails()) {
+                $message = implode(". ",$validator->messages()->all());
+                return response()->json(['message'=> $message], 422);
+            }  
+        }
+        if ($request->has('email')) {
             $user->email = $request->get('email');
             $user->save();
             return response()->json(204);
