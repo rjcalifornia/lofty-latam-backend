@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('password');
             $table->unsignedBigInteger('id_rol');
             $table->boolean('is_admin')->nullable();
+            $table->boolean('is_email_verified')->nullable();
             $table->unsignedInteger('active');
             $table->rememberToken();
             $table->timestamps();
