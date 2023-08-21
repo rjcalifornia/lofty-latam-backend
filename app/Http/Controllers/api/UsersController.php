@@ -6,12 +6,21 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-
 use Illuminate\Support\Facades\DB;
+use App\Services\UserService;
 
 use App\Models\User;
+use App\Models\Roles;
 
 class UsersController extends Controller{
+
+    protected $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     public function userProfile(Request $request){
         $user = Auth::user();
 
@@ -67,18 +76,67 @@ class UsersController extends Controller{
         }
 
         if ($request->has('phone')) {
+            $validator = Validator::make($request->all(),[
+                'phone' => 'required|unique:users,phone',
+            ],[
+                'unique' => 'El teléfono ingresado ya está registrado en el sistema. Por favor, intente nuevamente',
+            ]);
+    
+            if ($validator->fails()) {
+                $message = implode(". ",$validator->messages()->all());
+                return response()->json(['message'=> $message], 422);
+            } 
             $user->phone = $request->get('phone');
             $user->save();
             return response()->json(204);
         }
 
         if ($request->has('email')) {
+            $validator = Validator::make($request->all(),[
+                'email' => 'required|email|unique:users,email',
+            ],[
+                'unique' => 'El :attribute ingresado ya está registrado en el sistema. Por favor, intente nuevamente',
+            ]);
+    
+            if ($validator->fails()) {
+                $message = implode(". ",$validator->messages()->all());
+                return response()->json(['message'=> $message], 422);
+            }  
+       
             $user->email = $request->get('email');
             $user->save();
             return response()->json(204);
         }
 
         return response()->json(['message' => 'No se puede procesar la solicitud debido a que no ha llenado los campos requeridos'], 422);
+    }
+
+    public function userRegistration(Request $request){
+        $validator = Validator::make($request->all(),[
+            'name' => 'required|max:255',
+            'lastname' => 'required|max:255',
+            'username' => 'required||unique:users,username|max:255',
+            'dui' => 'required|unique:users,dui|max:10',
+            'email' => 'sometimes|nullable|email|unique:users,email',
+            'phone' => 'required|string',
+            'password' => 'required|string|min:6',
+           
+        ],[
+            'required' => 'El campo :attribute es obligatorio.',
+            'unique' => 'El :attribute ya está registrado en el sistema. Por favor, intente nuevamente',
+            'string' => 'El campo :attribute debe ser una cadena de caracteres.',
+        ]);
+
+        if ($validator->fails()) {
+            $message = implode(". ",$validator->messages()->all());
+            return response()->json(['message'=> $message], 422);
+        }  
+
+       $this->userService->createUser($request);
+
+       $payload = $this->userService->jwtTokenRequest($request);
+       
+        return response()->json($payload,200);
     }
 
 }

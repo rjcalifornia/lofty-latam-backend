@@ -103,7 +103,7 @@ class PropertyService
         $terminationDate =  Carbon::now();
         try {
             
-            $contractTermination->tenant_id = auth()->user()->id;
+            $contractTermination->tenant_id = $lease->tenant_id;
             $contractTermination->lease_id = $lease->id;
             $contractTermination->comments = $request->get('comments');
             $contractTermination->termination_date = $terminationDate->format('Y-m-d');
