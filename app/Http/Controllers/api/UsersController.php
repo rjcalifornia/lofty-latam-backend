@@ -144,4 +144,8 @@ class UsersController extends Controller{
         $this->userService->sendVerificationEmail($user);
     }
 
+    public function verifyAccount(){
+        
+    }
+
 }

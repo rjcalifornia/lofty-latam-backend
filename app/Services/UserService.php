@@ -65,8 +65,11 @@ class UserService
 
           ]);
 
+          $logo = storage_path('img/email.png');
+          $img = base64_encode(file_get_contents($logo));
+
           try {
-            Mail::send('email.emailVerificationEmail', ['token' => $token], function($message) use($user){
+            Mail::send('email.emailVerificationEmail', ['token' => $token, 'logo' => $img], function($message) use($user){
 
                 $message->to($user->email);
     
