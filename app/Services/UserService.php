@@ -4,10 +4,15 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Mail; 
+use Illuminate\Mail\Mailables\Address;
+use Illuminate\Mail\Mailables\Envelope;
 
 use App\Enums\RolesEnum;
 use App\Models\User;
 use App\Models\Roles;
+use App\Models\UserVerify;
 
 class UserService
 {
@@ -47,5 +52,35 @@ class UserService
 
         return $payload;
 
+    }
+
+    public function sendVerificationEmail($user){
+        $token = Str::random(64);
+
+        UserVerify::create([
+
+            'user_id' => $user->id, 
+
+            'token' => $token
+
+          ]);
+
+          try {
+            Mail::send('email.emailVerificationEmail', ['token' => $token], function($message) use($user){
+
+                $message->to($user->email);
+    
+                $message->subject('Email Verification Mail');
+    
+            });
+          } catch (\Throwable $th) {
+            throw $th;
+          }
+
+         
+
+        
+
+   
     }
 }

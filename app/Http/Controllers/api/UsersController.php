@@ -139,4 +139,9 @@ class UsersController extends Controller{
         return response()->json($payload,200);
     }
 
+    public function test(){
+        $user = Auth::user();
+        $this->userService->sendVerificationEmail($user);
+    }
+
 }
