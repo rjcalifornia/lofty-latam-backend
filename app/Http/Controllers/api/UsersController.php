@@ -133,17 +133,17 @@ class UsersController extends Controller{
             return response()->json(['message'=> $message], 422);
         }  
 
-       $this->userService->createUser($request);
+        $this->userService->createUser($request);
 
-       $payload = $this->userService->jwtTokenRequest($request);
-       
+        $payload = $this->userService->jwtTokenRequest($request);
+        $this->userService->sendVerificationEmail($payload['user']);
         return response()->json($payload,200);
     }
 
-    public function test(){
-        $user = Auth::user();
-        $this->userService->sendVerificationEmail($user);
-    }
+    // public function test(){
+    //     $user = Auth::user();
+        
+    // }
 
     public function verifyAccount(Request $request, $token){
         $verifyUser = UserVerify::where('token', $token)->first();
