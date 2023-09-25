@@ -22,7 +22,7 @@ use App\Http\Controllers\api\NotificationsController;
 */
 
 Route::get('/user', [AuthController::class, 'getUserDetails'])->middleware('auth:sanctum');
-Route::get('/test', [PaymentsController::class, 'sendPaymentReceipt'])->middleware('auth:sanctum');
+//Route::get('/test', [PaymentsController::class, 'sendPaymentReceipt'])->middleware('auth:sanctum');
 
 Route::prefix('/v1/administration')->group(function () {
     Route::get('/user/profile', [UsersController::class, 'userProfile'])->middleware('auth:sanctum');
@@ -67,6 +67,7 @@ Route::prefix('v1/payments')->group(function (){
     Route::post('/store-rent-payment', [PaymentsController::class, 'storePayment'])->middleware('auth:sanctum');
     Route::get('/{id}/history',[PaymentsController::class, 'paymentsHistory'])->middleware('auth:sanctum');
     Route::post('/print-receipt', [PaymentsController::class, 'printPaymentReceipt'])->middleware('auth:sanctum');
+    Route::post('/send-payment-receipt', [PaymentsController::class, 'sendPaymentReceipt'])->middleware('auth:sanctum');
 });
 
 Route::prefix('v1/receipt')->group(function (){

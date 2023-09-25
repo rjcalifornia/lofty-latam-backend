@@ -107,6 +107,11 @@ class PaymentsController extends Controller{
         if (!$this->propertyService->verifyProperty($receipt->leaseId->property_id)) {
             return response()->json(['message' => 'No se encontró propiedad. Revise los datos ingresados e intente nuevamente'],404);
         }
+
+        if(!$receipt->leaseId->tenantId->email){
+            return response()->json(['message' => 'Usuario no tiene correo electrónico. Por favor agregue una dirección de correo e intente nuevamente']);
+        }
+
         try {
             //return $receipt;
             Mail::to($receipt->leaseId->tenantId->email)->send(new VerificationEmail($receipt));
