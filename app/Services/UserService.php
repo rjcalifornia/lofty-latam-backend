@@ -58,27 +58,23 @@ class UserService
         $token = Str::random(64);
 
         UserVerify::create([
-
-            'user_id' => $user->id, 
-
+            'user_id' => $user->id,
             'token' => $token
+        ]);
 
-          ]);
+        $logo = storage_path('img/email.png');
+        $img = base64_encode(file_get_contents($logo));
 
-          $logo = storage_path('img/email.png');
-          $img = base64_encode(file_get_contents($logo));
-
-          try {
-            Mail::send('email.verification-email', ['token' => $token, 'logo' => $img], function($message) use($user){
+        try {
+            Mail::send('email.verification-email', ['token' => $token, 'logo' => $img], function ($message) use ($user) {
 
                 $message->to($user->email);
-    
+
                 $message->subject('Email Verification Mail');
-    
             });
-          } catch (\Throwable $th) {
+        } catch (\Throwable $th) {
             throw $th;
-          }
+        }
 
     }
 }
