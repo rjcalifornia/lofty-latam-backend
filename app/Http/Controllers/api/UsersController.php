@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use App\Services\UserService;
 
 use App\Models\User;
+use App\Models\UserVerify;
 use App\Models\Roles;
 
 class UsersController extends Controller{
@@ -144,8 +145,26 @@ class UsersController extends Controller{
         $this->userService->sendVerificationEmail($user);
     }
 
-    public function verifyAccount(){
-        
+    public function verifyAccount(Request $request, $token){
+        $verifyUser = UserVerify::where('token', $token)->first();
+
+        if(!$verifyUser){
+            $data['verification'] = false;
+   
+        }else {
+            $user = User::where('id', $verifyUser->user_id)->first();
+            $user->is_email_verified = true;
+            $user->save();
+            $verifyUser->delete();
+            $data['verification'] = true;
+        }
+
+
+
+        return view('email.validation-page',[
+            'data'=>$data
+        ]);
+
     }
 
 }
