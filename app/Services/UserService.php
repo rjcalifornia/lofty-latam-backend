@@ -13,6 +13,8 @@ use App\Enums\RolesEnum;
 use App\Models\User;
 use App\Models\Roles;
 use App\Models\UserVerify;
+use App\Models\Property;
+use App\Models\LeaseAgreements;
 
 class UserService
 {
@@ -76,5 +78,34 @@ class UserService
             throw $th;
         }
 
+    }
+
+    public function deactivateUser($user, $status){
+       
+
+        $properties = Property::where('active', true)->where('landlord_id', $user->id)->get();
+       
+
+        foreach ($properties as $property) {
+            $property->active = $status;
+            $this->deactivateLeases($property, $status);
+        }
+        $user->active = $status;
+
+        try {
+            $property->save();
+            $user->save();
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+       
+    }
+
+    private function deactivateLeases($property, $status){
+        $leaseAgreements = LeaseAgreements::where('active', true)->where('property_id', $property->id)->get();
+        foreach ($leaseAgreements as $agreement) {
+           $agreement->active = $status;
+           $agreement->save();
+        }
     }
 }

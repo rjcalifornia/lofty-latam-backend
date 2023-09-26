@@ -36,6 +36,7 @@ Route::prefix('/v1/user')->group(function () {
     Route::get('/profile', [UsersController::class, 'userProfile'])->middleware('auth:sanctum');
     Route::post('/registration', [UsersController::class, 'userRegistration']);
     Route::post('/resend-validation-email', [UsersController::class, 'resendValidationEmail'])->middleware('auth:sanctum');
+    Route::post('/deactivate-account', [UsersController::class, 'deactivateAccount'])->middleware('auth:sanctum');
 });
 
 Route::prefix('/v1/security')->group(function () {

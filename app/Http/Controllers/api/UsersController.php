@@ -168,6 +168,9 @@ class UsersController extends Controller{
 
     }
 
-
+    public function deactivateAccount(Request $request){
+        $user = Auth::user();
+        $this->userService->deactivateUser($user, false);
+    }
 
 }
