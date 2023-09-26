@@ -171,6 +171,8 @@ class UsersController extends Controller{
     public function deactivateAccount(Request $request){
         $user = Auth::user();
         $this->userService->deactivateUser($user, false);
+        $user->tokens()->delete();
+        return response()->json(['message' => 'Cuenta eliminada exitosamente'], 201);
     }
 
 }
