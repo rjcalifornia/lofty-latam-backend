@@ -35,6 +35,7 @@ Route::prefix('/v1/user')->group(function () {
     Route::post('/change-password', [UsersController::class, 'changePassword'])->middleware('auth:sanctum');
     Route::get('/profile', [UsersController::class, 'userProfile'])->middleware('auth:sanctum');
     Route::post('/registration', [UsersController::class, 'userRegistration']);
+    Route::post('/resend-validation-email', [UsersController::class, 'resendValidationEmail']);
 });
 
 Route::prefix('/v1/security')->group(function () {

@@ -140,10 +140,11 @@ class UsersController extends Controller{
         return response()->json($payload,200);
     }
 
-    // public function test(){
-    //     $user = Auth::user();
-        
-    // }
+    public function resendValidationEmail(Request $request){
+        $user = Auth::user();
+        $this->userService->sendVerificationEmail($user);
+        return response()->json(['message' => 'Correo de validación enviado correctamente'],200);
+    }
 
     public function verifyAccount(Request $request, $token){
         $verifyUser = UserVerify::where('token', $token)->first();
@@ -166,5 +167,7 @@ class UsersController extends Controller{
         ]);
 
     }
+
+
 
 }
