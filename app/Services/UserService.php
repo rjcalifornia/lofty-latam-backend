@@ -88,12 +88,14 @@ class UserService
 
         foreach ($properties as $property) {
             $property->active = $status;
+            $property->save();
             $this->deactivateLeases($property, $status);
+            
         }
         $user->active = $status;
 
         try {
-            $property->save();
+           
             $user->save();
         } catch (\Throwable $th) {
             throw $th;
