@@ -4,10 +4,17 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Mail; 
+use Illuminate\Mail\Mailables\Address;
+use Illuminate\Mail\Mailables\Envelope;
 
 use App\Enums\RolesEnum;
 use App\Models\User;
 use App\Models\Roles;
+use App\Models\UserVerify;
+use App\Models\Property;
+use App\Models\LeaseAgreements;
 
 class UserService
 {
@@ -47,5 +54,60 @@ class UserService
 
         return $payload;
 
+    }
+
+    public function sendVerificationEmail($user){
+        $token = Str::random(64);
+
+        UserVerify::create([
+            'user_id' => $user->id,
+            'token' => $token
+        ]);
+
+        $logo = storage_path('img/email.png');
+        $img = base64_encode(file_get_contents($logo));
+
+        try {
+            Mail::send('email.verification-email', ['token' => $token, 'logo' => $img], function ($message) use ($user) {
+
+                $message->to($user->email);
+
+                $message->subject('Email Verification Mail');
+            });
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+
+    }
+
+    public function deactivateUser($user, $status){
+       
+
+        $properties = Property::where('active', true)->where('landlord_id', $user->id)->get();
+       
+
+        foreach ($properties as $property) {
+            $property->active = $status;
+            $property->save();
+            $this->deactivateLeases($property, $status);
+            
+        }
+        $user->active = $status;
+
+        try {
+           
+            $user->save();
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+       
+    }
+
+    private function deactivateLeases($property, $status){
+        $leaseAgreements = LeaseAgreements::where('active', true)->where('property_id', $property->id)->get();
+        foreach ($leaseAgreements as $agreement) {
+           $agreement->active = $status;
+           $agreement->save();
+        }
     }
 }

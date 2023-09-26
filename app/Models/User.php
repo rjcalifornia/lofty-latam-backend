@@ -35,6 +35,7 @@ class User extends Authenticatable
         'id_rol',
         'is_admin',
         'active',
+        'is_email_verified',
     ];
 
     /**
@@ -54,6 +55,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'is_email_verified' => 'boolean',
         'is_admin' => 'boolean',
         'id_rol' => 'integer', 
         'active' => 'integer', 

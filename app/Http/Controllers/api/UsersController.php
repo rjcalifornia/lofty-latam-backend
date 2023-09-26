@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use App\Services\UserService;
 
 use App\Models\User;
+use App\Models\UserVerify;
 use App\Models\Roles;
 
 class UsersController extends Controller{
@@ -132,11 +133,46 @@ class UsersController extends Controller{
             return response()->json(['message'=> $message], 422);
         }  
 
-       $this->userService->createUser($request);
+        $this->userService->createUser($request);
 
-       $payload = $this->userService->jwtTokenRequest($request);
-       
+        $payload = $this->userService->jwtTokenRequest($request);
+        $this->userService->sendVerificationEmail($payload['user']);
         return response()->json($payload,200);
+    }
+
+    public function resendValidationEmail(Request $request){
+        $user = Auth::user();
+        $this->userService->sendVerificationEmail($user);
+        return response()->json(['message' => 'Correo de validación enviado correctamente'],200);
+    }
+
+    public function verifyAccount(Request $request, $token){
+        $verifyUser = UserVerify::where('token', $token)->first();
+
+        if(!$verifyUser){
+            $data['verification'] = false;
+   
+        }else {
+            $user = User::where('id', $verifyUser->user_id)->first();
+            $user->is_email_verified = true;
+            $user->save();
+            $verifyUser->delete();
+            $data['verification'] = true;
+        }
+
+
+
+        return view('email.validation-page',[
+            'data'=>$data
+        ]);
+
+    }
+
+    public function deactivateAccount(Request $request){
+        $user = Auth::user();
+        $this->userService->deactivateUser($user, false);
+        $user->tokens()->delete();
+        return response()->json(['message' => 'Cuenta eliminada exitosamente'], 201);
     }
 
 }
