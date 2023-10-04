@@ -18,11 +18,12 @@ return new class extends Migration
             $table->string('username');
             $table->string('phone');
             $table->string('dui');
-            $table->string('email')->unique();
+            $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->unsignedBigInteger('id_rol');
             $table->boolean('is_admin')->nullable();
+            $table->boolean('is_email_verified')->nullable();
             $table->unsignedInteger('active');
             $table->rememberToken();
             $table->timestamps();
