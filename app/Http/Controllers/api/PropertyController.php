@@ -172,7 +172,6 @@ class PropertyController extends Controller{
             'tenant_lastname' => 'required|string',
             'tenant_username' => 'required|string',
             'tenant_phone' => 'required|string',
-           // 'tenant_email' => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -181,7 +180,6 @@ class PropertyController extends Controller{
 
         $user = Auth::user();
 
-       // $property = Property::where('landlord_id', $user->id)->where('id', $request->get('property_id'))->first();
         $property = $this->propertyService->verifyProperty($request->get('property_id'));
         if(!$property){
             return response()->json(['message' => 'No se encontró propiedad. Revise los datos ingresados e intente nuevamente'],404);
