@@ -51,6 +51,7 @@ class Property extends Model
         'bathrooms' => 'integer', 
         'property_type_id' => 'integer', 
         'user_creates' => 'integer', 
+        'user_modifies' => 'integer', 
     ];
 
     public function landlordId(){

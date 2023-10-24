@@ -15,7 +15,7 @@ use App\Http\Controllers\api\UsersController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('public.welcome');
 });
 
 Route::get('/account/verify/{token}', [UsersController::class, 'verifyAccount'])->name('verify-account'); 
