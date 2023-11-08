@@ -54,6 +54,10 @@ class NotificationService
                 $previousMonth = Carbon::now()->subMonth()->month;
                 $currentYear = Carbon::now()->year;
 
+                if ($lease->payment_class_id == PaymentClassEnum::ADELANTADO) {
+                    $previousMonth = $previousMonth + 1;
+                }
+
                 $payment = Payments::where('lease_id', $leaseId)
                     ->where('month_cancelled', $previousMonth)
                     ->whereYear('payment_date', $currentYear)
