@@ -32,6 +32,7 @@ class LeaseAgreements extends Model
         'property_id' => 'integer', 
         'rent_type_id' => 'integer', 
         'user_creates' => 'integer', 
+        'user_modifies' => 'integer', 
         'duration' => 'integer', 
         'payment_day' => 'integer'
     ];
