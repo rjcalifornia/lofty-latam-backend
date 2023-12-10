@@ -64,7 +64,7 @@ class NotificationService
                     ->first();
 
                 if (!$payment) {
-                    $alerts[$i] = 'La propiedad ' . $lease['tenantId']->tenant_full_name . ' tiene un cobro pendiente del mes pasado.';
+                    $alerts[$i] = 'La propiedad alquilada a ' . $lease['tenantId']->tenant_full_name . ' tiene un cobro pendiente del mes pasado.';
                     $i++;
                 }
             }
