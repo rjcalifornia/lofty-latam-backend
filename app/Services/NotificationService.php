@@ -8,6 +8,8 @@ use App\Models\Property;
 use App\Models\LeaseAgreements;
 use App\Models\Payments;
 use App\Enums\PaymentClassEnum;
+use Illuminate\Support\Facades\Log;
+
 
 class NotificationService
 {
@@ -17,14 +19,17 @@ class NotificationService
         $status = [];
         $leases = Property::with(['leases.propertyId', 'leases.tenantId'])
         ->where('landlord_id', $userId)
-        ->whereHas('leases', function ($query) {
-            // Add a condition to filter active leases
-            $query->where('active', true);
-        })
         ->get()->pluck('leases')->flatten();
         // collect($leases);
+        
         $i = 0;
         foreach ($leases as $lease) {
+
+            $today = Carbon::now()->subDays(30);
+            $contractDate = Carbon::parse($lease->contract_date);
+           
+            if ($today->gt($contractDate)) {
+         
             $paymentDate = $lease->payment_date;
             $propertyName = $lease['propertyId']->name;
             $parsedPaymentDate = Carbon::parse($paymentDate);
@@ -37,6 +42,8 @@ class NotificationService
                 $status[$i] = $notification;
                 $i++;
             }
+            }
+
         }
 
         return $status;
@@ -46,10 +53,6 @@ class NotificationService
     {
         $alerts = [];
         $leases = Property::with(['leases.propertyId'])
-        ->whereHas('leases', function ($query) {
-            // Add a condition to filter active leases
-            $query->where('active', true);
-        })
         ->where('landlord_id', $userId)
         ->get()->pluck('leases')->flatten();
         $i = 0;
@@ -60,9 +63,9 @@ class NotificationService
 
             $today = Carbon::now()->subDays(30);
             $contractDate = Carbon::parse($lease->contract_date);
-
-            if ($today->gt($contractDate)) {
-
+           
+            if ($today->gt($contractDate)  && $lease->active == true) {
+                
                 $previousMonth = Carbon::now()->subMonth()->month;
                 $currentYear = Carbon::now()->year;
 
@@ -95,11 +98,16 @@ class NotificationService
         $today = Carbon::now()->subDays(30);
         $contractDate = Carbon::parse($lease->contract_date);
 
+        if($lease->active == false){
+            return;
+        }
+
+
         if ($today->gt($contractDate)) {
             if ($lease->payment_class_id == PaymentClassEnum::ADELANTADO) {
                 $currentMonth = $currentMonth + 1;
             }
-        
+            
                 
                 $payment = Payments::where('lease_id', $lease->id)
                     ->where('month_cancelled', $currentMonth)
