@@ -15,7 +15,13 @@ class NotificationService
     public function findNotifications($userId)
     {
         $status = [];
-        $leases = Property::with(['leases.propertyId', 'leases.tenantId'])->where('landlord_id', $userId)->get()->pluck('leases')->flatten();
+        $leases = Property::with(['leases.propertyId', 'leases.tenantId'])
+        ->where('landlord_id', $userId)
+        ->whereHas('leases', function ($query) {
+            // Add a condition to filter active leases
+            $query->where('active', true);
+        })
+        ->get()->pluck('leases')->flatten();
         // collect($leases);
         $i = 0;
         foreach ($leases as $lease) {
@@ -39,7 +45,13 @@ class NotificationService
     public function alerts($userId)
     {
         $alerts = [];
-        $leases = Property::with(['leases.propertyId'])->where('landlord_id', $userId)->get()->pluck('leases')->flatten();
+        $leases = Property::with(['leases.propertyId'])
+        ->whereHas('leases', function ($query) {
+            // Add a condition to filter active leases
+            $query->where('active', true);
+        })
+        ->where('landlord_id', $userId)
+        ->get()->pluck('leases')->flatten();
         $i = 0;
         foreach ($leases as $lease) {
 
@@ -64,7 +76,7 @@ class NotificationService
                     ->first();
 
                 if (!$payment) {
-                    $alerts[$i] = 'La propiedad ' . $lease['tenantId']->tenant_full_name . ' tiene un cobro pendiente del mes pasado.';
+                    $alerts[$i] = 'La propiedad alquilada a ' . $lease['tenantId']->tenant_full_name . ' tiene un cobro pendiente del mes pasado.';
                     $i++;
                 }
             }
