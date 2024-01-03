@@ -59,6 +59,7 @@ Route::prefix('v1/property')->group(function (){
     Route::get('/lease/{id}/details', [LeaseController::class, 'viewLeaseDetails'])->middleware('auth:sanctum');
     Route::patch('/lease/{id}/details', [LeaseController::class, 'updateLeaseDetails'])->middleware('auth:sanctum');
     Route::delete('/lease/{id}/termination', [LeaseController::class, 'terminateLease'])->middleware('auth:sanctum');
+    Route::get('/lease/{id}/print', [LeaseController::class, 'printLeaseContract'])->middleware('auth:sanctum');
     Route::post('/pictures/store', [PropertyController::class, 'addPropertyPicture'])->middleware('auth:sanctum');
     Route::get('/pictures/{id}/view', [PropertyController::class, 'viewPropertyPicture'])->middleware('auth:sanctum');
     Route::get('/pictures/placeholder', [PropertyController::class, 'placeholderPicture'])->middleware('auth:sanctum');

@@ -134,4 +134,9 @@ class PropertyService
             throw $th;
         }
     }
+
+    public function generatePDFContract($lease){
+        $logo_path = storage_path('img/header_logo_master.png'); 
+    }
+
 }

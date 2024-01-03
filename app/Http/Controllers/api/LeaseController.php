@@ -92,4 +92,17 @@ class LeaseController extends Controller
 
         return response()->json(204);
     }
+
+    public function printLeaseContract(Request $request, $id){
+        $lease = LeaseAgreements::with(['tenantId', 'propertyId.landlordId', 'rentType', 'payments', 'payments.leaseId.propertyId.landlordId', 'payments.leaseId.tenantId', 'paymentClassId'])->find($id);
+        if (!$lease) {
+            return response()->json(['message' => 'No se encontró contrato de alquiler. Revise los datos ingresados e intente nuevamente']);
+        }
+        
+        if (!$this->propertyService->verifyProperty($lease->property_id)) {
+            return response()->json(['message' => 'No se encontró propiedad. Revise los datos ingresados e intente nuevamente'],404);
+        }
+
+        return $this->propertyService->generatePDFContract($lease);
+    }
 }
