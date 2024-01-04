@@ -6,6 +6,9 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Elibyy\TCPDF\Facades\TCPDF;
+use Illuminate\Support\Facades\View;
+
 
 use App\Models\Property;
 use App\Models\ContractTermination;
@@ -137,6 +140,24 @@ class PropertyService
 
     public function generatePDFContract($lease){
         $logo_path = storage_path('img/header_logo_master.png'); 
+
+        $html = View::make('pdf.printed-contract', [
+            'lease'=> $lease,
+            //'image' => $img
+        ])->render();
+        
+        
+        TCPDF::setMargins(14, 36, 14, true);
+        TCPDF::AddPage();
+        TCPDF::setImageScale(1);
+        TCPDF::SetAutoPageBreak(false, 0);
+        TCPDF::Image($logo_path, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
+      //  TCPDF::Image("@$qr_raw", 80, 210, 0, 50, '', '', '', false, 400, '', false, false, 0);
+        TCPDF::writeHTML($html, true, false, true, false, '');
+
+        $uuid = Str::uuid(8)->toString();
+
+        return TCPDF::Output($uuid . ".pdf", 'I');
     }
 
 }
