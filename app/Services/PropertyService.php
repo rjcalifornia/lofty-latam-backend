@@ -138,12 +138,16 @@ class PropertyService
         }
     }
 
-    public function generatePDFContract($lease){
+    public function generatePDFContract($lease, $tenantDocument){
         $logo_path = storage_path('img/header_logo_master.png'); 
+
+        $landlordDocument = $this->documentToWords($lease->propertyId->landlordId->dui);
+        $tenantDocument = $this->documentToWords($tenantDocument->document_number);
 
         $html = View::make('pdf.printed-contract', [
             'lease'=> $lease,
-            //'image' => $img
+            'landlordDocument' => $landlordDocument,
+            'tenantDocument' => $tenantDocument,
         ])->render();
         
         
@@ -158,6 +162,82 @@ class PropertyService
         $uuid = Str::uuid(8)->toString();
 
         return TCPDF::Output($uuid . ".pdf", 'I');
+    }
+
+    function documentToWords($document) {
+        $words = [
+            '0' => ' cero',
+            '1' => ' uno',
+            '2' => ' dos',
+            '3' => ' tres',
+            '4' => ' cuatro',
+            '5' => ' cinco',
+            '6' => ' seis',
+            '7' => ' siete',
+            '8' => ' ocho',
+            '9' => ' nueve',
+            '-' => ' guión',
+        ];
+    
+        $result = '';
+        
+        // Iterate through each character in the input string
+        for ($i = 0; $i < strlen($document); $i++) {
+            $char = $document[$i];
+    
+            // Check if the character exists in the $words array
+            if (isset($words[$char])) {
+                $result .= $words[$char];
+            } else {
+                // If the character is not found in $words, you may want to handle it accordingly
+                // For now, it just appends the character itself
+                $result .= $char;
+            }
+        }
+    
+        return $result;
+    }
+
+
+    function rentValueToWords($number, $leaseDuration) {
+        $units = ['', 'uno', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve'];
+        $teens = ['', 'once', 'doce', 'trece', 'catorce', 'quince', 'dieciséis', 'diecisiete', 'dieciocho', 'diecinueve'];
+        $tens = ['', 'diez', 'veinte', 'treinta', 'cuarenta', 'cincuenta', 'sesenta', 'setenta', 'ochenta', 'noventa'];
+        $hundreds = ['', 'ciento', 'doscientos', 'trescientos', 'cuatrocientos', 'quinientos', 'seiscientos', 'setecientos', 'ochocientos', 'novecientos'];
+    
+        if ($number == 0) {
+            return 'cero';
+        }
+    
+        $words = [];
+    
+        // Extract digits
+        $unitsDigit = $number % 10;
+        $tensDigit = ($number % 100 - $unitsDigit) / 10;
+        $hundredsDigit = ($number % 1000 - $tensDigit * 10 - $unitsDigit) / 100;
+    
+        // Process hundreds
+        if ($hundredsDigit > 0) {
+            $words[] = $hundreds[$hundredsDigit];
+        }
+    
+        // Process tens and units
+        if ($tensDigit == 1) {
+            // If it's a teen number
+            $words[] = $teens[$unitsDigit];
+        } else {
+            // Otherwise, process tens and units separately
+            if ($tensDigit > 1) {
+                $words[] = $tens[$tensDigit];
+            }
+    
+            if ($unitsDigit > 0) {
+                $words[] = $units[$unitsDigit];
+            }
+        }
+    
+        // Combine the words and return the result
+        return implode(' ', $words);
     }
 
 }

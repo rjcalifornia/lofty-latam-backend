@@ -6,23 +6,34 @@
 </head>
 
 <body>
-    [Nombre del Arrendador]
-[Dirección del Arrendador]
-[Teléfono del Arrendador]
-[Correo Electrónico del Arrendador]
 
-{{$lease->tenantId->name}} {{$lease->tenantId->lastname}}
 <br>
-{{$lease->tenantId->phone}}
+<b>CONTRATO DE ARRENDAMIENTO RESIDENCIAL</b>
 
-
-CONTRATO DE ARRENDAMIENTO RESIDENCIAL
-
-Este Contrato de Arrendamiento ("Contrato") se celebra el [Fecha de Inicio], entre el arrendador mencionado anteriormente ("Arrendador") y el arrendatario mencionado anteriormente ("Arrendatario").
-
-1. PROPIEDAD ARRENDADA: El Arrendador acuerda arrendar y el Arrendatario acuerda tomar en arrendamiento la propiedad ubicada en [Dirección de la Propiedad] ("Propiedad") por un período de seis (6) meses, comenzando el [Fecha de Inicio] y terminando el [Fecha de Término].
-
-2. RENTA MENSUAL: El Arrendatario pagará al Arrendador la suma de doscientos setenta y cinco dólares (275 USD) mensuales como alquiler, el cual deberá ser pagado antes del [Día del Mes] de cada mes.
+<p>
+Este Contrato de Arrendamiento ("Contrato") se celebra el [Fecha de Inicio], 
+entre <b>{{Str::upper($lease->propertyId->landlordId->name)}} {{Str::upper($lease->propertyId->landlordId->lastname)}}</b>
+portador del Documento Único de Identidad número:<b>{{$landlordDocument}}</b>; 
+quien en el transcurso de este Documento se denominará "El Arrendante" , 
+Y <b>{{Str::upper($lease->tenantId->name)}} {{Str::upper($lease->tenantId->lastname)}}</b> con Documento Único de 
+Identidad número:<b>{{$tenantDocument}}</b>; que en lo sucesivo se denominará "Arrendatario". Por medio del siguiente documento
+se otorga:
+</p>
+<br>
+<b>PRIMERO:</b> El Arrendante acuerda arrendar y el Arrendatario acuerda tomar en arrendamiento la 
+propiedad ubicada en <b>{{$lease->propertyId->address}}</b> ("Propiedad"). La Propiedad Arrendada cuenta con las siguientes amenidades:
+El cual se regirá por las estipulaciones que se detallan en las caúsales siguientes: 
+<br>
+<b>SEGUNDO:</b> Que el Arrendante da y entrega en
+arrendamiento  una casa en perfectas condiciones, y que el arrendatario la recibe a su entera satisfacción bajo las condiciones
+siuientes: 
+<br>
+<b>TERCERO: PLAZO:</b> El plazo del Arrendamiento será por <b>{{Str::upper($lease->rentType->name)}}</b> prorrogables, contados 
+a partir del {{$lease->human_readable_contract_date}}, y terminando el día {{$lease->human_readable_expiration_date}}, plazo 
+que será prorrogable según lo convengan las partes.
+.  
+<br>
+<b>CUARTO: PRECIO:</b> El Valor del Arrendamiento será de    al Arrendador la suma de doscientos setenta y cinco dólares (275 USD) mensuales como alquiler, el cual deberá ser pagado antes del [Día del Mes] de cada mes.
 
 3. PAGO DEL DEPÓSITO DE SEGURIDAD: El Arrendatario entregará al Arrendador un depósito de seguridad de [Cantidad] dólares (Cantidad USD) antes de la ocupación de la Propiedad. Este depósito será devuelto al Arrendatario dentro de los [Días] días siguientes a la terminación de este Contrato, menos cualquier deducción permitida por la ley.
 

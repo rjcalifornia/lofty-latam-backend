@@ -11,6 +11,7 @@ use App\Services\PropertyService;
 
 use App\Models\LeaseAgreements;
 use App\Models\Property;
+use App\Models\TenantDocuments;
 
 class LeaseController extends Controller
 {
@@ -103,6 +104,8 @@ class LeaseController extends Controller
             return response()->json(['message' => 'No se encontró propiedad. Revise los datos ingresados e intente nuevamente'],404);
         }
 
-        return $this->propertyService->generatePDFContract($lease);
+        $tenantDocument = TenantDocuments::where('tenant_id', $lease->tenant_id)->where('document_type_id', 1)->first();
+
+        return $this->propertyService->generatePDFContract($lease, $tenantDocument);
     }
 }
