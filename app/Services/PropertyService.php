@@ -143,11 +143,15 @@ class PropertyService
 
         $landlordDocument = $this->documentToWords($lease->propertyId->landlordId->dui);
         $tenantDocument = $this->documentToWords($tenantDocument->document_number);
-
+        $totalRentPrice = $this->rentValueToWords(($lease->price * $lease->duration));
+        $rentPrice = $this->rentValueToWords($lease->price);
+        
         $html = View::make('pdf.printed-contract', [
             'lease'=> $lease,
             'landlordDocument' => $landlordDocument,
             'tenantDocument' => $tenantDocument,
+            'totalRentPrice' => $totalRentPrice,
+            'rentPrice' => $rentPrice
         ])->render();
         
         
@@ -199,12 +203,13 @@ class PropertyService
     }
 
 
-    function rentValueToWords($number, $leaseDuration) {
+    function rentValueToWords($number) {
         $units = ['', 'uno', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve'];
         $teens = ['', 'once', 'doce', 'trece', 'catorce', 'quince', 'dieciséis', 'diecisiete', 'dieciocho', 'diecinueve'];
         $tens = ['', 'diez', 'veinte', 'treinta', 'cuarenta', 'cincuenta', 'sesenta', 'setenta', 'ochenta', 'noventa'];
         $hundreds = ['', 'ciento', 'doscientos', 'trescientos', 'cuatrocientos', 'quinientos', 'seiscientos', 'setecientos', 'ochocientos', 'novecientos'];
     
+        
         if ($number == 0) {
             return 'cero';
         }
@@ -215,7 +220,14 @@ class PropertyService
         $unitsDigit = $number % 10;
         $tensDigit = ($number % 100 - $unitsDigit) / 10;
         $hundredsDigit = ($number % 1000 - $tensDigit * 10 - $unitsDigit) / 100;
-    
+        $thousandsDigit = ($number % 10000 - $hundredsDigit * 100 - $tensDigit * 10 - $unitsDigit) / 1000;
+
+        
+        // Process thousands
+        if ($thousandsDigit > 0) {
+            $words[] = $thousandsDigit > 1 ? $units[$thousandsDigit] . ' mil' : 'mil';
+        }
+        
         // Process hundreds
         if ($hundredsDigit > 0) {
             $words[] = $hundreds[$hundredsDigit];

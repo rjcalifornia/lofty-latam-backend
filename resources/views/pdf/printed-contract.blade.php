@@ -33,8 +33,12 @@ a partir del {{$lease->human_readable_contract_date}}, y terminando el día {{$l
 que será prorrogable según lo convengan las partes.
 .  
 <br>
-<b>CUARTO: PRECIO:</b> El Valor del Arrendamiento será de    al Arrendador la suma de doscientos setenta y cinco dólares (275 USD) mensuales como alquiler, el cual deberá ser pagado antes del [Día del Mes] de cada mes.
-
+<b>CUARTO: PRECIO:</b> El Valor del Arrendamiento será de <b>{{Str::upper($totalRentPrice)}} DÓLARES DE 
+LOS ESTADOS UNIDOS DE AMÉRICA EXACTOS</b>, suma que será pagada en seis cuotas mensuales fijas y 
+sucesivas de: <b>{{Str::upper($rentPrice)}} DÓLARES DE LOS ESTADOS UNIDOS DE AMÉRICA</b> cada una, por mensualidades
+pagadas el día <b>{{$lease->payment_day}} de cada uno de los meses comprendidos en el plazo, si se demora tres días
+después de la fecha de pago deberá cancelar veinticinco dólares adicionales;</b>
+<br>
 3. PAGO DEL DEPÓSITO DE SEGURIDAD: El Arrendatario entregará al Arrendador un depósito de seguridad de [Cantidad] dólares (Cantidad USD) antes de la ocupación de la Propiedad. Este depósito será devuelto al Arrendatario dentro de los [Días] días siguientes a la terminación de este Contrato, menos cualquier deducción permitida por la ley.
 
 4. AUTORENOVACIÓN: Este Contrato se renovará automáticamente por períodos sucesivos de seis (6) meses, a menos que cualquiera de las partes notifique a la otra parte por escrito su intención de no renovar con al menos treinta (30) días de antelación a la fecha de vencimiento.
