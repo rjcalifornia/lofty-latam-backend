@@ -6,10 +6,8 @@
 </head>
 
 <body>
-
-<br>
-<b>CONTRATO DE ARRENDAMIENTO RESIDENCIAL</b>
-
+<div style="text-align:center;"><b>CONTRATO DE ARRENDAMIENTO RESIDENCIAL</b></div>
+<span style="text-align:justify;">
 <p>
 Este Contrato de Arrendamiento ("Contrato") se celebra el [Fecha de Inicio], 
 entre <b>{{Str::upper($lease->propertyId->landlordId->name)}} {{Str::upper($lease->propertyId->landlordId->lastname)}}</b>
@@ -37,8 +35,16 @@ que será prorrogable según lo convengan las partes.
 LOS ESTADOS UNIDOS DE AMÉRICA EXACTOS</b>, suma que será pagada en seis cuotas mensuales fijas y 
 sucesivas de: <b>{{Str::upper($rentPrice)}} DÓLARES DE LOS ESTADOS UNIDOS DE AMÉRICA</b> cada una, por mensualidades
 pagadas el día <b>{{$lease->payment_day}} de cada uno de los meses comprendidos en el plazo, si se demora tres días
-después de la fecha de pago deberá cancelar veinticinco dólares adicionales;</b>
+después de la fecha de pago deberá cancelar veinticinco dólares adicionales;</b> además tendrá que dar 
+un deposito igual al pago de un mes de canon del arrendamiento que se le devolverá al final del contrato siempre y cuando 
+no hubieran daños que reparar ni facturas pendientes además que este cumplido el contrato. En caso de continuar el arrendamiento bajo
+un nuevo contrato, el depósito dado en el contrato anterior se retendrá hasta que caduque el nuevo contrato. 
 <br>
+<b>QUINTO: MORA EN EL PAGO:</b> la falta de pago de una sola mensualidad en la forma convenida, se dará por caducado el
+presente contrato y la desocupación del inmueble en la forma establecida en la ley de inquilinato, además tendrá que pagar el resto
+de las mensualidades que faltases de dicho contrato;
+<br>
+<b>SEXTO: PAGO DE SERVICIOS:</b>
 3. PAGO DEL DEPÓSITO DE SEGURIDAD: El Arrendatario entregará al Arrendador un depósito de seguridad de [Cantidad] dólares (Cantidad USD) antes de la ocupación de la Propiedad. Este depósito será devuelto al Arrendatario dentro de los [Días] días siguientes a la terminación de este Contrato, menos cualquier deducción permitida por la ley.
 
 4. AUTORENOVACIÓN: Este Contrato se renovará automáticamente por períodos sucesivos de seis (6) meses, a menos que cualquiera de las partes notifique a la otra parte por escrito su intención de no renovar con al menos treinta (30) días de antelación a la fecha de vencimiento.
@@ -52,7 +58,7 @@ después de la fecha de pago deberá cancelar veinticinco dólares adicionales;<
 Este Contrato constituye el entendimiento completo entre las partes y no puede ser modificado excepto por escrito y firmado por ambas partes.
 
 Firmado este [Fecha de Firma].
-
+</span>
 ______________________________           ______________________________
 [Nombre del Arrendador]                         [Nombre del Arrendatario]
 
