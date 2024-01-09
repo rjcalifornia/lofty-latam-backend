@@ -44,18 +44,14 @@ un nuevo contrato, el depósito dado en el contrato anterior se retendrá hasta 
 presente contrato y la desocupación del inmueble en la forma establecida en la ley de inquilinato, además tendrá que pagar el resto
 de las mensualidades que faltases de dicho contrato;
 <br>
-<b>SEXTO: PAGO DE SERVICIOS:</b>
-3. PAGO DEL DEPÓSITO DE SEGURIDAD: El Arrendatario entregará al Arrendador un depósito de seguridad de [Cantidad] dólares (Cantidad USD) antes de la ocupación de la Propiedad. Este depósito será devuelto al Arrendatario dentro de los [Días] días siguientes a la terminación de este Contrato, menos cualquier deducción permitida por la ley.
-
-4. AUTORENOVACIÓN: Este Contrato se renovará automáticamente por períodos sucesivos de seis (6) meses, a menos que cualquiera de las partes notifique a la otra parte por escrito su intención de no renovar con al menos treinta (30) días de antelación a la fecha de vencimiento.
-
-5. OBLIGACIONES DEL ARRENDATARIO: El Arrendatario se compromete a mantener y cuidar adecuadamente la Propiedad, pagar la renta puntualmente y cumplir con todas las leyes y reglamentos locales relacionados con el uso de la Propiedad.
-
-6. OBLIGACIONES DEL ARRENDADOR: El Arrendador se compromete a proporcionar una vivienda en condiciones habitables, realizar reparaciones necesarias y cumplir con todas las obligaciones legales y reglamentarias aplicables.
-
-7. TERMINACIÓN ANTICIPADA: Cualquiera de las partes puede dar por terminado este Contrato antes del vencimiento del plazo especificado en caso de incumplimiento material por parte de la otra parte.
-
-Este Contrato constituye el entendimiento completo entre las partes y no puede ser modificado excepto por escrito y firmado por ambas partes.
+<b>SEXTO: PAGO DE SERVICIOS:</b> Serán por cuenta de el arrendatario los pagos de la energía eléctrica y agua, que se consuma
+en dicha casa, y los impuestos municipales y seguridad, mantenimiento, por cuenta de el arrendante. 
+<br>
+<b>SÉPTIMO: REPARACIONES, MEJORAS Y USO:</b> a) El arrendatario se obliga a mejorar la casa y a no dañarla previa autorización escrita
+del arrendante y las mejoras que se hicieren en cualquier forma quedaran en beneficio del Inmueble sin que "el arrendante" tenga que
+pagar su valor, así como también cualquier daño que hubiese en los muebles que contiene la casa deberá cancelar su respectivo valor, al
+igual que deberá darle mantenimiento a los aires acondicionados cada cuatro meses. La contravención a cualquiera de las prohibiciones
+producirá los mismos efectos que la mora. 
 
 Firmado este [Fecha de Firma].
 </span>
