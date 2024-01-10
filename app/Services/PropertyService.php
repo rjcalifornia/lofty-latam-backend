@@ -156,10 +156,11 @@ class PropertyService
         
         
         TCPDF::setMargins(14, 14, 14, true);
+        //TCPDF::setMargins(14, 30, 14, true);
         TCPDF::AddPage();
         TCPDF::setImageScale(1);
         TCPDF::SetAutoPageBreak(false, 0);
-       // TCPDF::Image($logo_path, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
+      //  TCPDF::Image($logo_path, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
       //  TCPDF::Image("@$qr_raw", 80, 210, 0, 50, '', '', '', false, 400, '', false, false, 0);
       TCPDF::SetAutoPageBreak(true, 20);
         TCPDF::writeHTML($html, true, false, true, false, '');
