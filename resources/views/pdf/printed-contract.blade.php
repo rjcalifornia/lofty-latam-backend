@@ -74,9 +74,9 @@ se obliga a devolver el inmueble y las mejoras que se hicieren en cualquier form
 y con los últimos recibos de energía eléctrica y agua potable cancelados. Y todo en perfecto estado tal y
 como se recibió.
 <br>
-<b>NOVENO: EFECTOS DEL CONTRATO.</b> los efectos legales de este contrato, nos sometemos al domicilio de los
-tribunales de esta ciudad, y en caso de acción judicial, el arrendatario renuncia al derecho de apelar del
-derecho de embargo, sentencia y remate de cualquier otra providencia apelable que se pronunciare en el juicio
+<b>NOVENO: EFECTOS DEL CONTRATO.</b> Para los efectos legales de este contrato, nos sometemos al domicilio de los
+tribunales de la ciudad en la que está ubicada la propiedad, y en caso de acción judicial, el arrendatario renuncia al derecho 
+de apelar del derecho de embargo, sentencia y remate de cualquier otra providencia apelable que se pronunciare en el juicio
 que se promoviera a consecuencia de este contrato, siendo de sus cargos en que incurran el arrendante en el 
 cobro de lo adeudado, inclusive los costas procesales aunque no fuere condenado en costas, y será depositario judicial,
 la persona que el arrendante designe a quien relevan de la obligación de rendir fianza y cuentas. Así se expresaron los
