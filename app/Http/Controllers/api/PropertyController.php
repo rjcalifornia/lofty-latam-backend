@@ -15,7 +15,9 @@ use App\Models\PaymentClass;
 use App\Models\RentTypeCatalog;
 use App\Models\LeaseAgreements;
 use App\Models\Tenants;
+use App\Models\TenantDocuments;
 use App\Models\PropertyPhoto;
+use App\Enums\DocumentTypeEnum;
 
 
 class PropertyController extends Controller{
@@ -199,6 +201,16 @@ class PropertyController extends Controller{
         } catch (\Throwable $th) {
             return response()->json(['message' => $th], 503);
         }
+
+        $document = new TenantDocuments;
+
+        $document->document_number = $request->get('tenant_username');
+        $document->document_type_id = DocumentTypeEnum::DUI;
+        $document->tenant_id = $tenant->id;
+        $document->active = true;
+        $document->user_creates = $user->id;
+        $document->save();
+
 
         $rentType = RentTypeCatalog::where('id', $request->get('rent_type_id'))->first();
         $paymentClass = PaymentClass::where('id', $request->get('payment_class_id'))->first();

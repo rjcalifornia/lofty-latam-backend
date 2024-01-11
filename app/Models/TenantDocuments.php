@@ -41,7 +41,7 @@ class TenantDocuments extends Model
 
     public function countryId()
     {
-        return $this->belongsTo(CountryCatalog::class, 'country_id');
+        return $this->belongsTo(CountriesCatalog::class, 'country_id');
     }
 
     public function tenantId()

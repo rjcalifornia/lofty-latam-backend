@@ -11,6 +11,7 @@ use App\Services\PropertyService;
 
 use App\Models\LeaseAgreements;
 use App\Models\Property;
+use App\Models\TenantDocuments;
 
 class LeaseController extends Controller
 {
@@ -91,5 +92,20 @@ class LeaseController extends Controller
         $this->propertyService->terminateLease($request, $lease);
 
         return response()->json(204);
+    }
+
+    public function printLeaseContract(Request $request, $id){
+        $lease = LeaseAgreements::with(['tenantId', 'propertyId.landlordId', 'rentType', 'payments', 'payments.leaseId.propertyId.landlordId', 'payments.leaseId.tenantId', 'paymentClassId'])->find($id);
+        if (!$lease) {
+            return response()->json(['message' => 'No se encontró contrato de alquiler. Revise los datos ingresados e intente nuevamente']);
+        }
+        
+        if (!$this->propertyService->verifyProperty($lease->property_id)) {
+            return response()->json(['message' => 'No se encontró propiedad. Revise los datos ingresados e intente nuevamente'],404);
+        }
+
+        $tenantDocument = TenantDocuments::where('tenant_id', $lease->tenant_id)->where('document_type_id', 1)->first();
+
+        return $this->propertyService->generatePDFContract($lease, $tenantDocument);
     }
 }
