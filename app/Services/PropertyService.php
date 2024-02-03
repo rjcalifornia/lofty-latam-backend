@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\View;
 
 use App\Models\Property;
 use App\Models\ContractTermination;
+use App\Models\RentTypeCatalog;
 
 class PropertyService
 {
@@ -87,7 +88,9 @@ class PropertyService
 
     public function updateLease($request, $lease){
         try {
-            $lease->rent_type_id = $request->get('rent_type_id');
+            $rentType = RentTypeCatalog::where('id', $request->get('rent_type_id'))->where('active', true)->first();
+            $lease->rent_type_id = $rentType->id;
+            $lease->duration = $rentType->value;
             $lease->payment_class_id = $request->get('payment_class_id');
             //$lease->contract_date = $request->get('contract_date');
            // $lease->payment_date = $request->get('payment_date');
@@ -145,13 +148,15 @@ class PropertyService
         $tenantDocument = $this->documentToWords($tenantDocument->document_number);
         $totalRentPrice = $this->rentValueToWords(($lease->price * $lease->duration));
         $rentPrice = $this->rentValueToWords($lease->price);
+        $rentDuration = $this->rentValueToWords($lease->duration);
         
         $html = View::make('pdf.printed-contract', [
             'lease'=> $lease,
             'landlordDocument' => $landlordDocument,
             'tenantDocument' => $tenantDocument,
             'totalRentPrice' => $totalRentPrice,
-            'rentPrice' => $rentPrice
+            'rentPrice' => $rentPrice,
+            'rentDuration' => $rentDuration
         ])->render();
         
         
