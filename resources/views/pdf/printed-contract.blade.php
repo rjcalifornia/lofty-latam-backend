@@ -42,7 +42,7 @@ que será prorrogable según lo convengan las partes.
 .  
 <br>
 <b>CUARTO: PRECIO:</b> El Valor del Arrendamiento será de <b>{{Str::upper($totalRentPrice)}} DÓLARES DE 
-LOS ESTADOS UNIDOS DE AMÉRICA EXACTOS</b>, suma que será pagada en seis cuotas mensuales fijas y 
+LOS ESTADOS UNIDOS DE AMÉRICA EXACTOS</b>, suma que será pagada en {{$rentDuration}} cuotas mensuales fijas y 
 sucesivas de: <b>{{Str::upper($rentPrice)}} DÓLARES DE LOS ESTADOS UNIDOS DE AMÉRICA</b> cada una, por mensualidades
 pagadas el día <b>{{$lease->payment_day}} de cada uno de los meses comprendidos en el plazo, si se demora tres días
 después de la fecha de pago deberá cancelar veinticinco dólares adicionales;</b> además tendrá que dar 
