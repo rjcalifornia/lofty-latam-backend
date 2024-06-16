@@ -12,7 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('distritos', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
+            $table->string('codigo_cnr');
+            $table->string('nombre');
+            $table->unsignedInteger('departamento_id');
+            $table->unsignedInteger('municipio_id');
+            $table->string('map_json');
+            $table->unsignedInteger('active');
+            $table->foreign('departamento_id')->references('id')->on('departamentos');
+            $table->foreign('municipio_id')->references('id')->on('municipios');
             $table->timestamps();
         });
     }

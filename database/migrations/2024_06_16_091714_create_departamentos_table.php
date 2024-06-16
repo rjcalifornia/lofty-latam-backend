@@ -12,7 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('departamentos', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
+            $table->string('codigo_cnr');
+            $table->string('nombre');
+            $table->unsignedInteger('pais_id');
+            $table->string('map_json');
+            $table->unsignedInteger('active');
             $table->timestamps();
         });
     }
