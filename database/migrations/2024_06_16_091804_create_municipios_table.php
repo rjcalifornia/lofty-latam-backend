@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('municipios', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('codigo_cnr');
+            $table->string('codigo_cnr')->nullable();
             $table->string('nombre');
             $table->unsignedInteger('departamento_id');
-            $table->string('map_json');
+            $table->json('map_json');
             $table->unsignedInteger('active');
             $table->foreign('departamento_id')->references('id')->on('departamentos');
             $table->timestamps();
