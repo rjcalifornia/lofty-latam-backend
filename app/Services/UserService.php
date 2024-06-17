@@ -15,6 +15,7 @@ use App\Models\Roles;
 use App\Models\UserVerify;
 use App\Models\Property;
 use App\Models\LeaseAgreements;
+use App\Models\UserLocation;
 
 class UserService
 {
@@ -23,8 +24,9 @@ class UserService
     {
         try {
             $user = new User;
+            $userLocation = new UserLocation;
             $rol = Roles::where('name', RolesEnum::LANDLORD)->where('active', true)->first();
-            DB::transaction(function () use ($request, $user, $rol) {
+            DB::transaction(function () use ($request, $user, $rol, $userLocation) {
                 $user->name = $request->get('name');
                 $user->lastname = $request->get('lastname');
                 $user->username = $request->get('username');
@@ -36,6 +38,12 @@ class UserService
                 $user->id_rol = $rol->id;
                 $user->password = bcrypt($request->get('password'));
                 $user->save();
+                
+                $userLocation->user_id = $user->id;
+                $userLocation->distrito_id = $request->get('distrito_id');
+                $userLocation->active = true;
+                $userLocation->user_creates = $user->id;
+                $userLocation->save();
             });
         } catch (\Throwable $th) {
             throw $th;
