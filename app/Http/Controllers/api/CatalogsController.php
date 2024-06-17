@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Departamentos;
+use App\Models\Distritos;
 use App\Models\DocumentTypeCatalog;
+use App\Models\Municipios;
 use App\Models\PaymentClass;
 use App\Models\PropertyType;
 use App\Models\RentTypeCatalog;
@@ -32,5 +35,18 @@ class CatalogsController extends Controller{
     public function getPaymentClassCatalog(Request $request){
         $paymentClass = PaymentClass::where('active', true)->get();
         return response()->json($paymentClass, 200);
+    }
+
+    public function getDepartamentos(Request $request){
+        $departamentos = Departamentos::where('active', true)->get();
+        return response()->json($departamentos, 200);
+    }
+    public function getMunicipios(Request $request, $idDepartamento){
+        $municipios = Municipios::with(['departamentoId'])->where('active', true)->where('departamento_id', $idDepartamento)->get();
+        return response()->json($municipios, 200);
+    }
+    public function getDistritos(Request $request, $idMunicipio){
+        $distritos = Distritos::with(['departamentoId', 'municipioId'])->where('active', true)->where('municipio_id', $idMunicipio)->get();
+        return response()->json($distritos, 200);
     }
 }

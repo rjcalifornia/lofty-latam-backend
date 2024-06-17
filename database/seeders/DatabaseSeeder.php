@@ -3,6 +3,10 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Departamentos;
+use App\Models\Distritos;
+use App\Models\Municipios;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,5 +24,8 @@ class DatabaseSeeder extends Seeder
         $this->call(RentTypeCatalogSeeder::class);
         $this->call(PropertyTypeSeeder::class);
         $this->call(PaymentClassSeeder::class);
+        $this->call(DepartamentosSeeder::class);
+        $this->call(MunicipiosSeeder::class);
+        $this->call(DistritosSeeder::class);
     }
 }
