@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Departamentos;
+use App\Models\Distritos;
 use App\Models\DocumentTypeCatalog;
 use App\Models\Municipios;
 use App\Models\PaymentClass;
@@ -43,5 +44,9 @@ class CatalogsController extends Controller{
     public function getMunicipios(Request $request, $idDepartamento){
         $municipios = Municipios::with(['departamentoId'])->where('active', true)->where('departamento_id', $idDepartamento)->get();
         return response()->json($municipios, 200);
+    }
+    public function getDistritos(Request $request, $idMunicipio){
+        $distritos = Distritos::with(['departamentoId', 'municipioId'])->where('active', true)->where('municipio_id', $idMunicipio)->get();
+        return response()->json($distritos, 200);
     }
 }

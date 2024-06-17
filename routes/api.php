@@ -90,5 +90,6 @@ Route::prefix('v1/catalogs')->group(function (){
     Route::get('/property-type/list', [CatalogsController::class, 'getPropertyTypeCatalog'])->middleware('auth:sanctum');
     Route::get('/departamentos', [CatalogsController::class, 'getDepartamentos']);
     Route::get('/municipios/{idDepartamento}', [CatalogsController::class, 'getMunicipios']);
+    Route::get('/distritos/{idMunicipio}', [CatalogsController::class, 'getDistritos']);
 });
 
