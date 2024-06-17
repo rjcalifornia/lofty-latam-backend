@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('distritos', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('codigo_cnr')->nullable();
             $table->string('nombre');
             $table->unsignedInteger('departamento_id');
             $table->unsignedInteger('municipio_id');

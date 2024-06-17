@@ -16,24 +16,35 @@ class MunicipiosSeeder extends Seeder
         $data = [
             [
                 'nombre' => 'San Salvador Norte',
+                'active' => true,
                 'departamento_id' => 6,
                 'created_at' => '2024-02-03 22:12:04',
                 'updated_at' => '2024-02-03 22:12:34',
             ],
             [
                 'nombre' => 'San Salvador Oeste',
+                'active' => true,
                 'departamento_id' => 6,
                 'created_at' => '2024-02-03 22:12:04',
                 'updated_at' => '2024-02-03 22:12:34',
             ],
             [
                 'nombre' => 'San Salvador Este',
+                'active' => true,
                 'departamento_id' => 6,
                 'created_at' => '2024-02-03 22:12:04',
                 'updated_at' => '2024-02-03 22:12:34',
             ],
             [
                 'nombre' => 'San Salvador Centro',
+                'active' => true,
+                'departamento_id' => 6,
+                'created_at' => '2024-02-03 22:12:04',
+                'updated_at' => '2024-02-03 22:12:34',
+            ],
+            [
+                'nombre' => 'San Salvador Sur',
+                'active' => true,
                 'departamento_id' => 6,
                 'created_at' => '2024-02-03 22:12:04',
                 'updated_at' => '2024-02-03 22:12:34',
