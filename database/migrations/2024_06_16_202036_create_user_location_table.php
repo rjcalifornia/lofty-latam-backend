@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedInteger('distrito_id');
             $table->unsignedBigInteger('user_creates')->nullable();
             $table->unsignedBigInteger('user_modifies')->nullable();
+            $table->unsignedInteger('active');
             $table->foreign('user_creates')->references('id')->on('users');
             $table->foreign('user_modifies')->references('id')->on('users');
             $table->foreign('distrito_id')->references('id')->on('distritos');

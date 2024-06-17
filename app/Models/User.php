@@ -70,5 +70,9 @@ class User extends Authenticatable
         return $this->belongsTo(Roles::class, 'id_rol');
     }
 
+    public function locations(){
+        return $this->hasMany(UserLocation::class, 'user_id')->where('active', true);
+    }
+
 
 }

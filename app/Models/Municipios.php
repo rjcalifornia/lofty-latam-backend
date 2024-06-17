@@ -17,6 +17,10 @@ class Municipios extends Model
         'active',
     ];
 
+    protected $casts = [
+        'active' => 'boolean', 
+    ];
+
     public function departamentoId()
     {
         return $this->belongsTo(Departamentos::class, 'departamento_id');

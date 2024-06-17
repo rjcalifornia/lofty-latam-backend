@@ -18,6 +18,10 @@ class Distritos extends Model
         'active',
     ];
 
+    protected $casts = [
+        'active' => 'boolean', 
+    ];
+
     public function municipioId()
     {
         return $this->belongsTo(Municipios::class, 'municipio_id');

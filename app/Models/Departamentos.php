@@ -17,4 +17,8 @@ class Departamentos extends Model
         'active',
     ];
 
+    protected $casts = [
+        'active' => 'boolean', 
+    ];
+
 }
