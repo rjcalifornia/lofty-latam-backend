@@ -13,10 +13,8 @@ return new class extends Migration
     {
         Schema::create('departamentos', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('codigo_cnr')->nullable();
             $table->string('nombre');
             $table->unsignedInteger('pais_id');
-            $table->json('map_json');
             $table->boolean('active')->default(true);
             $table->timestamps();
         });
