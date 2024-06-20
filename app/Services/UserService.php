@@ -80,7 +80,7 @@ class UserService
 
                 $message->to($user->email);
 
-                $message->subject('Email Verification Mail');
+                $message->subject('Account Verification Mail');
             });
         } catch (\Throwable $th) {
             throw $th;
