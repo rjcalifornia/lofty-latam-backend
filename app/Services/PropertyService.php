@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\View;
 
 use App\Models\Property;
 use App\Models\ContractTermination;
+use App\Models\PropertyLocation;
 use App\Models\RentTypeCatalog;
 
 class PropertyService
@@ -20,6 +21,7 @@ class PropertyService
     {
 
         $property = new Property;
+        $location = new PropertyLocation;
 
         try {
             $property->name = $request->get('name');
@@ -41,6 +43,12 @@ class PropertyService
             $property->active = true; // Set the active
             $property->property_type_id = $request->get('property_type_id');
             $property->save();
+
+            $location->property_id = $property->id;
+            $location->distrito_id = $request->get('distrito_id');
+            $location->user_creates = auth()->user()->id;
+            $location->active = true; 
+            $location->save();
         } catch (\Throwable $th) {
             throw $th;
         }

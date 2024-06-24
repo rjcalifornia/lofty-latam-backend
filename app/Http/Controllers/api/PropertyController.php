@@ -36,6 +36,7 @@ class PropertyController extends Controller{
             'bedrooms' => 'required|integer',
             'beds' => 'required|integer',
             'bathrooms' => 'required|integer',
+            'distrito_id' => 'required|integer',
             'has_ac' => 'boolean',
             'has_kitchen' => 'boolean',
             'has_dinning_room' => 'boolean',
