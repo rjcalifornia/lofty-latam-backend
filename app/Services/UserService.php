@@ -15,7 +15,6 @@ use App\Models\Roles;
 use App\Models\UserVerify;
 use App\Models\Property;
 use App\Models\LeaseAgreements;
-use App\Models\UserLocation;
 
 class UserService
 {
@@ -24,9 +23,8 @@ class UserService
     {
         try {
             $user = new User;
-            $userLocation = new UserLocation;
             $rol = Roles::where('name', RolesEnum::LANDLORD)->where('active', true)->first();
-            DB::transaction(function () use ($request, $user, $rol, $userLocation) {
+            DB::transaction(function () use ($request, $user, $rol) {
                 $user->name = $request->get('name');
                 $user->lastname = $request->get('lastname');
                 $user->username = $request->get('username');
