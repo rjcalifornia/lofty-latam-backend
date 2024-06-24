@@ -38,12 +38,7 @@ class UserService
                 $user->id_rol = $rol->id;
                 $user->password = bcrypt($request->get('password'));
                 $user->save();
-                
-                $userLocation->user_id = $user->id;
-                $userLocation->distrito_id = $request->get('distrito_id');
-                $userLocation->active = true;
-                $userLocation->user_creates = $user->id;
-                $userLocation->save();
+              
             });
         } catch (\Throwable $th) {
             throw $th;
