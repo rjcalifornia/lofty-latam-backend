@@ -143,7 +143,7 @@ class PropertyController extends Controller{
 
     public function viewPropertyDetails(Request $request, $id){
         $user = Auth::user();
-        $property = Property::with(['landlordId', 'leases.tenantId', 'propertyPictures'])->where('id', $id)->where('active', true)->where('landlord_id', $user->id)->first();
+        $property = Property::with(['landlordId', 'leases.tenantId', 'propertyPictures', 'location.distritoId.municipioId.departamentoId'])->where('id', $id)->where('active', true)->where('landlord_id', $user->id)->first();
         
         if(!$property){
             return response()->json(['message' => 'No se puede procesar la solicitud. Revise los datos enviados e intente nuevamente'], 404);
