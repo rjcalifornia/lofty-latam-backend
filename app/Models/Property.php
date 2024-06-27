@@ -93,7 +93,7 @@ class Property extends Model
     }
 
     public function location(){
-        return $this->belongsTo(PropertyLocation::class, 'id', 'property_id');
+        return $this->belongsTo(PropertyLocation::class, 'id', 'property_id')->where('active', true);
     }
 
 
