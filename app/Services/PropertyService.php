@@ -81,6 +81,20 @@ class PropertyService
         }
     }
 
+    public function updatePropertyLocation($request, $property){
+        $user = Auth::user();
+        $location = PropertyLocation::where('property_id', $property->id)->where('active', true)->first();
+
+        try {
+            $location->distrito_id = $request->get('distrito_id');
+            $location->user_modifies = $user->id;
+            $location->save();
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+        
+    }
+
     public function storeImage($image, $extension,  $disk)
     {
         $imageName = Str::uuid()->toString() . '.' . $extension;

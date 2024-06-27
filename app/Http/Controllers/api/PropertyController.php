@@ -75,7 +75,8 @@ class PropertyController extends Controller{
             'has_tv' => 'boolean',
             'has_furniture' => 'boolean',
             'has_garage' => 'boolean',
-            'has_wifi' => 'boolean'
+            'has_wifi' => 'boolean',
+            'distrito_id' => 'required|integer'
         ]);
 
         if ($validator->fails()) {
@@ -89,7 +90,9 @@ class PropertyController extends Controller{
             return response()->json(['message' => 'No se puede procesar la solicitud debido a que la propiedad no ha sido encontrada'],404);
         }
         
-        $this->propertyService->update($request, $property);
+       // $this->propertyService->update($request, $property);
+       $this->propertyService->updatePropertyLocation($request, $property);
+        
 
         return response()->json(204);
     }
