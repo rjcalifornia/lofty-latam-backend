@@ -90,7 +90,7 @@ class PropertyController extends Controller{
             return response()->json(['message' => 'No se puede procesar la solicitud debido a que la propiedad no ha sido encontrada'],404);
         }
         
-       // $this->propertyService->update($request, $property);
+       $this->propertyService->update($request, $property);
        $this->propertyService->updatePropertyLocation($request, $property);
         
 
