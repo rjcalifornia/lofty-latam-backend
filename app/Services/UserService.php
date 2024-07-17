@@ -36,6 +36,7 @@ class UserService
                 $user->id_rol = $rol->id;
                 $user->password = bcrypt($request->get('password'));
                 $user->save();
+              
             });
         } catch (\Throwable $th) {
             throw $th;
@@ -72,7 +73,7 @@ class UserService
 
                 $message->to($user->email);
 
-                $message->subject('Email Verification Mail');
+                $message->subject('Account Verification Mail');
             });
         } catch (\Throwable $th) {
             throw $th;

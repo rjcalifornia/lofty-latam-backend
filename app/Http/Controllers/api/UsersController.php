@@ -13,7 +13,8 @@ use App\Models\User;
 use App\Models\UserVerify;
 use App\Models\Roles;
 
-class UsersController extends Controller{
+class UsersController extends Controller
+{
 
     protected $userService;
 
@@ -22,16 +23,18 @@ class UsersController extends Controller{
         $this->userService = $userService;
     }
 
-    public function userProfile(Request $request){
+    public function userProfile(Request $request)
+    {
         $user = Auth::user();
 
         $userProfile = User::with(['rol'])->where('id', $user->id)->first();
         return response()->json($userProfile, 200);
     }
 
-    public function changePassword(Request $request){
+    public function changePassword(Request $request)
+    {
 
-        $validator = Validator::make($request->json()->all(),[
+        $validator = Validator::make($request->json()->all(), [
             'old_password' => 'required|string',
             'password' => 'required|string|same:repeat_password|min:6',
             'repeat_password' => 'required|string',
@@ -45,7 +48,7 @@ class UsersController extends Controller{
             return response()->json(['message' => 'Verifique los datos ingresados e intente nuevamente', 401]);
         }
 
-        if (! password_verify($request->get('old_password'), $user->password)) {
+        if (!password_verify($request->get('old_password'), $user->password)) {
             return response()->json(['message' => 'Clave anterior no es la correcta. Revise los datos e intente nuevamente'], 422);
         }
 
@@ -53,19 +56,20 @@ class UsersController extends Controller{
             $user->password = bcrypt($request->get('password'));
             $user->save();
         });
-        
-        return response()->json([],204);
 
+        return response()->json([], 204);
     }
 
-    public function getUserDetails(Request $request){
+    public function getUserDetails(Request $request)
+    {
         $user = Auth::user();
 
         $userDetails = User::with(['rol'])->where('id', $user->id)->first();
         return response()->json($userDetails, 200);
     }
 
-    public function updateUserDetails(Request $request){
+    public function updateUserDetails(Request $request)
+    {
 
         $user = User::where('id', Auth::user()->id)->first();
 
@@ -77,33 +81,33 @@ class UsersController extends Controller{
         }
 
         if ($request->has('phone')) {
-            $validator = Validator::make($request->all(),[
+            $validator = Validator::make($request->all(), [
                 'phone' => 'required|unique:users,phone',
-            ],[
+            ], [
                 'unique' => 'El teléfono ingresado ya está registrado en el sistema. Por favor, intente nuevamente',
             ]);
-    
+
             if ($validator->fails()) {
-                $message = implode(". ",$validator->messages()->all());
-                return response()->json(['message'=> $message], 422);
-            } 
+                $message = implode(". ", $validator->messages()->all());
+                return response()->json(['message' => $message], 422);
+            }
             $user->phone = $request->get('phone');
             $user->save();
             return response()->json(204);
         }
 
         if ($request->has('email')) {
-            $validator = Validator::make($request->all(),[
+            $validator = Validator::make($request->all(), [
                 'email' => 'required|email|unique:users,email',
-            ],[
+            ], [
                 'unique' => 'El :attribute ingresado ya está registrado en el sistema. Por favor, intente nuevamente',
             ]);
-    
+
             if ($validator->fails()) {
-                $message = implode(". ",$validator->messages()->all());
-                return response()->json(['message'=> $message], 422);
-            }  
-       
+                $message = implode(". ", $validator->messages()->all());
+                return response()->json(['message' => $message], 422);
+            }
+
             $user->email = $request->get('email');
             $user->save();
             return response()->json(204);
@@ -112,8 +116,9 @@ class UsersController extends Controller{
         return response()->json(['message' => 'No se puede procesar la solicitud debido a que no ha llenado los campos requeridos'], 422);
     }
 
-    public function userRegistration(Request $request){
-        $validator = Validator::make($request->all(),[
+    public function userRegistration(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
             'lastname' => 'required|max:255',
             'username' => 'required||unique:users,username|max:255',
@@ -121,38 +126,46 @@ class UsersController extends Controller{
             'email' => 'sometimes|nullable|email|unique:users,email',
             'phone' => 'required|string',
             'password' => 'required|string|min:6',
-           
-        ],[
+
+        ], [
             'required' => 'El campo :attribute es obligatorio.',
             'unique' => 'El :attribute ya está registrado en el sistema. Por favor, intente nuevamente',
             'string' => 'El campo :attribute debe ser una cadena de caracteres.',
         ]);
 
         if ($validator->fails()) {
-            $message = implode(". ",$validator->messages()->all());
-            return response()->json(['message'=> $message], 422);
-        }  
+            $message = implode(". ", $validator->messages()->all());
+            return response()->json(['message' => $message], 422);
+        }
 
         $this->userService->createUser($request);
 
         $payload = $this->userService->jwtTokenRequest($request);
-        $this->userService->sendVerificationEmail($payload['user']);
-        return response()->json($payload,200);
+        if ($request->get('email')) {
+            $this->userService->sendVerificationEmail($payload['user']);
+        }
+        return response()->json($payload, 200);
     }
 
-    public function resendValidationEmail(Request $request){
+    public function resendValidationEmail(Request $request)
+    {
         $user = Auth::user();
+
+        if(!$user->email){
+            return response()->json(['message' => 'Por favor, agregue un correo válido para verificar cuenta.'], 422);
+        }
+
         $this->userService->sendVerificationEmail($user);
-        return response()->json(['message' => 'Correo de validación enviado correctamente'],200);
+        return response()->json(['message' => 'Correo de validación enviado correctamente'], 200);
     }
 
-    public function verifyAccount(Request $request, $token){
+    public function verifyAccount(Request $request, $token)
+    {
         $verifyUser = UserVerify::where('token', $token)->first();
 
-        if(!$verifyUser){
+        if (!$verifyUser) {
             $data['verification'] = false;
-   
-        }else {
+        } else {
             $user = User::where('id', $verifyUser->user_id)->first();
             $user->is_email_verified = true;
             $user->save();
@@ -162,17 +175,16 @@ class UsersController extends Controller{
 
 
 
-        return view('email.validation-page',[
-            'data'=>$data
+        return view('email.validation-page', [
+            'data' => $data
         ]);
-
     }
 
-    public function deactivateAccount(Request $request){
+    public function deactivateAccount(Request $request)
+    {
         $user = Auth::user();
         $this->userService->deactivateUser($user, false);
         $user->tokens()->delete();
         return response()->json(['message' => 'Cuenta eliminada exitosamente'], 201);
     }
-
 }

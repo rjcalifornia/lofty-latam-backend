@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserLocation extends Model
+class PropertyLocation extends Model
 {
     use HasFactory;
 
@@ -14,7 +14,7 @@ class UserLocation extends Model
      *
      * @var string
      */
-    protected $table = 'user_location';
+    protected $table = 'property_location';
 
     /**
      * The attributes that are mass assignable.
@@ -22,7 +22,7 @@ class UserLocation extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id',
+        'property_id',
         'distrito_id',
         'active',
         'user_creates',
@@ -33,9 +33,9 @@ class UserLocation extends Model
         'active' => 'boolean', 
     ];
 
-    public function userId()
+    public function propertyId()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(Property::class, 'property_id');
     }
     public function userCreates()
     {
