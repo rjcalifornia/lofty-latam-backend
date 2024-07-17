@@ -150,6 +150,11 @@ class UsersController extends Controller
     public function resendValidationEmail(Request $request)
     {
         $user = Auth::user();
+
+        if(!$user->email){
+            return response()->json(['message' => 'Por favor, agregue un correo válido para verificar cuenta.'], 422);
+        }
+
         $this->userService->sendVerificationEmail($user);
         return response()->json(['message' => 'Correo de validación enviado correctamente'], 200);
     }
