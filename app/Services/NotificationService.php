@@ -25,25 +25,23 @@ class NotificationService
         $i = 0;
         foreach ($leases as $lease) {
 
-            $today = Carbon::now()->subDays(30);
-            $contractDate = Carbon::parse($lease->contract_date);
-           
+            $today = Carbon::now()->subDays(30)->startOfDay();
+            $contractDate = Carbon::parse($lease->contract_date)->startOfDay();
+            
             if ($today->gt($contractDate)) {
-         
-            $paymentDate = $lease->payment_date;
-            $propertyName = $lease['propertyId']->name;
-            $parsedPaymentDate = Carbon::parse($paymentDate);
-            $paymentDueDate = Carbon::now()->setDay($parsedPaymentDate->day)->startOfDay();
-
-            $now = Carbon::now();
-            $days = $now->diffInDays($paymentDueDate, false);
-            $notification = $this->filterNotification($lease, $propertyName, $days);
-            if ($notification) {
-                $status[$i] = $notification;
-                $i++;
+                $paymentDate = $lease->payment_date;
+                $propertyName = $lease['propertyId']->name;
+                $parsedPaymentDate = Carbon::parse($paymentDate);
+                $paymentDueDate = Carbon::now()->copy()->setDay($parsedPaymentDate->day)->startOfDay();
+            
+                $now = Carbon::now()->startOfDay();
+                $days = $now->diffInDays($paymentDueDate, false);
+                $notification = $this->filterNotification($lease, $propertyName, $days);
+                if ($notification) {
+                    $status[$i] = $notification;
+                    $i++;
+                }
             }
-            }
-
         }
 
         return $status;
