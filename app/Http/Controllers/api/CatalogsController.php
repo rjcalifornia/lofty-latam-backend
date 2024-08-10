@@ -46,7 +46,7 @@ class CatalogsController extends Controller{
         return response()->json($municipios, 200);
     }
     public function getDistritos(Request $request, $idMunicipio){
-        $distritos = Distritos::with(['departamentoId', 'municipioId'])->where('active', true)->where('municipio_id', $idMunicipio)->get();
+        $distritos = Distritos::with(['departamentoId', 'municipioId'])->where('municipio_id', $idMunicipio)->get();
         return response()->json($distritos, 200);
     }
 }
