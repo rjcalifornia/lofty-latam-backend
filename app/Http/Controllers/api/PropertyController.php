@@ -36,6 +36,7 @@ class PropertyController extends Controller{
             'bedrooms' => 'required|integer',
             'beds' => 'required|integer',
             'bathrooms' => 'required|integer',
+            'distrito_id' => 'required|integer',
             'has_ac' => 'boolean',
             'has_kitchen' => 'boolean',
             'has_dinning_room' => 'boolean',
@@ -74,7 +75,8 @@ class PropertyController extends Controller{
             'has_tv' => 'boolean',
             'has_furniture' => 'boolean',
             'has_garage' => 'boolean',
-            'has_wifi' => 'boolean'
+            'has_wifi' => 'boolean',
+            'distrito_id' => 'required|integer'
         ]);
 
         if ($validator->fails()) {
@@ -88,7 +90,9 @@ class PropertyController extends Controller{
             return response()->json(['message' => 'No se puede procesar la solicitud debido a que la propiedad no ha sido encontrada'],404);
         }
         
-        $this->propertyService->update($request, $property);
+       $this->propertyService->update($request, $property);
+       $this->propertyService->updatePropertyLocation($request, $property);
+        
 
         return response()->json(204);
     }
@@ -139,7 +143,7 @@ class PropertyController extends Controller{
 
     public function viewPropertyDetails(Request $request, $id){
         $user = Auth::user();
-        $property = Property::with(['landlordId', 'leases.tenantId', 'propertyPictures'])->where('id', $id)->where('active', true)->where('landlord_id', $user->id)->first();
+        $property = Property::with(['landlordId', 'leases.tenantId', 'propertyPictures', 'location.distritoId.municipioId.departamentoId'])->where('id', $id)->where('active', true)->where('landlord_id', $user->id)->first();
         
         if(!$property){
             return response()->json(['message' => 'No se puede procesar la solicitud. Revise los datos enviados e intente nuevamente'], 404);

@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_location', function (Blueprint $table) {
+        Schema::create('property_location', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedInteger('property_id');
             $table->unsignedInteger('distrito_id');
             $table->unsignedBigInteger('user_creates')->nullable();
             $table->unsignedBigInteger('user_modifies')->nullable();
@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreign('user_creates')->references('id')->on('users');
             $table->foreign('user_modifies')->references('id')->on('users');
             $table->foreign('distrito_id')->references('id')->on('distritos');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('property_id')->references('id')->on('property');
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_location');
+        Schema::dropIfExists('property_location');
     }
 };

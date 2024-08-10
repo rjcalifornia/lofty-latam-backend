@@ -20,6 +20,14 @@
     * Nota: Si desea limpiar la base de datos ejecute el comando: ```php artisan migrate:refresh ```
 7. Ejecutar  ``` php artisan db:seed ```  y ``` php artisan db:seed --class=RolesSeeder ``` para llenar los catalagos del sistema
 
+#### Distribución de Municipio/Distrito
+
+Para agregar la nueva estructura territorial a la base de datos, ejecute los siguientes comandos:
+
+ ``` php artisan db:seed --class=CtlDepartamentoSeeder ``` 
+ ``` php artisan db:seed --class=CtlMunicipioSeeder ``` 
+ ``` php artisan db:seed --class=CtlDistritoSeeder ``` 
+
 #### Finalizar instalación
 8. Asegurarse que el servidor tenga habilitado el módulo CORS, de lo contrario la app no podrá consumir los endpoints.
 
