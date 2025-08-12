@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('distritos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
-            
+            $table->unsignedInteger('departamento_id');
             $table->unsignedInteger('municipio_id');
-            $table->string('codigo');
+            $table->unsignedInteger('active');
+            $table->string('codigo')->nullable();
  
              
             $table->foreign('municipio_id')->references('id')->on('municipios');
