@@ -32,6 +32,7 @@ class PropertyLocation extends Model
     protected $casts = [
          'property_id'  => 'integer',
          'user_creates'  => 'integer',
+          'user_modifies'  => 'integer',
         'active' => 'boolean', 
     ];
 
