@@ -20,6 +20,7 @@ class Distritos extends Model
 
     protected $casts = [
         'municipio_id' => 'integer',
+       'departamento_id'  => 'integer',
         'active' => 'boolean', 
     ];
 
