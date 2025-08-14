@@ -18,8 +18,8 @@ return new class extends Migration
             $table->unsignedInteger('document_type_id');
             $table->unsignedInteger('country_id');
             $table->unsignedInteger('tenant_id');
-            $table->date('issuance_date');
-            $table->date('expiration_date');
+            $table->date('issuance_date')->nullable();
+            $table->date('expiration_date')->nullable();
             $table->unsignedInteger('active');
             $table->unsignedBigInteger('user_creates');
             $table->unsignedBigInteger('user_modifies')->nullable();
