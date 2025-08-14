@@ -211,6 +211,7 @@ class PropertyController extends Controller{
         $document->document_number = $request->get('tenant_username');
         $document->document_type_id = DocumentTypeEnum::DUI;
         $document->tenant_id = $tenant->id;
+        $document->country_id = 1;
         $document->active = true;
         $document->user_creates = $user->id;
         $document->save();

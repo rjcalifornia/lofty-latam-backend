@@ -18,6 +18,7 @@ class Departamentos extends Model
     ];
 
     protected $casts = [
+        'pais_id'  => 'integer',
         'active' => 'boolean', 
     ];
 

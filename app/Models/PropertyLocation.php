@@ -9,7 +9,7 @@ class PropertyLocation extends Model
 {
     use HasFactory;
 
-     /**
+    /**
      * The table associated with the model.
      *
      * @var string
@@ -27,10 +27,13 @@ class PropertyLocation extends Model
         'active',
         'user_creates',
         'user_modifies',
-      
+
     ];
     protected $casts = [
-        'active' => 'boolean', 
+        'property_id'  => 'integer',
+        'user_creates'  => 'integer',
+        'user_modifies'  => 'integer',
+        'active' => 'boolean',
     ];
 
     public function propertyId()
@@ -51,5 +54,4 @@ class PropertyLocation extends Model
     {
         return $this->belongsTo(Distritos::class, 'distrito_id');
     }
-
 }

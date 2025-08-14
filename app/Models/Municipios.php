@@ -18,6 +18,7 @@ class Municipios extends Model
     ];
 
     protected $casts = [
+        'departamento_id'  => 'integer',
         'active' => 'boolean', 
     ];
 
