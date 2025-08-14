@@ -17,3 +17,4 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+!/storage/property_images_storage/.gitkeep 
